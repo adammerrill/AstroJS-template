@@ -1,0 +1,7 @@
+---
+// src/storyblok/Feature.astro
+import FeatureSvelte from './Feature.svelte';
+const { blok } = Astro.props;
+---
+
+<FeatureSvelte blok={blok} client:load />

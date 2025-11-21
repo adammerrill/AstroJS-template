@@ -9,6 +9,23 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.16.0"
+    "@astrojs/check": "^0.9.5",
+    "@astrojs/db": "^0.18.3",
+    "@astrojs/mdx": "^4.3.12",
+    "@astrojs/partytown": "^2.1.4",
+    "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/svelte": "^7.2.2",
+    "@astrojs/vercel": "^9.0.1",
+    "@storyblok/astro": "^7.3.5",
+    "@storyblok/svelte": "^5.2.13",
+    "@tailwindcss/vite": "^4.1.17",
+    "astro": "^5.16.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.554.0",
+    "svelte": "^5.43.14",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^6.0.0"
   }
 }
