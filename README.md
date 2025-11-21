@@ -9,11 +9,11 @@
 This repository hosts a high-performance, enterprise-grade web application boilerplate built with **Astro 5**. It is architected for scalability, utilizing **Svelte 5** for reactive components, **Tailwind CSS v4** for styling, and **Storyblok** as a Headless CMS.
 
 ### Key Features
-* [cite_start]**Astro 5:** Server-side rendering (SSR) with static site generation (SSG) capabilities via Vercel Adapter[cite: 75].
-* [cite_start]**Svelte 5:** Next-generation reactivity for interactive UI components[cite: 82].
-* [cite_start]**Tailwind CSS v4:** Modern, zero-runtime utility-first CSS[cite: 49].
-* [cite_start]**Storyblok CMS:** Integrated dynamic content fetching and visual editing[cite: 32, 74].
-* [cite_start]**TypeScript:** Strict type safety enabled for enterprise robustness[cite: 82].
+* **Astro 5:** Server-side rendering (SSR) with static site generation (SSG) capabilities via Vercel Adapter[cite: 75].
+* **Svelte 5:** Next-generation reactivity for interactive UI components[cite: 82].
+* **Tailwind CSS v4:** Modern, zero-runtime utility-first CSS[cite: 49].
+* **Storyblok CMS:** Integrated dynamic content fetching and visual editing[cite: 32, 74].
+* **TypeScript:** Strict type safety enabled for enterprise robustness[cite: 82].
 
 ---
 
@@ -21,7 +21,7 @@ This repository hosts a high-performance, enterprise-grade web application boile
 
 Ensure your development environment meets the following requirements:
 
-* [cite_start]**Node.js:** v18.17.0 or higher[cite: 79, 208].
+* **Node.js:** v18.17.0 or higher[cite: 79, 208].
 * **Package Manager:** pnpm (recommended), npm, or yarn.
 * **Storyblok Account:** Required for content management.
 
@@ -78,15 +78,15 @@ Conforms to standard Astro architecture with Storyblok integration.
 /
 ├── public/              # Static assets (fonts, icons)
 ├──src/
-[cite_start]│   ├── assets/          # Optimized assets (SVGs, Images) [cite: 1]
-[cite_start]│   ├── components/      # Reusable Astro UI components [cite: 10]
-[cite_start]│   ├── layouts/         # Global page layouts (Header, Footer) [cite: 29]
-[cite_start]│   ├── lib/             # Utility functions (Tailwind merge, etc.) [cite: 31]
-[cite_start]│   ├── pages/           # Route definitions & Storyblok entry points [cite: 32]
-[cite_start]│   ├── storyblok/       # Svelte components mapped to CMS blocks [cite: 41]
-[cite_start]│   └── styles/          # Global CSS and Tailwind configuration [cite: 49]
-[cite_start]├── astro.config.mjs     # Astro & Integrations config [cite: 68]
-[cite_start]└── package.json         # Dependencies & Scripts [cite: 78]
+│   ├── assets/          # Optimized assets (SVGs, Images) [cite: 1]
+│   ├── components/      # Reusable Astro UI components [cite: 10]
+│   ├── layouts/         # Global page layouts (Header, Footer) [cite: 29]
+│   ├── lib/             # Utility functions (Tailwind merge, etc.) [cite: 31]
+│   ├── pages/           # Route definitions & Storyblok entry points [cite: 32]
+│   ├── storyblok/       # Svelte components mapped to CMS blocks [cite: 41]
+│   └── styles/          # Global CSS and Tailwind configuration [cite: 49]
+├── astro.config.mjs     # Astro & Integrations config [cite: 68]
+└── package.json         # Dependencies & Scripts [cite: 78]
 ```
 
 -----
