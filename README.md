@@ -9,11 +9,11 @@
 This repository hosts a high-performance, enterprise-grade web application boilerplate built with **Astro 5**. It is architected for scalability, utilizing **Svelte 5** for reactive components, **Tailwind CSS v4** for styling, and **Storyblok** as a Headless CMS.
 
 ### Key Features
-* **Astro 5:** Server-side rendering (SSR) with static site generation (SSG) capabilities via Vercel Adapter[cite: 75].
-* **Svelte 5:** Next-generation reactivity for interactive UI components[cite: 82].
-* **Tailwind CSS v4:** Modern, zero-runtime utility-first CSS[cite: 49].
-* **Storyblok CMS:** Integrated dynamic content fetching and visual editing[cite: 32, 74].
-* **TypeScript:** Strict type safety enabled for enterprise robustness[cite: 82].
+* **Astro 5:** Server-side rendering (SSR) with static site generation (SSG) capabilities via Vercel Adapter.
+* **Svelte 5:** Next-generation reactivity for interactive UI components.
+* **Tailwind CSS v4:** Modern, zero-runtime utility-first CSS.
+* **Storyblok CMS:** Integrated dynamic content fetching and visual editing.
+* **TypeScript:** Strict type safety enabled for enterprise robustness.
 
 ---
 
@@ -21,7 +21,7 @@ This repository hosts a high-performance, enterprise-grade web application boile
 
 Ensure your development environment meets the following requirements:
 
-* **Node.js:** v18.17.0 or higher[cite: 79, 208].
+* **Node.js:** v18.17.0 or higher.
 * **Package Manager:** pnpm (recommended), npm, or yarn.
 * **Storyblok Account:** Required for content management.
 
@@ -56,7 +56,7 @@ SITE_URL="http://localhost:4321"
 STORYBLOK_TOKEN="your_private_preview_token"
 ```
 
-> **Note:** Never commit your `.env` file. [cite\_start]It contains sensitive API keys[cite: 66, 67].
+> **Note:** Never commit your `.env` file. It contains sensitive API keys.
 
 ### 4\. Start Development Server
 
@@ -78,15 +78,15 @@ Conforms to standard Astro architecture with Storyblok integration.
 /
 ├── public/              # Static assets (fonts, icons)
 ├──src/
-│   ├── assets/          # Optimized assets (SVGs, Images) [cite: 1]
-│   ├── components/      # Reusable Astro UI components [cite: 10]
-│   ├── layouts/         # Global page layouts (Header, Footer) [cite: 29]
-│   ├── lib/             # Utility functions (Tailwind merge, etc.) [cite: 31]
-│   ├── pages/           # Route definitions & Storyblok entry points [cite: 32]
-│   ├── storyblok/       # Svelte components mapped to CMS blocks [cite: 41]
-│   └── styles/          # Global CSS and Tailwind configuration [cite: 49]
-├── astro.config.mjs     # Astro & Integrations config [cite: 68]
-└── package.json         # Dependencies & Scripts [cite: 78]
+│   ├── assets/          # Optimized assets (SVGs, Images) 
+│   ├── components/      # Reusable Astro UI components 
+│   ├── layouts/         # Global page layouts (Header, Footer) 
+│   ├── lib/             # Utility functions (Tailwind merge, etc.) 
+│   ├── pages/           # Route definitions & Storyblok entry points 
+│   ├── storyblok/       # Svelte components mapped to CMS blocks 
+│   └── styles/          # Global CSS and Tailwind configuration
+├── astro.config.mjs     # Astro & Integrations config 
+└── package.json         # Dependencies & Scripts
 ```
 
 -----
@@ -115,7 +115,7 @@ components: {
 Interactive elements are built using Svelte 5.
 
   * **Location:** `src/storyblok/*.svelte`
-  * [cite\_start]**Editable:** Components use the `storyblokEditable` directive for visual editor support[cite: 43].
+  * **Editable:** Components use the `storyblokEditable` directive for visual editor support.
 
 -----
 
@@ -132,7 +132,7 @@ Interactive elements are built using Svelte 5.
 
 ## 🔐 Security & Compliance
 
-  * [cite\_start]**Secrets Management:** All API tokens are loaded via `import.meta.env` or `process.env` and are strictly kept out of the client-side bundle unless prefixed with `PUBLIC_` (not used here)[cite: 72].
+  * **Secrets Management:** All API tokens are loaded via `import.meta.env` or `process.env` and are strictly kept out of the client-side bundle unless prefixed with `PUBLIC_` (not used here).
   * **Strict Mode:** TypeScript strict mode is enabled in `tsconfig.json` to prevent type coercion errors.
 
 -----
