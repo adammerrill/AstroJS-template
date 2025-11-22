@@ -14,13 +14,6 @@ This repository hosts a high-performance, enterprise-grade web application boile
 * **Tailwind CSS v4:** Modern, zero-runtime utility-first CSS.
 * **Storyblok CMS:** Integrated dynamic content fetching and visual editing.
 * **TypeScript:** Strict type safety enabled for enterprise robustness.
-=======
-* [cite_start]**Astro 5:** Server-side rendering (SSR) with static site generation (SSG) capabilities via Vercel Adapter[cite: 75].
-* [cite_start]**Svelte 5:** Next-generation reactivity for interactive UI components[cite: 82].
-* [cite_start]**Tailwind CSS v4:** Modern, zero-runtime utility-first CSS[cite: 49].
-* [cite_start]**Storyblok CMS:** Integrated dynamic content fetching and visual editing[cite: 32, 74].
-* [cite_start]**TypeScript:** Strict type safety enabled for enterprise robustness[cite: 82].
->>>>>>> 121ee05 (refactor: fix Tailwind CSS linting warnings)
 
 ---
 
@@ -29,9 +22,6 @@ This repository hosts a high-performance, enterprise-grade web application boile
 Ensure your development environment meets the following requirements:
 
 * **Node.js:** v18.17.0 or higher.
-=======
-* [cite_start]**Node.js:** v18.17.0 or higher[cite: 79, 208].
->>>>>>> 121ee05 (refactor: fix Tailwind CSS linting warnings)
 * **Package Manager:** pnpm (recommended), npm, or yarn.
 * **Storyblok Account:** Required for content management.
 
@@ -67,9 +57,7 @@ STORYBLOK_TOKEN="your_private_preview_token"
 ```
 
 > **Note:** Never commit your `.env` file. It contains sensitive API keys.
-=======
-> **Note:** Never commit your `.env` file. [cite\_start]It contains sensitive API keys[cite: 66, 67].
->>>>>>> 121ee05 (refactor: fix Tailwind CSS linting warnings)
+
 
 ### 4\. Start Development Server
 
@@ -100,17 +88,6 @@ Conforms to standard Astro architecture with Storyblok integration.
 │   └── styles/          # Global CSS and Tailwind configuration
 ├── astro.config.mjs     # Astro & Integrations config 
 └── package.json         # Dependencies & Scripts
-=======
-[cite_start]│   ├── assets/          # Optimized assets (SVGs, Images) [cite: 1]
-[cite_start]│   ├── components/      # Reusable Astro UI components [cite: 10]
-[cite_start]│   ├── layouts/         # Global page layouts (Header, Footer) [cite: 29]
-[cite_start]│   ├── lib/             # Utility functions (Tailwind merge, etc.) [cite: 31]
-[cite_start]│   ├── pages/           # Route definitions & Storyblok entry points [cite: 32]
-[cite_start]│   ├── storyblok/       # Svelte components mapped to CMS blocks [cite: 41]
-[cite_start]│   └── styles/          # Global CSS and Tailwind configuration [cite: 49]
-[cite_start]├── astro.config.mjs     # Astro & Integrations config [cite: 68]
-[cite_start]└── package.json         # Dependencies & Scripts [cite: 78]
->>>>>>> 121ee05 (refactor: fix Tailwind CSS linting warnings)
 ```
 
 -----
@@ -140,8 +117,6 @@ Interactive elements are built using Svelte 5.
 
   * **Location:** `src/storyblok/*.svelte`
   * **Editable:** Components use the `storyblokEditable` directive for visual editor support.
-=======
-  * [cite\_start]**Editable:** Components use the `storyblokEditable` directive for visual editor support[cite: 43].
 
 -----
 
@@ -159,9 +134,6 @@ Interactive elements are built using Svelte 5.
 ## 🔐 Security & Compliance
 
   * **Secrets Management:** All API tokens are loaded via `import.meta.env` or `process.env` and are strictly kept out of the client-side bundle unless prefixed with `PUBLIC_` (not used here).
-=======
-  * [cite\_start]**Secrets Management:** All API tokens are loaded via `import.meta.env` or `process.env` and are strictly kept out of the client-side bundle unless prefixed with `PUBLIC_` (not used here)[cite: 72].
->>>>>>> 121ee05 (refactor: fix Tailwind CSS linting warnings)
   * **Strict Mode:** TypeScript strict mode is enabled in `tsconfig.json` to prevent type coercion errors.
 
 -----
