@@ -7,7 +7,10 @@ const links = [
 ];
 ---
 
-<header class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+<header 
+  id="main-header"
+  class="sticky top-0 z-50 w-full border-b border-transparent bg-transparent transition-all duration-300 ease-in-out"
+>
   <div class="container flex h-14 max-w-screen-2xl items-center justify-between px-4 md:px-8">
     <div class="mr-4 hidden md:flex">
       <a href="/" class="mr-6 flex items-center space-x-2">
@@ -31,10 +34,28 @@ const links = [
     </button>
 
     <div class="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-      <div class="w-full flex-1 md:w-auto md:flex-none">
-        </div>
-      <nav class="flex items-center">
-        </nav>
+      <div class="w-full flex-1 md:w-auto md:flex-none"></div>
+      <nav class="flex items-center"></nav>
     </div>
   </div>
 </header>
+
+<script>
+  const header = document.getElementById('main-header');
+  const handleScroll = () => {
+    if (!header) return;
+    
+    if (window.scrollY > 10) {
+      // User has scrolled down: Apply semantic glass utility
+      header.classList.remove('bg-transparent', 'border-transparent');
+      header.classList.add('header-glass');
+    } else {
+      // User is at top: Reset to transparent
+      header.classList.remove('header-glass');
+      header.classList.add('bg-transparent', 'border-transparent');
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  handleScroll(); // Initialize on load
+</script>

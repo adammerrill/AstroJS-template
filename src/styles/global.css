@@ -3,45 +3,50 @@
 @theme {
   --font-sans: "Inter", sans-serif;
   --radius: 0.625rem;
+  --blur-hero: 100px;
+  --text-hero: 1.375rem; /* 22px */
+  --spacing-hero-safe: 15%;
 
-  /* Map shadcn colors to Tailwind utilities */
+  /* Base Colors */
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
-
   --color-popover: hsl(var(--popover));
   --color-popover-foreground: hsl(var(--popover-foreground));
-
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
-
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
-
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
-
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
-
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
-
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-
   --color-chart-1: hsl(var(--chart-1));
   --color-chart-2: hsl(var(--chart-2));
   --color-chart-3: hsl(var(--chart-3));
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
+
+  /* --- GRADIENT SYSTEM --- */
+  
+  /* 1. Primary Design (The "Action" Tier) */
+  --background-image-gradient-primary: linear-gradient(83.21deg, #3245ff 0%, #bc52ee 100%);
+
+  /* 2. Secondary Design (The "Information" Tier) */
+  --background-image-gradient-secondary: linear-gradient(83.21deg, #312e81 0%, #5b21b6 100%);
+
+  /* 3. Tertiary Design (The "Structure" Tier) */
+  --background-image-gradient-tertiary: linear-gradient(83.21deg, #6366f1 0%, #a855f7 100%);
 }
 
-/* Define the HSL values (Zinc Theme) */
 :root {
+  /* Zinc Theme Base Values */
   --background: 0 0% 100%;
   --foreground: 240 10% 3.9%;
   --card: 0 0% 100%;
@@ -103,4 +108,47 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* --- COMPONENT UTILITIES --- */
+
+/* Primary Button (The "Hero" Action) */
+@utility btn-primary {
+  @apply flex items-center justify-center px-3 py-2.5 text-base text-white no-underline rounded-[10px] transition-all duration-200 cursor-pointer shadow-sm;
+  background-image: var(--background-image-gradient-primary);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12), inset 0 -2px 0 rgba(0,0,0,0.24);
+
+  &:hover {
+    @apply text-white/90 shadow-none opacity-90;
+  }
+}
+
+/* Secondary Element (Code Chips, Badges) */
+@utility chip-secondary {
+  @apply inline-flex items-center px-3 py-2.5 text-base font-mono text-white rounded-[10px] shadow-sm select-all;
+  background-image: var(--background-image-gradient-secondary);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15); 
+}
+
+/* Tertiary Element (Borders, Outlines) */
+@utility border-tertiary {
+  @apply absolute -inset-px -z-20 rounded-[11px];
+  background-image: var(--background-image-gradient-tertiary);
+  opacity: 0.5;
+}
+
+/* Header Scroll State */
+@utility header-glass {
+  @apply bg-background/95 backdrop-blur-md border-border/40 supports-backdrop-filter:bg-background/60;
+}
+
+/* Hero Section Background */
+@utility hero-background-blur {
+  @apply fixed top-0 left-0 w-full h-full -z-10;
+  filter: blur(var(--blur-hero));
+}
+
+/* Hero Typography */
+@utility text-hero-lead {
+  font-size: var(--text-hero);
 }

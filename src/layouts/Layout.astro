@@ -12,26 +12,23 @@ const { title = "Astro Template" } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full w-full">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
 	</head>
-	<body>
-		  <slot />
-    </main>
-    <Footer />
+	<body class="min-h-screen flex flex-col bg-background font-sans text-foreground">
+		<Header />
+		<!-- 
+            min-h-screen on main ensures it fills the viewport height, 
+            pushing the footer below the fold.
+        -->
+		<main class="flex-1 min-h-screen flex flex-col relative">
+			<slot />
+		</main>
+		<Footer />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

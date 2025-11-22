@@ -1,4 +1,4 @@
-import { e as createAstro, f as createComponent, m as maybeRenderHead, r as renderTemplate, h as addAttribute, l as renderHead, n as renderSlot, k as renderComponent } from './astro/server_DACWf_Af.mjs';
+import { e as createAstro, f as createComponent, m as maybeRenderHead, l as renderScript, h as addAttribute, r as renderTemplate, n as renderHead, k as renderComponent, o as renderSlot } from './astro/server_TTVb4xIe.mjs';
 /* empty css                          */
 import 'clsx';
 
@@ -600,12 +600,24 @@ const { storyblokApi } = it({
 
 globalThis.storyblokApiInstance = storyblokApiInstance;
 
+const $$Astro$2 = createAstro("https://localhost:4321");
+const $$Header = createComponent(($$result, $$props, $$slots) => {
+  const Astro2 = $$result.createAstro($$Astro$2, $$props, $$slots);
+  Astro2.self = $$Header;
+  const links = [
+    { name: "Home", href: "/" },
+    { name: "Services", href: "/services" },
+    { name: "About", href: "/about" }
+  ];
+  return renderTemplate`${maybeRenderHead()}<header id="main-header" class="sticky top-0 z-50 w-full border-b border-transparent bg-transparent transition-all duration-300 ease-in-out"> <div class="container flex h-14 max-w-screen-2xl items-center justify-between px-4 md:px-8"> <div class="mr-4 hidden md:flex"> <a href="/" class="mr-6 flex items-center space-x-2"> <span class="hidden font-bold sm:inline-block text-foreground">Astro Template</span> </a> <nav class="flex items-center gap-6 text-sm"> ${links.map((link) => renderTemplate`<a${addAttribute(link.href, "href")} class="transition-colors hover:text-foreground/80 text-foreground/60"> ${link.name} </a>`)} </nav> </div> <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 py-2 w-9 px-0 md:hidden"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg> <span class="sr-only">Toggle Menu</span> </button> <div class="flex flex-1 items-center justify-between space-x-2 md:justify-end"> <div class="w-full flex-1 md:w-auto md:flex-none"></div> <nav class="flex items-center"></nav> </div> </div> </header> ${renderScript($$result, "/Users/adammerrill/Projects/astro-js-template/src/components/ui/Header.astro?astro&type=script&index=0&lang.ts")}`;
+}, "/Users/adammerrill/Projects/astro-js-template/src/components/ui/Header.astro", void 0);
+
 const $$Astro$1 = createAstro("https://localhost:4321");
 const $$Footer = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
   Astro2.self = $$Footer;
   const year = (/* @__PURE__ */ new Date()).getFullYear();
-  return renderTemplate`${maybeRenderHead()}<footer class="border-t border-border bg-background py-6 md:px-8 md:py-0"> <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row"> <p class="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
+  return renderTemplate`${maybeRenderHead()}<footer class="border-t border-border bg-secondary/50 py-6 md:px-8 md:py-0 mt-auto"> <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row"> <p class="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
 &copy; ${year} Built with Astro & shadcn/ui.
 </p> <div class="flex gap-4"> <a href="#" class="text-sm font-medium underline underline-offset-4 hover:text-primary">Privacy Policy</a> <a href="#" class="text-sm font-medium underline underline-offset-4 hover:text-primary">Terms of Service</a> </div> </div> </footer>`;
 }, "/Users/adammerrill/Projects/astro-js-template/src/components/ui/Footer.astro", void 0);
@@ -615,7 +627,10 @@ const $$Layout = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$Layout;
   const { title = "Astro Template" } = Astro2.props;
-  return renderTemplate`<html lang="en" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator"${addAttribute(Astro2.generator, "content")}><title>Astro Basics</title>${renderHead()}</head> <body data-astro-cid-sckkx6r4> ${renderSlot($$result, $$slots["default"])} ${renderComponent($$result, "Footer", $$Footer, { "data-astro-cid-sckkx6r4": true })} </body></html>`;
+  return renderTemplate`<html lang="en" class="h-full w-full"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator"${addAttribute(Astro2.generator, "content")}><title>${title}</title>${renderHead()}</head> <body class="min-h-screen flex flex-col bg-background font-sans text-foreground"> ${renderComponent($$result, "Header", $$Header, {})} <!-- 
+            min-h-screen on main ensures it fills the viewport height, 
+            pushing the footer below the fold.
+        --> <main class="flex-1 min-h-screen flex flex-col relative"> ${renderSlot($$result, $$slots["default"])} </main> ${renderComponent($$result, "Footer", $$Footer, {})} </body></html>`;
 }, "/Users/adammerrill/Projects/astro-js-template/src/layouts/Layout.astro", void 0);
 
 export { $$Layout as $, $e as a, et as e, nt as n };
