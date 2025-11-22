@@ -152,6 +152,3 @@ The project is pre-configured for **Vercel** serverless deployment.
 ## 📄 License
 
 Copyright (c) 2025. Licensed under the MIT License.
-=======
-Copyright (c) 2025. Licensed under the MIT License.
->>>>>>> 121ee05 (refactor: fix Tailwind CSS linting warnings)
