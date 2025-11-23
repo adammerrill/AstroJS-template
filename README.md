@@ -80,7 +80,7 @@ pnpm dev
 
 Access the application at `http://localhost:4321`.
 
------
+---
 
 ## 📂 Project Structure
 
@@ -102,7 +102,7 @@ The project follows a strict modular architecture:
 └── package.json         # Project dependencies
 ```
 
------
+---
 
 ## 🧩 Component Architecture
 
@@ -131,11 +131,11 @@ Standard UI components are static by default. To make a Storyblok component inte
 
 The project uses a sophisticated CSS variable system defined in `src/styles/global.css`. It supports:
 
-  * **Dark Mode:** Automatically adapts based on `prefers-color-scheme` or class strategy.
-  * **Glassmorphism:** Pre-defined blur and opacity variables.
-  * **Animations:** Custom keyframes and transitions.
+* **Dark Mode:** Automatically adapts based on `prefers-color-scheme` or class strategy.
+* **Glassmorphism:** Pre-defined blur and opacity variables.
+* **Animations:** Custom keyframes and transitions.
 
------
+---
 
 ## 📜 Scripts
 
@@ -147,18 +147,18 @@ The project uses a sophisticated CSS variable system defined in `src/styles/glob
 | `pnpm astro check` | Runs TypeScript and Astro diagnostics. |
 | `npx playwright test` | Runs End-to-End tests. |
 
------
+---
 
 ## ☁️ Deployment
 
 The project is pre-configured for **Vercel** serverless deployment via `@astrojs/vercel`.
 
-1.  Push code to your git repository.
-2.  Import the project into Vercel.
-3.  **Important:** Add the `STORYBLOK_TOKEN` in the Vercel Project Settings \> Environment Variables.
-4.  Deploy.
+1. Push code to your git repository.
+2. Import the project into Vercel.
+3. **Important:** Add the `STORYBLOK_TOKEN` in the Vercel Project Settings \> Environment Variables.
+4. Deploy.
 
------
+---
 
 ## 📄 License
 
