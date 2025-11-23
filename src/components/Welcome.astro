@@ -1,9 +1,10 @@
 ---
+// src/components/Welcome.astro
 import astroLogo from '../assets/astro.svg';
 import background from '../assets/background.svg';
 ---
 
-<div class="font-sans min-h-screen flex flex-col md:block relative">
+<div class="w-full">
   <!-- Hero Background with Blur Effect -->
   <img 
     src={background.src} 
@@ -14,7 +15,7 @@ import background from '../assets/background.svg';
   
   <!-- Main Content -->
   <main class="flex-1 flex items-center justify-center px-4">
-    <section class="flex flex-col items-start justify-center w-full max-w-4xl py-8 md:py-20">
+    <section class="flex flex-col items-start justify-center w-full max-w-4xl py-8 md:py-20 mx-auto" data-testid="welcome-content">
       <!-- Logo with Theme-Aware Styling -->
       <a 
         href="https://astro.build" 
@@ -161,7 +162,7 @@ import background from '../assets/background.svg';
   <!-- Dismissible Announcement Card -->
   <div 
     id="announcement-card"
-    class="card-interactive hidden md:flex fixed bottom-6 right-6 max-w-sm p-6 gap-4"
+    class="card-interactive glass md:glass md:fixed md:bottom-6 md:right-6 md:max-w-sm p-4 md:p-6 gap-3 md:gap-4"
     role="dialog"
     aria-labelledby="announcement-title"
     aria-describedby="announcement-description"
@@ -229,19 +230,19 @@ import background from '../assets/background.svg';
   const announcementCard = document.getElementById('announcement-card');
   const closeButton = document.getElementById('close-announcement');
   
-  // Check if card was previously dismissed
+  // Initialize announcement state
   const isDismissed = localStorage.getItem('announcement-dismissed');
-  
-  if (!isDismissed && announcementCard) {
-    announcementCard.classList.remove('hidden');
-  }
-  
-  // Handle close button
-  if (closeButton && announcementCard) {
-    closeButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      announcementCard.classList.add('hidden');
-      localStorage.setItem('announcement-dismissed', 'true');
-    });
-  }
+   
+   if (isDismissed === 'true' && announcementCard) {
+     announcementCard.style.display = 'none';
+   }
+   
+   // Handle close button
+   if (closeButton && announcementCard) {
+     closeButton.addEventListener('click', (e) => {
+       e.stopPropagation();
+       announcementCard.style.display = 'none';
+       localStorage.setItem('announcement-dismissed', 'true');
+     });
+   }
 </script>

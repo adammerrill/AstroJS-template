@@ -142,6 +142,13 @@
   --warning-foreground: 0 0% 98%;
   --info: 199 89% 48%;
   --info-foreground: 0 0% 98%;
+
+  /* Glass morphism tokens */
+  --glass-bg: var(--background);
+  --glass-alpha: 0.95;
+  --glass-border: var(--border);
+  --glass-border-alpha: 0.4;
+  --glass-blur: 12px;
 }
 
 /* Media-based dark theme (auto-detects device preference) */
@@ -177,6 +184,10 @@
     --warning-foreground: 0 0% 98%;
     --info: 199 89% 48%;
     --info-foreground: 0 0% 98%;
+
+    /* Glass tokens - dark mode */
+    --glass-alpha: 0.90;
+    --glass-border-alpha: 0.3;
   }
 }
 
@@ -212,6 +223,25 @@ html {
 }
 
 /* Component Utilities - Regular CSS (no @apply) */
+
+/* Glass Utility Class - Add near other component utilities */
+.glass {
+  background-color: hsl(var(--glass-bg) / var(--glass-alpha));
+  border: 1px solid hsl(var(--glass-border) / var(--glass-border-alpha));
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+/* Header-specific glass variant - independent definition */
+.header-glass {
+  background-color: hsl(var(--glass-bg) / var(--glass-alpha));
+  border-bottom: 1px solid hsl(var(--glass-border) / var(--glass-border-alpha));
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
 
 /* Primary Button - Hero Action */
 .btn-primary {

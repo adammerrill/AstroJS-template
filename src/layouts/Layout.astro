@@ -26,7 +26,7 @@ const { title = "Astro Template" } = Astro.props;
             min-h-screen on main ensures it fills the viewport height, 
             pushing the footer below the fold.
         -->
-		<main class="flex-1 min-h-screen flex flex-col relative">
+		<main class="flex-1 min-h-screen flex items-center justify-center" data-testid="layout-main">
 			<slot />
 		</main>
 		<Footer />

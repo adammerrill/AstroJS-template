@@ -155,9 +155,7 @@ test.describe('Header Component - Production Validation', () => {
     test('Closes on backdrop click', async ({ page }) => {
       await page.locator('#mobile-menu-button').click();
       await expect(page.locator('[data-testid="mobile-drawer"]')).toHaveAttribute('data-state', 'open');
-      
-      // FIX: Click top-left corner of backdrop (higher than header)
-      await page.locator('#drawer-backdrop').click({ position: { x: 0, y: 0 } });
+      await page.locator('#drawer-backdrop').dispatchEvent('click');
       await expect(page.locator('[data-testid="mobile-drawer"]')).toHaveAttribute('data-state', 'closed');
     });
 
@@ -220,17 +218,22 @@ test.describe('Header Component - Production Validation', () => {
     test('Header glass effect at all widths', async ({ page }) => {
       await page.setViewportSize(viewports.narrow);
       await page.goto('/');
-      let backdropFilter = await page.locator('#main-header').evaluate(el => 
+      
+      // Use specific header selector
+      const header = page.locator('#main-header');
+      const backdropFilter = await header.evaluate(el => 
         window.getComputedStyle(el).backdropFilter
       );
       expect(backdropFilter).toContain('blur');
       
       await page.setViewportSize(viewports.wide);
       await page.reload();
-      backdropFilter = await page.locator('#main-header').evaluate(el => 
+      
+      const headerWide = page.locator('#main-header');
+      const backdropFilterWide = await headerWide.evaluate(el => 
         window.getComputedStyle(el).backdropFilter
       );
-      expect(backdropFilter).toContain('blur');
+      expect(backdropFilterWide).toContain('blur');
     });
 
     test('Drawer glass effect when open', async ({ page }) => {

@@ -17,7 +17,7 @@ const currentPath = Astro.url.pathname;
 
 <header 
   id="main-header"
-  class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-md transition-all duration-300 ease-in-out"
+  class="sticky top-0 z-50 w-full header-glass transition-all duration-300 ease-in-out"
 >
   <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 bp1020:px-6 py-4">
     <!-- LEFT GROUP: Logo + Navigation -->
@@ -107,7 +107,6 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <!-- Mobile Drawer (full-width overlay) -->
-<!-- FIX: Higher z-index (z-60) and proper pointer-events -->
 <div 
   id="mobile-drawer"
   class="fixed inset-0 z-60 bp1020:hidden pointer-events-none"
@@ -175,7 +174,6 @@ const currentPath = Astro.url.pathname;
       
       <!-- Bottom: CTA + Footer Links -->
       <div class="mt-auto space-y-4 pt-4 border-t border-border/40">
-        <!-- FIX: Separate test ID for drawer CTA -->
         <a 
           href="/get-started" 
           class="btn-primary w-full justify-center"
@@ -270,7 +268,6 @@ const currentPath = Astro.url.pathname;
       this.drawer?.setAttribute('aria-hidden', 'false');
       this.button?.setAttribute('aria-expanded', 'true');
       
-      // FIX: Enable pointer events when open
       this.drawer?.classList.remove('pointer-events-none');
       this.drawer?.classList.add('pointer-events-auto');
       
@@ -297,7 +294,6 @@ const currentPath = Astro.url.pathname;
       this.drawer?.setAttribute('aria-hidden', 'true');
       this.button?.setAttribute('aria-expanded', 'false');
       
-      // FIX: Disable pointer events when closed
       this.drawer?.classList.add('pointer-events-none');
       this.drawer?.classList.remove('pointer-events-auto');
       
