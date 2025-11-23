@@ -6,11 +6,10 @@ import type { SbBlokData } from "@storyblok/astro";
 const { blok } = Astro.props;
 ---
 
-<main {...storyblokEditable(blok)}>
-    {
-      // Cast body to SbBlokData[] to satisfy the component prop type
-      (blok.body as SbBlokData[])?.map((nestedBlok) => {
-        return <StoryblokComponent blok={nestedBlok} />;
-      })
-    }
-  </main>
+<main {...storyblokEditable(blok)} class="min-h-screen">
+  {
+    (blok.body as SbBlokData[])?.map((nestedBlok) => {
+      return <StoryblokComponent blok={nestedBlok} />;
+    })
+  }
+</main>

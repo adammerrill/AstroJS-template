@@ -58,7 +58,6 @@ STORYBLOK_TOKEN="your_private_preview_token"
 
 > **Note:** Never commit your `.env` file. It contains sensitive API keys.
 
-
 ### 4\. Start Development Server
 
 Launch the local development server with hot module replacement (HMR).

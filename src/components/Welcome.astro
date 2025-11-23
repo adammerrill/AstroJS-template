@@ -3,58 +3,245 @@ import astroLogo from '../assets/astro.svg';
 import background from '../assets/background.svg';
 ---
 
-<div class="font-sans h-full flex flex-col md:block relative">
-    <img 
-		src={background.src} 
-		alt="" 
-		fetchpriority="high" 
-		class="hero-background-blur" 
-	/>
-	
-	<main class="h-full flex justify-center">
-        <section class="flex flex-col items-start justify-center p-4 pt-hero-safe md:pt-20">
-			<a href="https://astro.build">
-				<img src={astroLogo.src} width="115" height="48" alt="Astro Homepage" />
-			</a>
-			
-            <h1 class="text-hero-lead mt-1 leading-normal md:leading-relaxed text-foreground">
-				To get started, open the 
-				<code class="chip-secondary relative ml-1 mr-1">
-                    <span aria-hidden="true" class="border-tertiary"></span>
-					
-					<span class="text-white select-all font-normal">src/pages</span>
-				</code>
-				directory in your project.
-			</h1>
-			
-			<section class="flex gap-4 mt-4 flex-wrap">
-				<a class="btn-primary" href="https://docs.astro.build">
-					Read our docs
-				</a>
-				
-				<a 
-					class="flex items-center px-3 py-2.5 text-base text-foreground no-underline transition-colors duration-200 hover:text-foreground/70" 
-					href="https://astro.build/chat"
-				>
-					Join our Discord 
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" class="h-[1em] ml-2">
-						<path fill="currentColor" d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"></path>
-					</svg>
-				</a>
-			</section>
-		</section>
-	</main>
+<div class="font-sans min-h-screen flex flex-col md:block relative">
+  <!-- Hero Background with Blur Effect -->
+  <img 
+    src={background.src} 
+    alt="" 
+    fetchpriority="high" 
+    class="hero-background-blur" 
+  />
+  
+  <!-- Main Content -->
+  <main class="flex-1 flex items-center justify-center px-4">
+    <section class="flex flex-col items-start justify-center w-full max-w-4xl py-8 md:py-20">
+      <!-- Logo with Theme-Aware Styling -->
+      <a 
+        href="https://astro.build" 
+        class="transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 rounded-lg"
+        style="--tw-ring-color: hsl(var(--ring)); --tw-ring-offset-width: 2px"
+        aria-label="Visit Astro Homepage"
+      >
+        <img 
+          src={astroLogo.src} 
+          width="115" 
+          height="48" 
+          alt="Astro Logo"
+          class="logo-theme-aware"
+        />
+      </a>
+      
+      <!-- Hero Text -->
+      <h1 class="text-hero-lead mt-6 leading-normal md:leading-relaxed max-w-3xl" style="color: hsl(var(--foreground))">
+        To get started, open the 
+        <span class="chip-secondary relative inline-flex mx-1">
+          <span aria-hidden="true" class="border-tertiary"></span>
+          <span class="relative z-10">src/pages</span>
+        </span>
+        directory in your project.
+      </h1>
+      
+      <!-- CTA Buttons -->
+      <section class="flex gap-4 mt-8 flex-wrap">
+        <a 
+          class="btn-primary group"
+          href="https://docs.astro.build"
+        >
+          Read our docs
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="16" 
+            height="16" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            class="ml-2 transition-transform group-hover:translate-x-1"
+          >
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </a>
+        
+        <a 
+          class="btn-outline group"
+          href="https://astro.build/chat"
+        >
+          Join our Discord
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="0 0 127.14 96.36" 
+            class="h-4 w-4 ml-2 transition-transform group-hover:scale-110"
+            aria-hidden="true"
+          >
+            <path 
+              fill="currentColor" 
+              d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"
+            ></path>
+          </svg>
+        </a>
+      </section>
+      
+      <!-- Feature Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12 w-full">
+        <div class="card-hover p-6">
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+            style="color: hsl(var(--primary))"
+            class="mb-4"
+          >
+            <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
+          </svg>
+          <h3 class="font-semibold text-lg mb-2" style="color: hsl(var(--foreground))">Fast by Default</h3>
+          <p class="text-sm" style="color: hsl(var(--muted-foreground))">
+            Zero JavaScript runtime by default. Only ship what you need.
+          </p>
+        </div>
+        
+        <div class="card-hover p-6">
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+            style="color: hsl(var(--primary))"
+            class="mb-4"
+          >
+            <rect width="7" height="7" x="3" y="3" rx="1"></rect>
+            <rect width="7" height="7" x="14" y="3" rx="1"></rect>
+            <rect width="7" height="7" x="14" y="14" rx="1"></rect>
+            <rect width="7" height="7" x="3" y="14" rx="1"></rect>
+          </svg>
+          <h3 class="font-semibold text-lg mb-2" style="color: hsl(var(--foreground))">Bring Your Framework</h3>
+          <p class="text-sm" style="color: hsl(var(--muted-foreground))">
+            Use React, Vue, Svelte, or any framework you love.
+          </p>
+        </div>
+        
+        <div class="card-hover p-6">
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+            style="color: hsl(var(--primary))"
+            class="mb-4"
+          >
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+          <h3 class="font-semibold text-lg mb-2" style="color: hsl(var(--foreground))">Content Focus</h3>
+          <p class="text-sm" style="color: hsl(var(--muted-foreground))">
+            Built for content-rich websites with powerful data fetching.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
 
-	<a 
-		href="https://astro.build/blog/astro-5/" 
-		class="hidden md:block fixed bottom-4 right-4 max-w-[300px] no-underline transition-colors duration-200 backdrop-blur-[50px] p-4 bg-white/80 rounded-2xl border border-white/50 hover:bg-white shadow-lg"
-	>
-		<svg width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<path d="M24.667 12c1.333 1.414 2 3.192 2 5.334 0 4.62-4.934 5.7-7.334 12C18.444 28.567 18 27.456 18 26c0-4.642 6.667-7.053 6.667-14Zm-5.334-5.333c1.6 1.65 2.4 3.43 2.4 5.333 0 6.602-8.06 7.59-6.4 17.334C13.111 27.787 12 25.564 12 22.666c0-4.434 7.333-8 7.333-16Zm-6-5.333C15.111 3.555 16 5.556 16 7.333c0 8.333-11.333 10.962-5.333 22-3.488-.774-6-4-6-8 0-8.667 8.666-10 8.666-20Z" fill="#111827"></path>
-		</svg>
-		<h2 class="mb-[1em] font-normal text-[#111827] text-[20px]">What's New in Astro 5.0?</h2>
-		<p class="text-[#4b5563] text-[16px] leading-24px tracking-tight m-0">
-			From content layers to server islands, click to learn more about the new features and improvements in Astro 5.0
-		</p>
-	</a>
+  <!-- Dismissible Announcement Card -->
+  <div 
+    id="announcement-card"
+    class="card-interactive hidden md:flex fixed bottom-6 right-6 max-w-sm p-6 gap-4"
+    role="dialog"
+    aria-labelledby="announcement-title"
+    aria-describedby="announcement-description"
+  >
+    <div class="shrink-0">
+      <svg 
+        width="40" 
+        height="40" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+        class="transition-transform group-hover:scale-110"
+        style="color: hsl(var(--primary))"
+      >
+        <path 
+          d="M24.667 12c1.333 1.414 2 3.192 2 5.334 0 4.62-4.934 5.7-7.334 12C18.444 28.567 18 27.456 18 26c0-4.642 6.667-7.053 6.667-14Zm-5.334-5.333c1.6 1.65 2.4 3.43 2.4 5.333 0 6.602-8.06 7.59-6.4 17.334C13.111 27.787 12 25.564 12 22.666c0-4.434 7.333-8 7.333-16Zm-6-5.333C15.111 3.555 16 5.556 16 7.333c0 8.333-11.333 10.962-5.333 22-3.488-.774-6-4-6-8 0-8.667 8.666-10 8.666-20Z" 
+          fill="currentColor"
+        ></path>
+      </svg>
+    </div>
+    <div class="flex-1">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="badge-default">New</span>
+        <h3 id="announcement-title" class="font-semibold text-base" style="color: hsl(var(--foreground))">
+          Astro 5.0 Released
+        </h3>
+      </div>
+      <p id="announcement-description" class="text-sm leading-relaxed mb-3" style="color: hsl(var(--muted-foreground))">
+        From content layers to server islands, discover the new features and improvements.
+      </p>
+      <a 
+        href="https://astro.build/blog/astro-5/" 
+        class="text-sm font-medium underline underline-offset-4 transition-colors"
+        style="color: hsl(var(--primary))"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Learn more →
+      </a>
+    </div>
+    <button
+      id="close-announcement"
+      class="btn-close absolute top-4 right-4"
+      aria-label="Dismiss announcement"
+    >
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="16" 
+        height="16" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+      >
+        <path d="M18 6 6 18"></path>
+        <path d="m6 6 12 12"></path>
+      </svg>
+    </button>
+  </div>
 </div>
+
+<script>
+  // Announcement card dismiss functionality
+  const announcementCard = document.getElementById('announcement-card');
+  const closeButton = document.getElementById('close-announcement');
+  
+  // Check if card was previously dismissed
+  const isDismissed = localStorage.getItem('announcement-dismissed');
+  
+  if (!isDismissed && announcementCard) {
+    announcementCard.classList.remove('hidden');
+  }
+  
+  // Handle close button
+  if (closeButton && announcementCard) {
+    closeButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      announcementCard.classList.add('hidden');
+      localStorage.setItem('announcement-dismissed', 'true');
+    });
+  }
+</script>

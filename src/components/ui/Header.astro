@@ -1,26 +1,64 @@
 ---
-// src/components/ui/Header.astro
 const links = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
   { name: "About", href: "/about" },
+  { name: "Blog", href: "/blog" },
 ];
+
+const footerLinks = [
+  { name: "Contact", href: "/contact" },
+  { name: "Legal", href: "/legal" },
+  { name: "Privacy Policy", href: "/privacy" },
+];
+
+const currentPath = Astro.url.pathname;
 ---
 
 <header 
   id="main-header"
-  class="sticky top-0 z-50 w-full border-b border-transparent bg-transparent transition-all duration-300 ease-in-out"
+  class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-md transition-all duration-300 ease-in-out"
 >
-  <div class="container flex h-14 max-w-screen-2xl items-center justify-between px-4 md:px-8">
-    <div class="mr-4 hidden md:flex">
-      <a href="/" class="mr-6 flex items-center space-x-2">
-        <span class="hidden font-bold sm:inline-block text-foreground">Astro Template</span>
+  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 bp1020:px-6 py-4">
+    <!-- LEFT GROUP: Logo + Navigation -->
+    <div class="flex flex-1 items-center gap-4">
+      <!-- Logo Mark (always visible, left-aligned) -->
+      <a 
+        href="/" 
+        class="flex items-center space-x-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg shrink-0"
+      >
+        <svg 
+          width="28" 
+          height="28" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          class="text-primary transition-transform group-hover:scale-110"
+        >
+          <path 
+            d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" 
+            stroke="currentColor" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+          />
+        </svg>
+        <!-- Wordmark (visible >= 1020px) -->
+        <span class="hidden bp1020:inline-block font-bold text-lg text-foreground group-hover:text-foreground/80 transition-colors">
+          Astro Template
+        </span>
       </a>
-      <nav class="flex items-center gap-6 text-sm">
+      
+      <!-- Desktop Navigation (hidden < 1020px, shown >= 1020px) -->
+      <nav class="hidden bp1020:flex items-center gap-6 ml-8" data-testid="desktop-nav">
         {links.map((link) => (
           <a
             href={link.href}
-            class="transition-colors hover:text-foreground/80 text-foreground/60"
+            class={`text-sm font-medium transition-colors hover:text-foreground/80 ${
+              currentPath === link.href 
+                ? 'text-foreground' 
+                : 'text-foreground/60'
+            }`}
           >
             {link.name}
           </a>
@@ -28,34 +66,298 @@ const links = [
       </nav>
     </div>
     
-    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 py-2 w-9 px-0 md:hidden">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
-      <span class="sr-only">Toggle Menu</span>
-    </button>
-
-    <div class="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-      <div class="w-full flex-1 md:w-auto md:flex-none"></div>
-      <nav class="flex items-center"></nav>
+    <!-- RIGHT GROUP: CTA + Hamburger (always right-aligned) -->
+    <div class="flex items-center gap-6 shrink-0">
+      <!-- CTA Button (always visible) -->
+      <a 
+        href="/get-started" 
+        class="btn-primary inline-flex items-center justify-center whitespace-nowrap"
+        data-testid="header-cta"
+      >
+        Get Started
+      </a>
+      
+      <!-- Hamburger (visible < 1020px, hidden >= 1020px) -->
+      <button 
+        id="mobile-menu-button"
+        class="flex items-center justify-center w-10 h-10 p-0 shrink-0 bp1020:hidden"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-drawer"
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          stroke-width="2" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+          class="pointer-events-none"
+        >
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
     </div>
   </div>
 </header>
 
+<!-- Mobile Drawer (full-width overlay) -->
+<!-- FIX: Higher z-index (z-60) and proper pointer-events -->
+<div 
+  id="mobile-drawer"
+  class="fixed inset-0 z-60 bp1020:hidden pointer-events-none"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="drawer-title"
+  aria-hidden="true"
+  data-state="closed"
+  data-testid="mobile-drawer"
+>
+  <!-- Backdrop Overlay (click target) -->
+  <div 
+    id="drawer-backdrop"
+    class="absolute inset-0 bg-background/80 backdrop-blur-lg transition-opacity duration-300 opacity-0 pointer-events-auto"
+    aria-hidden="true"
+  ></div>
+  
+  <!-- Drawer Panel -->
+  <div 
+    class="absolute right-0 top-0 h-full w-full max-w-md bg-background/95 backdrop-blur-lg border-l border-border/40 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col pointer-events-auto"
+    id="drawer-panel"
+  >
+    <!-- Drawer Header -->
+    <div class="flex items-center justify-between p-4 border-b border-border/40">
+      <h2 id="drawer-title" class="text-lg font-semibold text-foreground">Menu</h2>
+      <button 
+        id="drawer-close-button"
+        class="btn-ghost w-10 h-10 p-0"
+        aria-label="Close navigation menu"
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          stroke-width="2" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+        >
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Drawer Content -->
+    <div class="flex-1 flex flex-col justify-between p-4">
+      <!-- Top: Navigation Links -->
+      <nav class="flex flex-col space-y-2">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            class={`px-4 py-3 text-base font-medium rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground ${
+              currentPath === link.href 
+                ? 'bg-accent text-accent-foreground' 
+                : 'text-foreground/70'
+            }`}
+          >
+            {link.name}
+          </a>
+        ))}
+      </nav>
+      
+      <!-- Bottom: CTA + Footer Links -->
+      <div class="mt-auto space-y-4 pt-4 border-t border-border/40">
+        <!-- FIX: Separate test ID for drawer CTA -->
+        <a 
+          href="/get-started" 
+          class="btn-primary w-full justify-center"
+          data-testid="drawer-cta"
+        >
+          Get Started
+        </a>
+        
+        <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
+          {footerLinks.map((link) => (
+            <a 
+              href={link.href}
+              class="text-foreground/60 hover:text-foreground transition-colors"
+            >
+              {link.name}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+  // Header scroll enhancement
   const header = document.getElementById('main-header');
   const handleScroll = () => {
     if (!header) return;
-    
     if (window.scrollY > 10) {
-      // User has scrolled down: Apply semantic glass utility
-      header.classList.remove('bg-transparent', 'border-transparent');
-      header.classList.add('header-glass');
+      header.classList.add('shadow-md', 'border-border/50');
+      header.classList.remove('border-border/40');
     } else {
-      // User is at top: Reset to transparent
-      header.classList.remove('header-glass');
-      header.classList.add('bg-transparent', 'border-transparent');
+      header.classList.remove('shadow-md', 'border-border/50');
+      header.classList.add('border-border/40');
     }
   };
-
   window.addEventListener('scroll', handleScroll);
-  handleScroll(); // Initialize on load
+  handleScroll();
+
+  // Mobile drawer controller
+  class MobileDrawer {
+    private button: HTMLElement | null;
+    private drawer: HTMLElement | null;
+    private panel: HTMLElement | null;
+    private backdrop: HTMLElement | null;
+    private closeButton: HTMLElement | null;
+    private isOpen: boolean;
+    private focusableElements: HTMLElement[];
+    private firstFocusable: HTMLElement | null;
+    private lastFocusable: HTMLElement | null;
+
+    constructor() {
+      this.button = document.getElementById('mobile-menu-button');
+      this.drawer = document.getElementById('mobile-drawer');
+      this.panel = document.getElementById('drawer-panel');
+      this.backdrop = document.getElementById('drawer-backdrop');
+      this.closeButton = document.getElementById('drawer-close-button');
+      
+      this.isOpen = false;
+      this.focusableElements = [];
+      this.firstFocusable = null;
+      this.lastFocusable = null;
+      
+      this.init();
+    }
+    
+    private init(): void {
+      this.button?.addEventListener('click', this.open.bind(this));
+      this.closeButton?.addEventListener('click', this.close.bind(this));
+      this.backdrop?.addEventListener('click', this.close.bind(this));
+      document.addEventListener('keydown', this.handleKeydown.bind(this));
+      this.updateFocusableElements();
+    }
+    
+    private updateFocusableElements(): void {
+      if (!this.panel) return;
+      const elements = this.panel.querySelectorAll<HTMLElement>(
+        'a[href], button, [tabindex]:not([tabindex="-1"])'
+      );
+      this.focusableElements = Array.from(elements).filter(
+        el => !el.hasAttribute('disabled') && el.offsetParent !== null
+      );
+      this.firstFocusable = this.focusableElements[0] || null;
+      this.lastFocusable = this.focusableElements[this.focusableElements.length - 1] || null;
+    }
+    
+    public open(): void {
+      if (this.isOpen) return;
+      
+      this.isOpen = true;
+      this.drawer?.setAttribute('data-state', 'open');
+      this.drawer?.setAttribute('aria-hidden', 'false');
+      this.button?.setAttribute('aria-expanded', 'true');
+      
+      // FIX: Enable pointer events when open
+      this.drawer?.classList.remove('pointer-events-none');
+      this.drawer?.classList.add('pointer-events-auto');
+      
+      document.body.style.overflow = 'hidden';
+      
+      requestAnimationFrame(() => {
+        this.backdrop?.classList.add('opacity-100');
+        this.backdrop?.classList.remove('opacity-0');
+        this.panel?.classList.add('translate-x-0');
+        this.panel?.classList.remove('translate-x-full');
+      });
+      
+      setTimeout(() => {
+        this.updateFocusableElements();
+        this.firstFocusable?.focus();
+      }, 300);
+    }
+    
+    public close(): void {
+      if (!this.isOpen) return;
+      
+      this.isOpen = false;
+      this.drawer?.setAttribute('data-state', 'closed');
+      this.drawer?.setAttribute('aria-hidden', 'true');
+      this.button?.setAttribute('aria-expanded', 'false');
+      
+      // FIX: Disable pointer events when closed
+      this.drawer?.classList.add('pointer-events-none');
+      this.drawer?.classList.remove('pointer-events-auto');
+      
+      document.body.style.overflow = '';
+      
+      this.backdrop?.classList.add('opacity-0');
+      this.backdrop?.classList.remove('opacity-100');
+      this.panel?.classList.add('translate-x-full');
+      this.panel?.classList.remove('translate-x-0');
+      
+      this.button?.focus();
+    }
+    
+    private handleKeydown(event: KeyboardEvent): void {
+      if (!this.isOpen) return;
+      
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        this.close();
+        return;
+      }
+      
+      if (event.key === 'Tab' && this.focusableElements.length > 0) {
+        if (event.shiftKey) {
+          if (document.activeElement === this.firstFocusable) {
+            event.preventDefault();
+            this.lastFocusable?.focus();
+          }
+        } else {
+          if (document.activeElement === this.lastFocusable) {
+            event.preventDefault();
+            this.firstFocusable?.focus();
+          }
+        }
+      }
+    }
+  }
+  
+  new MobileDrawer();
 </script>
+
+<style>
+  /* Ensure initial states */
+  #drawer-backdrop {
+    @apply opacity-0;
+  }
+  
+  #mobile-drawer[data-state="closed"] #drawer-backdrop {
+    @apply opacity-0 pointer-events-none;
+  }
+  
+  #mobile-drawer[data-state="open"] #drawer-backdrop {
+    @apply opacity-100 pointer-events-auto;
+  }
+
+  #mobile-drawer[data-state="closed"] #drawer-panel {
+    @apply pointer-events-none;
+  }
+
+  #mobile-drawer[data-state="open"] #drawer-panel {
+    @apply pointer-events-auto;
+  }
+</style>
