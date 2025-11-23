@@ -13,13 +13,13 @@ The project combines the raw performance of Astro's server-side rendering (SSR) 
 
 ### ✨ Key Features
 
-***⚡️ Astro 5 Hybrid Rendering:** Optimized for speed with Server-Side Rendering (SSR) via the Vercel Adapter.
-***🔥 Svelte 5 Reactivity:** Utilizes the latest Svelte runes and reactivity model for interactive UI components.
-***XR Tailwind CSS v4:** Implements the latest zero-runtime CSS engine with native CSS variable theming and dark mode support.
-***CMS Storyblok Integration:** seamless content fetching with a live Visual Editor and dynamic component mapping.
-***🎨 Shadcn/UI Architecture:** Uses `clsx` and `tailwind-merge` for type-safe, reusable component styling.
-***🧪 Testing & Performance:** Pre-configured with **Playwright** for E2E testing and **Partytown** for third-party script offloading.
-***🗺️ SEO Ready:** Automatic sitemap generation and metadata handling.
+* **⚡️ Astro 5 Hybrid Rendering:** Optimized for speed with Server-Side Rendering (SSR) via the Vercel Adapter.
+* **🔥 Svelte 5 Reactivity:** Utilizes the latest Svelte runes and reactivity model for interactive UI components.
+* **XR Tailwind CSS v4:** Implements the latest zero-runtime CSS engine with native CSS variable theming and dark mode support.
+* **CMS Storyblok Integration:** Seamless content fetching with a live Visual Editor and dynamic component mapping.
+* **🎨 Shadcn/UI Architecture:** Uses `clsx` and `tailwind-merge` for type-safe, reusable component styling.
+* **🧪 Testing & Performance:** Pre-configured with **Playwright** for E2E testing and **Partytown** for third-party script offloading.
+* **🗺️ SEO Ready:** Automatic sitemap generation and metadata handling.
 
 ---
 
@@ -38,11 +38,11 @@ Ensure your development environment meets the following requirements:
 ### 1. Clone the Repository
 
 ```bash
-git clone [https://github.com/your-username/astroJS-template.git](https://github.com/your-username/astroJS-template.git)
-cd astroJS-template
-````
+git clone [https://github.com/adammerrill/AstroJS-template.git](https://github.com/adammerrill/AstroJS-template.git)
+cd AstroJS-template
+```
 
-### 2\. Install Dependencies
+### 2. Install Dependencies
 
 This project uses `pnpm` to ensure strict dependency management.
 
@@ -50,7 +50,7 @@ This project uses `pnpm` to ensure strict dependency management.
 pnpm install
 ```
 
-### 3\. Environment Configuration
+### 3. Environment Configuration
 
 Create a `.env` file in the root directory.
 
@@ -70,7 +70,7 @@ STORYBLOK_TOKEN="your_storyblok_preview_token"
 
 > **Security Note:** The `.env` file is excluded from git via `.gitignore`.
 
-### 4\. Start Development Server
+### 4. Start Development Server
 
 Launch the local development server with Hot Module Replacement (HMR).
 
@@ -92,13 +92,13 @@ The project follows a strict modular architecture:
 ├── src/
 │   ├── assets/          # Optimized assets (SVGs, Images)
 │   ├── components/      # UI Components (Header, Footer, Shadcn primitives)
-[cite_start]│   ├── layouts/         # Global layouts (Layout.astro) [cite: 99]
-[cite_start]│   ├── lib/             # Utilities (cn helper for Tailwind) [cite: 205]
+│   ├── layouts/         # Global layouts (Layout.astro)
+│   ├── lib/             # Utilities (cn helper for Tailwind)
 │   ├── pages/           # Astro routes & Storyblok [...slug] entry point
-[cite_start]│   ├── storyblok/       # Svelte components mapped to CMS blocks [cite: 202]
-[cite_start]│   └── styles/          # Global CSS, Tailwind directives, & Theme vars [cite: 116]
+│   ├── storyblok/       # Svelte components mapped to CMS blocks
+│   └── styles/          # Global CSS, Tailwind directives, & Theme vars
 ├── astro.config.mjs     # Configuration for Integrations & Vercel Adapter
-[cite_start]├── components.json      # Shadcn/UI configuration [cite: 204]
+├── components.json      # Shadcn/UI configuration
 └── package.json         # Project dependencies
 ```
 
@@ -106,7 +106,7 @@ The project follows a strict modular architecture:
 
 ## 🧩 Component Architecture
 
-### 1\. Storyblok Mapping (`astro.config.mjs`)
+### 1. Storyblok Mapping (`astro.config.mjs`)
 
 Storyblok blocks are dynamically mapped to local components. When you create a "teaser" block in the CMS, Astro automatically resolves it to `src/storyblok/Teaser.astro` (or Svelte).
 
@@ -119,7 +119,7 @@ components: {
 }
 ```
 
-### 2\. Interactive Islands (Svelte 5)
+### 2. Interactive Islands (Svelte 5)
 
 Standard UI components are static by default. To make a Storyblok component interactive (hydrate on the client), utilize Astro's island directives in your wrapper:
 
@@ -127,7 +127,7 @@ Standard UI components are static by default. To make a Storyblok component inte
 <FeatureSvelte blok={blok} client:load />
 ```
 
-### 3\. Styling System
+### 3. Styling System
 
 The project uses a sophisticated CSS variable system defined in `src/styles/global.css`. It supports:
 
