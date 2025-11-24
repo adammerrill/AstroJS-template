@@ -5,201 +5,203 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-06B6D4?style=flat&logo=tailwindcss)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-## **📖 Overview**
+## 📖 Overview
 
 This repository hosts a high-performance, enterprise-grade web application boilerplate built with **Astro 5**. It is architected for scalability, hybrid rendering, and visual content management.
 
 The project combines the raw performance of Astro's server-side rendering (SSR) with **Svelte 5's** next-generation reactivity for interactive islands. It features a robust UI system based on **Tailwind CSS v4** and **Shadcn/UI** architecture, all powered by **Storyblok** as a Headless CMS.
 
-### **✨ Key Features**
+### ✨ Key Features
 
-* **⚡️ Astro 5 Hybrid Rendering:** Optimized for speed with Server-Side Rendering (SSR) via the Vercel Adapter.  
-* **🔥 Svelte 5 Reactivity:** Utilizes the latest Svelte runes and reactivity model for interactive UI components.  
-* **XR Tailwind CSS v4:** Implements the latest zero-runtime CSS engine with native CSS variable theming and dark mode support.  
-* **CMS Storyblok Integration:** Seamless content fetching with a live Visual Editor and dynamic component mapping.  
-* **🎨 Shadcn/UI Architecture:** Uses clsx and tailwind-merge for type-safe, reusable component styling.  
-* **🧪 Testing & Performance:** Pre-configured with **Playwright** for E2E testing and **Partytown** for third-party script offloading.  
-* **🗺️ SEO Ready:** Automatic sitemap generation and metadata handling.
+* ⚡️ **Astro 5 Hybrid Rendering:** Optimized for speed with Server-Side Rendering (SSR) via the Vercel Adapter.
+* 🔥 **Svelte 5 Reactivity:** Utilizes the latest Svelte runes and reactivity model for interactive UI components.
+* 🎨 **Tailwind CSS v4:** Implements the latest zero-runtime CSS engine with native CSS variable theming and dark mode support.
+* 📚 **Storyblok Integration:** Seamless content fetching with a live Visual Editor and dynamic component mapping.
+* 🧩 **Shadcn/UI Architecture:** Uses clsx and tailwind-merge for type-safe, reusable component styling.
+* 🧪 **Testing & Performance:** Pre-configured with **Playwright** for E2E testing and **Partytown** for third-party script offloading.
+* 🗺️ **SEO Ready:** Automatic sitemap generation and metadata handling.
 
-## **Getting Started**
+## 🚀 Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### **Prerequisites**
+### Prerequisites
 
-To successfully run this project, you will need the following installed on your development machine:
+    - Node.js: v20.0.0 or higher (LTS recommended)
+    - Package Manager: pnpm v9.x (strictly enforced via CI)
+    - Storyblok Account: Required for content management and API tokens
 
-* **Node.js**: v20.0.0 or higher (LTS recommended).  
-* **Package Manager**: pnpm v9.x (Strictly enforced via CI).  
-* **Storyblok Account**: Required for content management and API tokens.
+Verify your installations:
 
-\# Verify Node version  
-node \-v
+    ```bash
+    node -v
+    pnpm -v
+    ```
 
-\# Verify pnpm version  
-pnpm \-v
+### Installing
 
-### **Installing**
+#### 1. Clone the Repository
 
-Follow this step-by-step series of examples to get your development environment running.
+    ```bash
+    git clone https://github.com/adammerrill/AstroJS-template.git
+    cd AstroJS-template
+    ```
 
-**1\. Clone the Repository**
+#### 2. Install Dependencies
 
-Start by cloning the repository to your local machine.
+    ```bash
+    pnpm install
+    ```
 
-git clone \[https://github.com/adammerrill/AstroJS-template.git\](https://github.com/adammerrill/AstroJS-template.git)  
-cd AstroJS-template
+#### 3. Environment Configuration
 
-**2\. Install Dependencies**
+Create a `.env` file in the root directory:
 
-This project uses pnpm to ensure strict dependency management and faster installation.
+    ```bash
+    cp .env.example .env
+    ```
 
-pnpm install
+Configure the following required variables:
 
-**3\. Environment Configuration**
+    ```bash
+    # Base URL for sitemap generation and canonical URLs
+    SITE_URL="http://localhost:4321"
 
-Create a .env file in the root directory by copying the example file.
+    # Storyblok Access Token (Settings → Access Tokens → Preview)
+    STORYBLOK_TOKEN="your_storyblok_preview_token_here"
+    ```
 
-cp .env.example .env
+#### 4. Sync Content Types
 
-You must configure the following variables in your new .env file. These are required for the astro.config.mjs loader and Storyblok integration:
+    ```bash
+    pnpm astro sync
+    ```
 
-\# Base URL used for sitemap generation and canonical URLs  
-SITE\_URL="http://localhost:4321"
+#### 5. Start the Development Server
 
-\# Storyblok Access Token (Found in Storyblok: Settings \-\> Access Tokens \-\> Preview)  
-STORYBLOK\_TOKEN="your\_storyblok\_preview\_token\_here"
+    ```bash
+    pnpm dev
+    ```
 
-**4\. Sync Content Types**
+Access the application at `[http://localhost:4321](http://localhost:4321)`.
 
-Synchronize your local Astro types with your integrations (like Storyblok) to ensure type safety.
+#### Optional: Mobile Network Testing
 
-pnpm astro sync
+    ```bash
+    pnpm dev:host
+    ```
 
-**5\. Start the Development Server**
+## ⚙️ Running Tests
 
-Launch the local development server with Hot Module Replacement (HMR).
+### End-to-End Tests
 
-pnpm dev
+We use **Playwright** for E2E testing. Run the full test suite:
 
-You can now access the application at http://localhost:4321.
+    ```bash
+    pnpm test
+    ```
 
-**Optional: Mobile Network Testing**
+This executes `scripts/ci-wrapper.ts`, which:
+    1. Starts the Astro server
+    2. Waits for the port to be ready
+    3. Runs the Playwright suite
+    4. Generates a colored summary
+    5. Gracefully shuts down the server
 
-If you need to test the application on a mobile device connected to the same network, use the host command:
+Debug tests with interactive UI:
 
-pnpm dev:host
+    ```bash
+    pnpm test:e2e:ui
+    ```
 
-## **Running the tests**
-
-This system employs a robust testing strategy combining End-to-End (E2E) testing with static analysis and coding style checks.
-
-### **Break down into end to end tests**
-
-We use **Playwright** for E2E testing to simulate real user interactions across multiple browsers and device viewports.
-
-To run the full test suite using our custom CI wrapper (which handles server lifecycle and reporting):
-
-pnpm test
-
-This command executes scripts/ci-wrapper.ts, which:
-
-1. Starts the Astro server.  
-2. Waits for the port to be ready.  
-3. Runs the Playwright suite.  
-4. Generates a colored summary in the terminal.  
-5. Gracefully shuts down the server.
-
-If you want to debug tests with the interactive UI:
-
-pnpm test:e2e:ui
-
-### **And coding style tests**
-
-We use a combination of ESLint, Prettier, TypeScript, and a custom Style Auditor to ensure code quality.
+### Static Analysis & Style
 
 **Linting & Type Checking:**
 
-\# Run ESLint  
-pnpm lint
+    ```bash
+    # Run ESLint
+    pnpm lint
 
-\# Run TypeScript Type Check  
-pnpm typecheck
+    # Run TypeScript type check
+    pnpm typecheck
 
-\# Run Astro Template Check  
-pnpm check
+    # Run Astro template check
+    pnpm check
+    ```
 
 **Style Risk Audit:**
 
-We include a custom static analysis tool (audit-styles.js) that scans the codebase for high-risk CSS patterns, such as inline styles or excessive use of Tailwind arbitrary values (e.g., w-\[53px\]).
+    ```bash
+    node audit-styles.js
+    ```
 
-node audit-styles.js
+## 📂 Project Structure
 
-## **📂 Project Structure**
+    ```bash
+    /
+    ├── public/              # Static assets (favicons, robots.txt)
+    ├── src/
+    │   ├── assets/          # Optimized assets (SVGs, images)
+    │   ├── components/      # UI components (Header, Footer, Shadcn primitives)
+    │   ├── layouts/         # Global layouts (Layout.astro)
+    │   ├── lib/             # Utilities (cn helper for Tailwind)
+    │   ├── pages/           # Astro routes & Storyblok [...slug] entry point
+    │   ├── storyblok/       # Svelte components mapped to CMS blocks
+    │   └── styles/          # Global CSS, Tailwind directives, & theme vars
+    ├── astro.config.mjs     # Configuration for integrations & Vercel adapter
+    ├── components.json      # Shadcn/UI configuration
+    └── package.json         # Project dependencies
+    ```
 
-The project follows a strict modular architecture:
+## 📦 Deployment
 
-/  
-├── public/              \# Static assets (favicons, robots.txt)  
-├── src/  
-│   ├── assets/          \# Optimized assets (SVGs, Images)  
-│   ├── components/      \# UI Components (Header, Footer, Shadcn primitives)  
-│   ├── layouts/         \# Global layouts (Layout.astro)  
-│   ├── lib/             \# Utilities (cn helper for Tailwind)  
-│   ├── pages/           \# Astro routes & Storyblok \[...slug\] entry point  
-│   ├── storyblok/       \# Svelte components mapped to CMS blocks  
-│   └── styles/          \# Global CSS, Tailwind directives, & Theme vars  
-├── astro.config.mjs     \# Configuration for Integrations & Vercel Adapter  
-├── components.json      \# Shadcn/UI configuration  
-└── package.json         \# Project dependencies
+Pre-configured for **Vercel** serverless deployment.
 
-## **Deployment**
+1. Push code to your Git repository
+2. Import project into Vercel dashboard
+3. Add `STORYBLOK_TOKEN` in Vercel Project Settings → Environment Variables
+4. Trigger deployment
 
-The project is pre-configured for **Vercel** serverless deployment via the @astrojs/vercel adapter.
+The `astro.config.mjs` is already configured with the Vercel adapter.
 
-1. **Push Code:** Push your code to your git repository.  
-2. **Import to Vercel:** Import the project into your Vercel dashboard.  
-3. **Environment Variables:** Add the STORYBLOK\_TOKEN in the Vercel Project Settings \> Environment Variables.  
-4. **Deploy:** Trigger a deployment.
+## 🛠️ Built With
 
-The astro.config.mjs is already set up to use vercel() as the adapter, ensuring SSR functions work correctly in the serverless environment.
+* [Astro 5](https://astro.build) - The web framework for content-focused websites
+* [Svelte 5](https://svelte.dev) - Reactive component framework (Runes)
+* [Tailwind CSS v4](https://tailwindcss.com) - Utility-first CSS framework
+* [Storyblok](https://www.storyblok.com) - Headless CMS
+* [Shadcn/UI](https://ui.shadcn.com) - Reusable component architecture
+* [Playwright](https://playwright.dev) - End-to-End testing framework
+* [Vercel](https://vercel.com) - Serverless deployment platform
 
-## **Built With**
+## 🤝 Contributing
 
-* [Astro 5](https://astro.build/) \- The web framework used for content-focused websites.  
-* [Svelte 5](https://svelte.dev/) \- Reactive component framework (Runes).  
-* [Tailwind CSS v4](https://tailwindcss.com/) \- Utility-first CSS framework.  
-* [Storyblok](https://www.storyblok.com/) \- Headless CMS.  
-* [Shadcn/UI](https://ui.shadcn.com/) \- Reusable component architecture.  
-* [Playwright](https://playwright.dev/) \- End-to-End testing framework.  
-* [Vercel](https://vercel.com/) \- Serverless deployment platform.
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct and pull request process.
 
-## **Contributing**
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes following conventional commits
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request against the `develop` branch
 
-Please read [CONTRIBUTING.md](https://www.google.com/search?q=CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us. *(Note: File to be created)*.
+## 🏷️ Versioning
 
-1. Fork the repository.  
-2. Create your feature branch (git checkout \-b feature/AmazingFeature).  
-3. Commit your changes (git commit \-m 'Add some AmazingFeature').  
-4. Push to the branch (git push origin feature/AmazingFeature).  
-5. Open a Pull Request.
+We use [SemVer](http://semver.org) for versioning. See [SEMVER_GUIDE.md](./SEMVER_GUIDE.md) for project-specific instructions.
 
-## **Versioning**
+Available versions are tracked via [GitHub Releases](https://github.com/adammerrill/AstroJS-template/releases).
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://www.google.com/search?q=https://github.com/adammerrill/AstroJS-template/tags).
+## ✍️ Authors
 
-## **Authors**
+* **Adam Merrill** - *Initial work & Architecture* - [AdamMerrill](https://github.com/adammerrill)
 
-* **Atom Merrill** \- *Initial work & Architecture* \- [AdamMerrill](https://www.google.com/search?q=https://github.com/adammerrill)
+See also the list of [contributors](https://github.com/adammerrill/AstroJS-template/contributors) who participated.
 
-See also the list of [contributors](https://www.google.com/search?q=https://github.com/adammerrill/AstroJS-template/contributors) who participated in this project.
+## 📄 License
 
-## **License**
+This project is licensed under the MIT License - see [LICENSE.md](./LICENSE.md) for details.
 
-This project is licensed under the MIT License \- see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
+## 🎉 Acknowledgments
 
-## **Acknowledgments**
-
-* Hat tip to the [Astro](https://astro.build) team for the v5 release.  
-* Inspiration from the [Shadcn/UI](https://ui.shadcn.com) community.  
-* Thanks to [Storyblok](https://www.storyblok.com) for their robust Astro integration.
+* Hat tip to the [Astro](https://astro.build) team for v5
+* Inspiration from the [Shadcn/UI](https://ui.shadcn.com) community
+* Thanks to [Storyblok](https://www.storyblok.com) for robust Astro integration
