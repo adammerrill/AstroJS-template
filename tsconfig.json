@@ -1,14 +1,61 @@
+/**
+ * @fileoverview TypeScript Configuration - Astro Project
+ * @description
+ * Configures TypeScript compiler for an Astro-based web application with strict type checking.
+ * Extends Astro's recommended strict configuration and customizes for multi-framework support.
+ * Implements path alias mapping and includes type definitions for Svelte and Node.js environments.
+ *
+ * @project Astro Web Application
+ * @extends astro/tsconfigs/strict
+ * @framework Astro
+ * @language TypeScript
+ */
+
 {
+  // Extends Astro's strict configuration template for comprehensive type safety
   "extends": "astro/tsconfigs/strict",
+
+  // Compiler Options: Customized for Astro ecosystem and project structure
   "compilerOptions": {
+    // JSX: Preserve syntax for Astro's compiler processing
+    // Astro handles JSX transformation internally, so we preserve original syntax
     "jsx": "preserve",
+
+    // JSX Import Source: Specifies Astro as the JSX runtime provider
+    // Enables Astro-specific JSX typings and transformations
     "jsxImportSource": "astro",
+
+    // Base URL: Establishes project root for module resolution
+    // Required for path mapping and absolute imports
     "baseUrl": ".",
+
+    // Path Mapping: Creates @/* alias for src/* directory
+    // Simplifies imports (e.g., "@/components/Button" maps to "src/components/Button")
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["svelte"]
+
+    // Type Definitions: Explicitly includes types for Svelte components and Node.js runtime
+    // svelte: Enables TypeScript support in .svelte files
+    // node: Provides Node.js built-in module types
+    "types": ["svelte", "node"]
   },
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+
+  // Include Patterns: Defines files subject to type checking
+  // Covers Astro-generated types, source files across multiple frameworks, and tests
+  "include": [
+    ".astro/types.d.ts", // Astro-generated type definitions from content collections
+    "src/**/*.ts", // TypeScript source files
+    "src/**/*.tsx", // TypeScript React/JSX files
+    "src/**/*.svelte", // Svelte component files
+    "tests/**/*.ts" // Test suite files
+  ],
+
+  // Exclude Patterns: Prevents type checking of build artifacts and dependencies
+  // Improves performance by avoiding unnecessary file processing
+  "exclude": [
+    "dist", // Compiled build output directory
+    "node_modules", // Third-party package dependencies
+    ".astro" // Astro internal cache and metadata directory
+  ]
 }

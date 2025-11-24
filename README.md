@@ -13,13 +13,13 @@ The project combines the raw performance of Astro's server-side rendering (SSR) 
 
 ### ✨ Key Features
 
-* **⚡️ Astro 5 Hybrid Rendering:** Optimized for speed with Server-Side Rendering (SSR) via the Vercel Adapter.
-* **🔥 Svelte 5 Reactivity:** Utilizes the latest Svelte runes and reactivity model for interactive UI components.
-* **XR Tailwind CSS v4:** Implements the latest zero-runtime CSS engine with native CSS variable theming and dark mode support.
-* **CMS Storyblok Integration:** Seamless content fetching with a live Visual Editor and dynamic component mapping.
-* **🎨 Shadcn/UI Architecture:** Uses `clsx` and `tailwind-merge` for type-safe, reusable component styling.
-* **🧪 Testing & Performance:** Pre-configured with **Playwright** for E2E testing and **Partytown** for third-party script offloading.
-* **🗺️ SEO Ready:** Automatic sitemap generation and metadata handling.
+- **⚡️ Astro 5 Hybrid Rendering:** Optimized for speed with Server-Side Rendering (SSR) via the Vercel Adapter.
+- **🔥 Svelte 5 Reactivity:** Utilizes the latest Svelte runes and reactivity model for interactive UI components.
+- **XR Tailwind CSS v4:** Implements the latest zero-runtime CSS engine with native CSS variable theming and dark mode support.
+- **CMS Storyblok Integration:** Seamless content fetching with a live Visual Editor and dynamic component mapping.
+- **🎨 Shadcn/UI Architecture:** Uses `clsx` and `tailwind-merge` for type-safe, reusable component styling.
+- **🧪 Testing & Performance:** Pre-configured with **Playwright** for E2E testing and **Partytown** for third-party script offloading.
+- **🗺️ SEO Ready:** Automatic sitemap generation and metadata handling.
 
 ---
 
@@ -27,9 +27,9 @@ The project combines the raw performance of Astro's server-side rendering (SSR) 
 
 Ensure your development environment meets the following requirements:
 
-* **Node.js:** v18.17.0 or higher.
-* **Package Manager:** `pnpm` (Preferred, lockfile included).
-* **Storyblok Account:** Required for content management.
+- **Node.js:** v18.17.0 or higher.
+- **Package Manager:** `pnpm` (Preferred, lockfile included).
+- **Storyblok Account:** Required for content management.
 
 ---
 
@@ -131,21 +131,21 @@ Standard UI components are static by default. To make a Storyblok component inte
 
 The project uses a sophisticated CSS variable system defined in `src/styles/global.css`. It supports:
 
-* **Dark Mode:** Automatically adapts based on `prefers-color-scheme` or class strategy.
-* **Glassmorphism:** Pre-defined blur and opacity variables.
-* **Animations:** Custom keyframes and transitions.
+- **Dark Mode:** Automatically adapts based on `prefers-color-scheme` or class strategy.
+- **Glassmorphism:** Pre-defined blur and opacity variables.
+- **Animations:** Custom keyframes and transitions.
 
 ---
 
 ## 📜 Scripts
 
-| Command | Description |
-| :--- | :--- |
-| `pnpm dev` | Starts the local development server. |
-| `pnpm build` | Builds the project for production (Vercel adapter). |
-| `pnpm preview` | Previews the production build locally. |
-| `pnpm astro check` | Runs TypeScript and Astro diagnostics. |
-| `npx playwright test` | Runs End-to-End tests. |
+| Command               | Description                                         |
+| :-------------------- | :-------------------------------------------------- |
+| `pnpm dev`            | Starts the local development server.                |
+| `pnpm build`          | Builds the project for production (Vercel adapter). |
+| `pnpm preview`        | Previews the production build locally.              |
+| `pnpm astro check`    | Runs TypeScript and Astro diagnostics.              |
+| `npx playwright test` | Runs End-to-End tests.                              |
 
 ---
 

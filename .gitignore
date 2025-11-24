@@ -30,3 +30,7 @@ pnpm-debug.log*
 /playwright/.cache/
 /playwright/.auth/
 .vercel
+playwright-results.json
+
+# Generated Knowledgebase
+knowledge_base.txt
