@@ -33,7 +33,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 Verify your installations:
 
-    ```bash
+    ```shell
     node -v
     pnpm -v
     ```
@@ -42,14 +42,14 @@ Verify your installations:
 
 #### 1. Clone the Repository
 
-    ```bash
+    ```shell
     git clone https://github.com/adammerrill/AstroJS-template.git
     cd AstroJS-template
     ```
 
 #### 2. Install Dependencies
 
-    ```bash
+    ```shell
     pnpm install
     ```
 
@@ -57,13 +57,13 @@ Verify your installations:
 
 Create a `.env` file in the root directory:
 
-    ```bash
+    ```shell
     cp .env.example .env
     ```
 
 Configure the following required variables:
 
-    ```bash
+    ```shell
     # Base URL for sitemap generation and canonical URLs
     SITE_URL="http://localhost:4321"
 
@@ -73,13 +73,13 @@ Configure the following required variables:
 
 #### 4. Sync Content Types
 
-    ```bash
+    ```shell
     pnpm astro sync
     ```
 
 #### 5. Start the Development Server
 
-    ```bash
+    ```shell
     pnpm dev
     ```
 
@@ -87,7 +87,7 @@ Access the application at `[http://localhost:4321](http://localhost:4321)`.
 
 #### Optional: Mobile Network Testing
 
-    ```bash
+    ```shell
     pnpm dev:host
     ```
 
@@ -97,7 +97,7 @@ Access the application at `[http://localhost:4321](http://localhost:4321)`.
 
 We use **Playwright** for E2E testing. Run the full test suite:
 
-    ```bash
+    ```shell
     pnpm test
     ```
 
@@ -110,7 +110,7 @@ This executes `scripts/ci-wrapper.ts`, which:
 
 Debug tests with interactive UI:
 
-    ```bash
+    ```shell
     pnpm test:e2e:ui
     ```
 
@@ -118,7 +118,7 @@ Debug tests with interactive UI:
 
 **Linting & Type Checking:**
 
-    ```bash
+    ```shell
     # Run ESLint
     pnpm lint
 
@@ -131,7 +131,7 @@ Debug tests with interactive UI:
 
 **Style Risk Audit:**
 
-    ```bash
+    ```shell
     node audit-styles.js
     ```
 
