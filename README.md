@@ -83,7 +83,7 @@ Configure the following required variables:
     pnpm dev
     ```
 
-Access the application at `[http://localhost:4321](http://localhost:4321)`.
+Access the application at [http://localhost:4321](http://localhost:4321).
 
 #### Optional: Mobile Network Testing
 
@@ -137,7 +137,7 @@ Debug tests with interactive UI:
 
 ## 📂 Project Structure
 
-    ```bash
+    ```text
     /
     ├── public/              # Static assets (favicons, robots.txt)
     ├── src/
