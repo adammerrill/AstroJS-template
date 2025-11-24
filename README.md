@@ -1,165 +1,186 @@
-# Astro 5 Enterprise Boilerplate
+# **Astro 5 Enterprise Template**
 
-![Astro](https://img.shields.io/badge/Astro-5.0-FF5D01?style=flat&logo=astro)
-![Svelte](https://img.shields.io/badge/Svelte-5.0-FF3E00?style=flat&logo=svelte)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-06B6D4?style=flat&logo=tailwindcss)
-![License](https://img.shields.io/badge/License-MIT-green)
+## **📖 Executive Summary**
 
-## 📖 Overview
+This is a production-grade, enterprise-ready boilerplate architected for high-performance web applications. It leverages the bleeding edge of the JavaScript ecosystem, combining **Astro 5's** server-first rendering with **Svelte 5's** runes-based reactivity and **Tailwind CSS v4's** zero-runtime styling engine.
 
-This repository hosts a high-performance, enterprise-grade web application boilerplate built with **Astro 5**. It is architected for scalability, hybrid rendering, and visual content management.
+Beyond a simple starter, this repository includes a custom CI/CD orchestration layer, a static analysis risk auditing tool, and a pre-configured design system based on Shadcn/UI and Glassmorphism principles.
 
-The project combines the raw performance of Astro's server-side rendering (SSR) with **Svelte 5's** next-generation reactivity for interactive islands. It features a robust UI system based on **Tailwind CSS v4** and **Shadcn/UI** architecture, all powered by **Storyblok** as a Headless CMS.
+### **✨ Key Capabilities**
 
-### ✨ Key Features
+* **Hybrid Rendering Engine:** Optimized SSR via @astrojs/vercel with intelligent caching strategies.  
+* **Reactive Islands:** Uses Svelte 5 (Runes) for complex interactive components like the Mobile Drawer and Announcement bars.  
+* **Headless CMS:** Deep integration with Storyblok, featuring a dynamic \[...slug\] catch-all route that handles Visual Editor previews automatically.  
+* **Advanced Testing Pipeline:** Custom TypeScript orchestrator (ci-wrapper.ts) that manages server lifecycle, parses Playwright JSON results, and provides human-readable CI logs.  
+* **Static Risk Analysis:** Includes a custom parser (audit-styles.js) that scans codebase for high-risk CSS patterns (inline styles, excessive arbitrary values).  
+* **Design System:** Tailwind v4 native CSS variables, dark mode support, and custom "Glass" utility classes.
 
-- **⚡️ Astro 5 Hybrid Rendering:** Optimized for speed with Server-Side Rendering (SSR) via the Vercel Adapter.
-- **🔥 Svelte 5 Reactivity:** Utilizes the latest Svelte runes and reactivity model for interactive UI components.
-- **XR Tailwind CSS v4:** Implements the latest zero-runtime CSS engine with native CSS variable theming and dark mode support.
-- **CMS Storyblok Integration:** Seamless content fetching with a live Visual Editor and dynamic component mapping.
-- **🎨 Shadcn/UI Architecture:** Uses `clsx` and `tailwind-merge` for type-safe, reusable component styling.
-- **🧪 Testing & Performance:** Pre-configured with **Playwright** for E2E testing and **Partytown** for third-party script offloading.
-- **🗺️ SEO Ready:** Automatic sitemap generation and metadata handling.
+## **🛠️ Prerequisites & Installation**
 
----
+### **System Requirements**
 
-## 🛠 Prerequisites
+* **Node.js:** v20.x (LTS recommended)  
+* **Package Manager:** pnpm v9.x (Strictly enforced via CI)  
+* **Storyblok Space:** You need a Storyblok account and a Space ID.
 
-Ensure your development environment meets the following requirements:
+### **Setup Guide**
 
-- **Node.js:** v18.17.0 or higher.
-- **Package Manager:** `pnpm` (Preferred, lockfile included).
-- **Storyblok Account:** Required for content management.
+1. **Clone & Install**  
+   git clone \[https://github.com/your-org/astro-enterprise-template.git\](https://github.com/your-org/astro-enterprise-template.git)  
+   cd astro-enterprise-template  
+   pnpm install
 
----
+2. Environment Configuration  
+   Create a .env file in the root. This file is guarded by .gitignore.  
+   cp .env.example .env
 
-## 🚀 Installation & Setup
+   **Required Variables:**  
+   \# The public URL of the site (used for Sitemap generation)  
+   SITE\_URL="http://localhost:4321"
 
-### 1. Clone the Repository
+   \# Storyblok Preview Token (Settings \-\> Access Tokens)  
+   STORYBLOK\_TOKEN="your\_storyblok\_token\_here"
 
-```bash
-git clone [https://github.com/adammerrill/AstroJS-template.git](https://github.com/adammerrill/AstroJS-template.git)
-cd AstroJS-template
-```
+3. Sync Content Types  
+   Ensure your local Astro types match your integrations:  
+   pnpm astro sync
 
-### 2. Install Dependencies
+4. **Launch Development Server**  
+   pnpm dev
 
-This project uses `pnpm` to ensure strict dependency management.
+## **📂 Architecture & File Structure**
 
-```bash
-pnpm install
-```
+This project follows a strict modular architecture designed for scalability.
 
-### 3. Environment Configuration
+/  
+├── .github/workflows/   \# CI Pipeline configurations  
+├── scripts/             \# Custom CI orchestration & utilities  
+│   ├── ci-wrapper.ts    \# Main entry point for CI testing  
+│   └── start-and-test.ts\# Server lifecycle manager  
+├── src/  
+│   ├── components/      \# UI Atoms & Molecules (Header, Footer)  
+│   ├── layouts/         \# Page wrappers (Global CSS injection)  
+│   ├── lib/             \# Utilities (clsx/tailwind-merge)  
+│   ├── pages/           \# Route definitions  
+│   │   ├── \[...slug\].astro \# Dynamic Storyblok entry point  
+│   │   └── index.astro     \# Dashboard / Home  
+│   ├── storyblok/       \# CMS Component Mappings (Svelte/Astro)  
+│   └── styles/          \# Tailwind v4 Theme & CSS Variables  
+├── audit-styles.js      \# Static Analysis Tool  
+├── astro.config.mjs     \# Integrations Config  
+└── playwright.config.ts \# E2E Configuration
 
-Create a `.env` file in the root directory.
+## **🔌 CMS Integration (Storyblok)**
 
-```bash
-cp .env.example .env
-```
+### **Component Mapping**
 
-Configure the following variables (required for the `astro.config.mjs` loader):
+The mapping between Storyblok "Technical Names" and local code lives in astro.config.mjs.
 
-```env
-# Base URL used for sitemap generation and canonical URLs
-SITE_URL="http://localhost:4321"
+storyblok({  
+  components: {  
+    page: "storyblok/Page",       // Root layout  
+    feature: "storyblok/Feature", // Svelte interactive component  
+    grid: "storyblok/Grid",       // Layout component  
+  },  
+})
 
-# Storyblok Access Token (Settings -> Access Tokens -> Preview)
-STORYBLOK_TOKEN="your_storyblok_preview_token"
-```
+### **Dynamic Routing Strategy**
 
-> **Security Note:** The `.env` file is excluded from git via `.gitignore`.
+The file src/pages/\[...slug\].astro acts as the gateway.
 
-### 4. Start Development Server
+1. **Dev Mode:** Automatically fetches the draft version of content to enable the Visual Editor.  
+2. **Production:** Fetches published content for performance.  
+3. **Preview Handling:** The Storyblok Bridge is automatically initialized to allow click-to-edit functionality.
 
-Launch the local development server with Hot Module Replacement (HMR).
+## **🎨 Design System & Styling**
 
-```bash
-pnpm dev
-```
+This project uses **Tailwind CSS v4**. Configuration is primarily handled via CSS variables in src/styles/global.css rather than a JavaScript config file.
 
-Access the application at `http://localhost:4321`.
+### **Glassmorphism Utilities**
 
----
+We employ a custom "Glass" system utilizing CSS variables for alpha channels and blur.
 
-## 📂 Project Structure
+| Class | Description |
+| :---- | :---- |
+| .glass | Applies background blur, border transparency, and shadow. |
+| .header-glass | Specialized variant for the sticky header with bottom border. |
 
-The project follows a strict modular architecture:
+### **Theming**
 
-```text
-/
-├── public/              # Static assets (favicons, robots.txt)
-├── src/
-│   ├── assets/          # Optimized assets (SVGs, Images)
-│   ├── components/      # UI Components (Header, Footer, Shadcn primitives)
-│   ├── layouts/         # Global layouts (Layout.astro)
-│   ├── lib/             # Utilities (cn helper for Tailwind)
-│   ├── pages/           # Astro routes & Storyblok [...slug] entry point
-│   ├── storyblok/       # Svelte components mapped to CMS blocks
-│   └── styles/          # Global CSS, Tailwind directives, & Theme vars
-├── astro.config.mjs     # Configuration for Integrations & Vercel Adapter
-├── components.json      # Shadcn/UI configuration
-└── package.json         # Project dependencies
-```
+Colors are defined as HSL values to support native CSS variable manipulation.
 
----
+* **Usage:** bg-primary, text-muted-foreground  
+* **Dark Mode:** Automatically handled via @media (prefers-color-scheme: dark) in global.css.
 
-## 🧩 Component Architecture
+## **🧪 Advanced Testing Architecture**
 
-### 1. Storyblok Mapping (`astro.config.mjs`)
+This repository uses a custom testing harness (scripts/ci-wrapper.ts) rather than standard CLI commands.
 
-Storyblok blocks are dynamically mapped to local components. When you create a "teaser" block in the CMS, Astro automatically resolves it to `src/storyblok/Teaser.astro` (or Svelte).
+### **Why a custom wrapper?**
 
-```javascript
-// astro.config.mjs
-components: {
-  'page': 'storyblok/Page',
-  'feature': 'storyblok/Feature',
-  'grid': 'storyblok/Grid',
-}
-```
+1. **Reliability:** It ensures the dev server (pnpm dev) is fully ready (port 4321 accessible) before triggering Playwright.  
+2. **Cleanup:** It guarantees zombie processes are killed, even if tests fail or time out.  
+3. **Reporting:** It parses the raw JSON output from Playwright into a human-readable, color-coded summary in the terminal.
 
-### 2. Interactive Islands (Svelte 5)
+### **Running Tests**
 
-Standard UI components are static by default. To make a Storyblok component interactive (hydrate on the client), utilize Astro's island directives in your wrapper:
+| Command | Description |
+| :---- | :---- |
+| pnpm test | Runs the full E2E suite via the wrapper. |
+| pnpm test:e2e:ui | Opens the interactive Playwright UI for debugging. |
+| pnpm test:ci | The command used by GitHub Actions (includes build \+ check). |
 
-```astro
-<FeatureSvelte blok={blok} client:load />
-```
+### **Included Test Suites**
 
-### 3. Styling System
+* **Header:** Validates responsive behavior, hamburger menu toggling, and focus trapping.  
+* **Announcement:** Tests local storage persistence (dismissing the banner).  
+* **Layout:** Verifies max-width constraints and vertical centering.
 
-The project uses a sophisticated CSS variable system defined in `src/styles/global.css`. It supports:
+## **🛠️ Developer Tooling**
 
-- **Dark Mode:** Automatically adapts based on `prefers-color-scheme` or class strategy.
-- **Glassmorphism:** Pre-defined blur and opacity variables.
-- **Animations:** Custom keyframes and transitions.
+### **1\. Style Risk Auditor**
 
----
+We include a static analysis tool to prevent CSS technical debt.
 
-## 📜 Scripts
+node audit-styles.js
 
-| Command               | Description                                         |
-| :-------------------- | :-------------------------------------------------- |
-| `pnpm dev`            | Starts the local development server.                |
-| `pnpm build`          | Builds the project for production (Vercel adapter). |
-| `pnpm preview`        | Previews the production build locally.              |
-| `pnpm astro check`    | Runs TypeScript and Astro diagnostics.              |
-| `npx playwright test` | Runs End-to-End tests.                              |
+**What it checks:**
 
----
+* **Inline Styles:** Flags usage of style="..." which breaks CSP.  
+* **Arbitrary Values:** Flags excessive use of w-\[53px\] (Tailwind arbitrary values).  
+* **Risk Score:** Assigns a High/Medium/Low risk score to files based on heuristic analysis.
 
-## ☁️ Deployment
+### **2\. Knowledge Base Generator**
 
-The project is pre-configured for **Vercel** serverless deployment via `@astrojs/vercel`.
+Useful for generating context for LLMs/AI coding assistants.
 
-1. Push code to your git repository.
-2. Import the project into Vercel.
-3. **Important:** Add the `STORYBLOK_TOKEN` in the Vercel Project Settings \> Environment Variables.
-4. Deploy.
+pnpm kb:gen
 
----
+This script aggregates all non-ignored source files into knowledge\_base.txt.
 
-## 📄 License
+### **3\. Mobile Network Testing**
 
-Copyright (c) 2025. Licensed under the MIT License.
+To test the site on a physical mobile device (iPhone/Android) on the same network:
+
+pnpm dev:host
+
+This exposes the server on 0.0.0.0, allowing you to access it via your local IP address.
+
+## **🚀 CI/CD Pipeline**
+
+The GitHub Actions workflow (.github/workflows/ci.yml) enforces quality gates.
+
+1. **Validation Job (Parallelized):**  
+   * eslint: Code quality checks.  
+   * tsc \--noEmit: Strict type checking.  
+   * astro check: Template validation.  
+2. **E2E Job (Dependent):**  
+   * Only runs if Validation passes.  
+   * Installs Playwright browsers.  
+   * Builds the application.  
+   * Runs the custom ci-wrapper.ts.  
+   * Uploads Playwright traces/reports on failure.
+
+## **© License**
+
+Licensed under the MIT License.
