@@ -16,7 +16,7 @@
 
 import { defineConfig } from "astro/config";
 import svelte from "@astrojs/svelte";
-import node from "@astrojs/node";
+import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import { storyblok } from "@storyblok/astro";
@@ -32,14 +32,14 @@ export default defineConfig({
   // --- CORE ARCHITECTURE CONFIGURATION ---
   
   // Site: Required for sitemap and canonical URL generation
-  site: "https://www.your-enterprise-domain.com",
+  site: "https://astro-js-template.vercel.app",
   
   // Output Mode: 'server' enables SSR/hybrid rendering for Server Islands
   output: "server",
   
   // Adapter: Node.js adapter for standalone SSR deployment
-  adapter: node({
-    mode: "standalone"
+  adapter: vercel({
+    webAnalytics: { enabled: true }
   }),
 
   // Trailing Slash: Normalized to 'always' for consistency
