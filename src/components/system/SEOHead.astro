@@ -1,0 +1,68 @@
+---
+/**
+ * @fileoverview SEO & Metadata Head Component
+ * @description Centralizes all meta tags, OpenGraph data, and JSON-LD Schemas.
+ * Implements GEO (Generative Engine Optimization) strategies by defining Entity relationships.
+ */
+ import { Schema } from "astro-seo-schema";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article" | "profile";
+  canonicalUrl?: URL | string;
+}
+
+const { 
+  title, 
+  description = "Enterprise Astro 5 Application", 
+  image = "/og-default.jpg",
+  type = "website",
+  canonicalUrl = new URL(Astro.url.pathname, Astro.site)
+} = Astro.props;
+
+const siteName = "Astro Enterprise";
+---
+
+<!-- Global Metadata -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+<meta property="og:site_name" content={siteName} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={image} />
+
+<!-- GEO / Schema.org JSON-LD -->
+<Schema
+  item={{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": siteName,
+    "url": Astro.site?.toString(),
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": `${Astro.site}search?q={search_term_string}`,
+      "query-input": "required name=search_term_string"
+    }
+  }}
+/>

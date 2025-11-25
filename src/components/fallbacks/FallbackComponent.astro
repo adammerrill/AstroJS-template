@@ -1,0 +1,45 @@
+---
+/**
+ * @fileoverview Fallback Component for Missing CMS Blocks
+ * @description Renders a visual warning in development mode when a mapped component
+ * is missing, aiding debugging. In production, it renders nothing (collapses),
+ * ensuring the end-user experience is not broken by missing implementations.
+ */
+
+ interface Props {
+  /** The technical name of the missing block from Storyblok (e.g., "hero_slider") */
+  blokName?: string;
+  /** The raw data payload of the block for inspection */
+  blokData?: Record<string, unknown>;
+}
+
+const { blokName = "Unknown Component", blokData = {} } = Astro.props;
+const isDev = import.meta.env.DEV;
+---
+
+{
+  /* Conditional Rendering Logic:
+     If isDev is true, show the warning card.
+     If false, return null (renders nothing in DOM).
+  */
+  isDev ? (
+    <div class="fallback-component p-4 my-4 border-2 border-dashed border-red-400 bg-red-50 rounded-lg">
+      <h3 class="font-bold text-red-700 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        Missing Component: <code class="bg-red-100 px-1 rounded">{blokName}</code>
+      </h3>
+      <p class="text-sm text-red-600 mt-2 mb-3">
+        This block exists in Storyblok but has not been mapped to an Astro component in <code>astro.config.mjs</code>.
+      </p>
+      
+      <details class="group">
+        <summary class="cursor-pointer text-xs font-mono text-red-500 hover:text-red-700 focus:outline-none">
+          View Raw Data Payload
+        </summary>
+        <pre class="mt-2 p-2 bg-gray-900 text-green-400 rounded text-xs overflow-x-auto max-h-48">
+          {JSON.stringify(blokData, null, 2)}
+        </pre>
+      </details>
+    </div>
+  ) : null
+}
