@@ -1,0 +1,18 @@
+---
+/**
+ * @fileoverview Mock Viewer Page
+ * @description A dedicated route for verifying the E2E Mocking Pipeline.
+ * Excluded from sitemap.
+ */
+ import BaseLayout from "../layouts/BaseLayout.astro";
+import MockTester from "../components/dev/MockTester.svelte";
+
+export const prerender = false;
+---
+
+<BaseLayout title="QA Mock Viewer" description="Internal QA Verification Page">
+  <div class="container mx-auto min-h-screen flex flex-col items-center justify-center">
+    <!-- client:load ensures Svelte hydrates immediately to trigger the fetch -->
+    <MockTester client:load />
+  </div>
+</BaseLayout>
