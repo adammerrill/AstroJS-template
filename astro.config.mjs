@@ -1,15 +1,16 @@
 /**
  * @fileoverview Astro Configuration File (ISO/ASCII Compliant)
  * @description Defines the core build and runtime settings for the Astro project.
- * Integrates Svelte 5, Tailwind v4 (via Vite), Storyblok CMS, and Node.js SSR.
+ * Integrates Svelte 5, Tailwind v4 (via Vite), Storyblok CMS, Sitemap generation, and Node.js SSR.
  *
  * ARCHITECTURE NOTES:
  * 1. OUTPUT: 'server' mode enables Server-Side Rendering (SSR) for dynamic routing.
  * 2. ADAPTER: Uses Node.js in standalone mode (compatible with Docker/Self-Hosting).
  * 3. TAILWIND: Configured as a Vite plugin (v4 standard), avoiding legacy Astro integrations.
  * 4. CMS: Storyblok bridge is configured with strict type mapping for components.
+ * 5. SEO: Sitemap integration auto-generates sitemap-index.xml based on routes.
  *
- * @version 1.0.3
+ * @version 1.0.4
  * @date 2025-11-24
  */
 
@@ -17,11 +18,11 @@ import { defineConfig } from "astro/config";
 import svelte from "@astrojs/svelte";
 import node from "@astrojs/node";
 import tailwindcss from "@tailwindcss/vite";
+import sitemap from "@astrojs/sitemap";
 import { storyblok } from "@storyblok/astro";
 import { loadEnv } from "vite";
 
 // Load environment variables to access STORYBLOK_TOKEN
-// The third argument '' ensures we load all env vars, or use 'STORYBLOK' to filter specific prefixes
 const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), "");
 
 /**
@@ -50,12 +51,14 @@ export default defineConfig({
     // Svelte Integration: Supports Svelte 5 Runes for interactive islands
     svelte(),
     
+    // Sitemap: Auto-generates sitemap.xml and sitemap-index.xml at build time
+    sitemap(),
+    
     // Storyblok CMS Integration: Handles content fetching and visual bridge
     storyblok({
       accessToken: env.STORYBLOK_TOKEN,
       components: {
         // Register core layout components mapping here
-        // Keys match Storyblok block technical names
         page: "storyblok/Page",
         feature: "storyblok/Feature",
         grid: "storyblok/Grid",
@@ -70,8 +73,7 @@ export default defineConfig({
   
   vite: {
     plugins: [
-      // Tailwind v4 is now a Vite plugin, NOT an Astro integration
-      // This enables the zero-config CSS-in-JS engine
+      // Tailwind v4 is now a Vite plugin
       tailwindcss(),
     ],
     logLevel: 'info',

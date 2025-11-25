@@ -1,0 +1,8 @@
+# Robots.txt for Astro Enterprise Platform
+# This file controls search engine crawler access to the site.
+
+User-agent: *
+Allow: /
+
+# Sitemap Location
+Sitemap: https://www.your-enterprise-domain.com/sitemap-index.xml
