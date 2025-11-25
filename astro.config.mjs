@@ -1,133 +1,84 @@
 /**
- * @file Astro Configuration
- * @module astro.config
- * @description
- * Main configuration file for an Astro web application integrated with Storyblok CMS.
- * Defines site settings, build pipeline, integrations, and deployment configuration.
+ * @fileoverview Astro Configuration File (ISO/ASCII Compliant)
+ * @description Defines the core build and runtime settings for the Astro project.
+ * Integrates Svelte 5, Tailwind v4 (via Vite), Storyblok CMS, and Node.js SSR.
  *
- * Key Features:
- * - Storyblok headless CMS integration with component mapping
- * - Svelte component framework support
- * - TailwindCSS utility-first styling
- * - MDX content processing
- * - Automated sitemap generation
- * - Partytown third-party script optimization
- * - Vercel serverless deployment platform
+ * ARCHITECTURE NOTES:
+ * 1. OUTPUT: 'server' mode enables Server-Side Rendering (SSR) for dynamic routing.
+ * 2. ADAPTER: Uses Node.js in standalone mode (compatible with Docker/Self-Hosting).
+ * 3. TAILWIND: Configured as a Vite plugin (v4 standard), avoiding legacy Astro integrations.
+ * 4. CMS: Storyblok bridge is configured with strict type mapping for components.
+ *
+ * @version 1.0.3
+ * @date 2025-11-24
  */
-
-// @ts-check
 
 import { defineConfig } from "astro/config";
-import { loadEnv } from "vite";
 import svelte from "@astrojs/svelte";
+import node from "@astrojs/node";
 import tailwindcss from "@tailwindcss/vite";
-import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
-import partytown from "@astrojs/partytown";
 import { storyblok } from "@storyblok/astro";
-import vercel from "@astrojs/vercel";
+import { loadEnv } from "vite";
+
+// Load environment variables to access STORYBLOK_TOKEN
+// The third argument '' ensures we load all env vars, or use 'STORYBLOK' to filter specific prefixes
+const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), "");
 
 /**
- * Base site URL.
- *
- * @description
- * Resolves from SITE_URL environment variable or defaults to localhost dev server.
- * Must include protocol (https://) for proper canonical URL generation and sitemap creation.
- *
- * @constant {string}
- * @default "https://localhost:4321"
- */
-const siteUrl = process.env.SITE_URL || "https://localhost:4321";
-
-/**
- * Loaded environment variables.
- *
- * @description
- * Extracts all environment variables with STORYBLOK_ prefix using Vite's loadEnv utility.
- * Required because Astro configuration files do not natively support environment variables.
- *
- * @constant {Object<string, string>}
- */
-const env = loadEnv("", process.cwd(), "STORYBLOK"); // Loads variables starting with STORYBLOK_
-
-/**
- * Storyblok API access token.
- *
- * @description
- * Retrieved from loaded environment variables for authenticating Storyblok API requests.
- * Stored separately for explicit type clarity and reuse.
- *
- * @constant {string}
- */
-const STORYBLOK_TOKEN = env.STORYBLOK_TOKEN;
-
-/**
- * Astro configuration object.
- *
- * @type {import('astro').AstroUserConfig}
+ * @type {import('astro/config').AstroUserConfig}
  */
 export default defineConfig({
-  /** Canonical site URL used for sitemaps and absolute link generation */
-  site: siteUrl,
+  // --- CORE ARCHITECTURE CONFIGURATION ---
+  
+  // Site: Required for sitemap and canonical URL generation
+  site: "https://www.your-enterprise-domain.com",
+  
+  // Output Mode: 'server' enables SSR/hybrid rendering for Server Islands
+  output: "server",
+  
+  // Adapter: Node.js adapter for standalone SSR deployment
+  adapter: node({
+    mode: "standalone"
+  }),
 
-  /** Active Astro integrations for extended functionality */
+  // Trailing Slash: Normalized to 'always' for consistency
+  trailingSlash: "always",
+
+  // --- INTEGRATIONS ---
+  
   integrations: [
-    /** Svelte component framework support with default extensions */
-    svelte({ extensions: [".svelte"] }),
-
-    /** MDX content processing for markdown with embedded components */
-    mdx(),
-
-    /** XML sitemap generation for search engine optimization */
-    sitemap(),
-
-    /** Partytown integration for offloading third-party scripts to web workers */
-    partytown(),
-
-    /**
-     * Storyblok CMS integration configuration.
-     * Maps Storyblok content blocks to local Astro/Svelte components.
-     *
-     * @property {string} accessToken - API authentication token loaded from environment
-     * @property {Object} components - Storyblok technical names to local component paths
-     */
+    // Svelte Integration: Supports Svelte 5 Runes for interactive islands
+    svelte(),
+    
+    // Storyblok CMS Integration: Handles content fetching and visual bridge
     storyblok({
-      // Use token from environment variables for API authentication
-      accessToken: STORYBLOK_TOKEN,
-
-      // Optional: Configure Storyblok API region (default is 'eu', use 'us' for US spaces)
-      // apiOptions: { region: 'us' },
-
-      /**
-       * Component mapping for Storyblok blocks.
-       * Keys must exactly match Storyblok technical names in the CMS.
-       * Values are paths relative to src/ directory (without file extensions).
-       */
+      accessToken: env.STORYBLOK_TOKEN,
       components: {
-        page: "storyblok/Page", // Top-level page content type component
-        feature: "storyblok/Feature", // Reusable feature/display component (Svelte)
-        grid: "storyblok/Grid", // Layout grid component (Svelte)
-        // Additional Storyblok block mappings should be added here
+        // Register core layout components mapping here
+        // Keys match Storyblok block technical names
+        page: "storyblok/Page",
+        feature: "storyblok/Feature",
+        grid: "storyblok/Grid",
       },
+      bridge: {
+        customParent: "https://app.storyblok.com",
+      }
     }),
   ],
 
-  /** Vite build tool configuration for development and production */
+  // --- BUILD & DEV CONFIGURATION ---
+  
   vite: {
-    /** TailwindCSS Vite plugin for utility-first CSS processing */
-    plugins: [tailwindcss()],
-
-    /** Development server optimization settings */
-    server: {
-      /** File system watching configuration */
-      watch: {
-        // Ignore test output directories to prevent unnecessary dev server reloads
-        // Improves development performance when running Playwright tests
-        ignored: ["**/playwright-report/**", "**/test-results/**"],
-      },
-    },
+    plugins: [
+      // Tailwind v4 is now a Vite plugin, NOT an Astro integration
+      // This enables the zero-config CSS-in-JS engine
+      tailwindcss(),
+    ],
+    logLevel: 'info',
   },
 
-  /** Deployment adapter configuration for Vercel serverless platform */
-  adapter: vercel(),
+  // Dev Toolbar: explicitly enabled for debugging hydration issues
+  devToolbar: {
+    enabled: true,
+  },
 });
