@@ -1,0 +1,74 @@
+---
+// src/components/logic/StoryblokBridge.astro
+/**
+ * @fileoverview Reactive Storyblok Bridge
+ * @description Handles bi-directional communication with the Visual Editor.
+ * Re-initializes on View Transition navigation to maintain connection.
+ */
+---
+<div id="storyblok-bridge-indicator" aria-hidden="true"></div>
+
+<script is:inline>
+  // We use is:inline to ensure this script runs immediately and isn't bundled away
+  
+  function initBridge() {
+    // 1. Check if the Storyblok Bridge script is loaded
+    // Docs: StoryblokBridge can only be used in a browser environment
+    if (!window.StoryblokBridge) {
+      // If the integration hasn't injected it yet, we wait.
+      return; 
+    }
+
+    // 2. Instantiate the Bridge
+    // Docs: Access StoryblokBridge in the global scope 
+    const storyblokInstance = new window.StoryblokBridge({
+      // Docs: preventClicks: true allows normal click behavior inside the editor
+      preventClicks: true, 
+      resolveRelations: [], // Add relations here if your content uses them 
+    });
+
+    if (storyblokInstance) {
+      console.log("🌉 [Storyblok Bridge] Connected");
+
+      // 3. Listen for events
+      // Docs: StoryblokBridge.prototype.on(["published", "change"], callback)
+      // Events: 'published' (story published), 'change' (story saved)
+      storyblokInstance.on(["published", "change"], (event) => {
+        // Docs: The event object contains a 'reload' property
+        if (event.reload || !event.slugChanged) {
+          window.location.reload(); 
+        } else {
+          // If slug changed, reload to handle the new route
+          window.location.reload();
+        }
+      });
+      
+      // Optional: Handle real-time input (keystrokes)
+      // Docs: 'input' event returns the complete, unsaved story
+      storyblokInstance.on("input", (event) => {
+         // console.log("Live update:", event.story);
+      });
+    }
+  }
+
+  // 4. Initialization Logic with Polling
+  // The bridge script is injected asynchronously by the integration.
+  // Polling to ensure window.StoryblokBridge exists before init
+  const checkBridge = setInterval(() => {
+    if (window.StoryblokBridge) {
+      initBridge();
+      clearInterval(checkBridge);
+    }
+  }, 200);
+
+  // 5. Handle Astro View Transitions
+  // Docs: We must re-run logic after client-side navigation
+  // Re-initialize on View Transition navigation
+  document.addEventListener('astro:page-load', () => {
+    // Clear previous interval if navigation happened quickly
+    clearInterval(checkBridge); 
+    if (window.StoryblokBridge) {
+        initBridge();
+    }
+  });
+</script>

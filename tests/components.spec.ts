@@ -1,3 +1,4 @@
+// tests/components.spec.ts
 import { test, expect } from "@playwright/test";
 
 test.describe("Component Architecture", () => {
@@ -5,7 +6,7 @@ test.describe("Component Architecture", () => {
     await page.goto("/");
   });
 
-  test("BaseLayout includes Skip to Content link for accessibility", async ({ page }) => {
+  test("Layout includes Skip to Content link for accessibility", async ({ page }) => {
     const skipLink = page.locator("#skip-nav");
     await expect(skipLink).toBeAttached();
     await expect(skipLink).toHaveAttribute("href", "#main-content");
@@ -13,7 +14,7 @@ test.describe("Component Architecture", () => {
     await expect(skipLink).toHaveClass(/sr-only/);
   });
 
-  test("BaseLayout renders SEO metadata", async ({ page }) => {
+  test("Layout renders SEO metadata", async ({ page }) => {
     // Check if JSON-LD schema is injected
     const schema = page.locator('script[type="application/ld+json"]');
     await expect(schema).toBeAttached();

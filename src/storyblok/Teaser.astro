@@ -1,0 +1,9 @@
+---
+// src/storyblok/Teaser.astro
+import { storyblokEditable } from '@storyblok/astro';
+const { blok } = Astro.props;
+---
+
+<section class="teaser py-20 text-center" {...storyblokEditable(blok)}>
+    <h2 class="text-4xl font-bold">{blok.headline}</h2>
+  </section>

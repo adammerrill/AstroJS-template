@@ -18,6 +18,7 @@ import { defineConfig } from "astro/config";
 import svelte from "@astrojs/svelte";
 import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
+import mkcert from "vite-plugin-mkcert";
 import sitemap from "@astrojs/sitemap";
 import { storyblok } from "@storyblok/astro";
 import { loadEnv } from "vite";
@@ -56,15 +57,17 @@ export default defineConfig({
     
     // Storyblok CMS Integration: Handles content fetching and visual bridge
     storyblok({
-      accessToken: env.STORYBLOK_TOKEN,
+      accessToken: env.STORYBLOK_DELIVERY_API_TOKEN,
       components: {
         // Register core layout components mapping here
         page: "storyblok/Page",
         feature: "storyblok/Feature",
         grid: "storyblok/Grid",
+        teaser: "storyblok/Teaser",
       },
       bridge: {
-        customParent: "https://app.storyblok.com",
+        customParent: "https://app.storyblok.com", 
+        preventClicks: true, 
       }
     }),
   ],
@@ -75,8 +78,12 @@ export default defineConfig({
     plugins: [
       // Tailwind v4 is now a Vite plugin
       tailwindcss(),
+      mkcert(), // Local HTTPS for development
     ],
     logLevel: 'info',
+    server: {
+      https: true, // Enable HTTPS in dev server
+    },
   },
 
   // Dev Toolbar: explicitly enabled for debugging hydration issues

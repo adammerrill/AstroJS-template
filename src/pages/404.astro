@@ -1,12 +1,12 @@
 ---
 // src/pages/404.astro
-import BaseLayout from "../layouts/BaseLayout.astro";
+import Layout from "../layouts/Layout.astro";
 
 // Set the response status code for proper SEO indexing
 Astro.response.status = 404;
 ---
 
-<BaseLayout 
+<Layout 
   title="404: Page Not Found" 
   description="The page you requested does not exist."
 >
@@ -22,4 +22,4 @@ Astro.response.status = 404;
       Go Home
     </a>
   </section>
-</BaseLayout>
+</Layout>

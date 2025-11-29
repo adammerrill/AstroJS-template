@@ -38,7 +38,12 @@
     // Type Definitions: Explicitly includes types for Svelte components and Node.js runtime
     // svelte: Enables TypeScript support in .svelte files
     // node: Provides Node.js built-in module types
-    "types": ["svelte", "node"]
+    "types": [
+      "svelte", 
+      "node", 
+      "@testing-library/jest-dom", 
+      "vitest/globals"
+    ]
   },
 
   // Include Patterns: Defines files subject to type checking

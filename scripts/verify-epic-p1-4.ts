@@ -18,7 +18,7 @@ const checks = [
     desc: "SEO Head System"
   },
   {
-    path: 'src/layouts/BaseLayout.astro',
+    path: 'src/layouts/Layout.astro',
     patterns: [
       /import.*SEOHead.*from/,                  // Must use the SEO component
       /id="skip-nav"/,                          // Accessibility requirement
@@ -27,7 +27,7 @@ const checks = [
     desc: "Base Layout Shell"
   },
   {
-    path: 'src/components/ui/Button.svelte',
+    path: 'src/components/ui/button/Button.svelte',
     patterns: [
       /\$props/,                                // Svelte 5 Runes syntax check (supports generics)
       /onclick/                                 // Native event handling (not on:click)

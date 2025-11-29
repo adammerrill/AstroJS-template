@@ -1,4 +1,5 @@
 ---
+// src/pages/[...slug].astro
 /**
  * @fileoverview Universal Storyblok Entry Point
  * @description Handles all dynamic content routes.
@@ -6,8 +7,8 @@
  * Implements the Storyblok Bridge for real-time visual editing.
  */
 
- import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+import Layout from "../layouts/Layout.astro";
 import { getSafeStory } from "../lib/storyblok";
 import type { SbBlokData } from "@storyblok/astro";
 
@@ -39,6 +40,6 @@ const contentTitle = story.content?.title as string | undefined;
 const pageTitle = contentTitle ?? story.name ?? "Astro Enterprise";
 ---
 
-<BaseLayout title={pageTitle}>
+<Layout title={pageTitle}>
   <StoryblokComponent blok={story.content} />
-</BaseLayout>
+</Layout>
