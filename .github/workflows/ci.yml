@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      
+
       # Standardizing on v4 based on your e2e.yml preference
       - name: Setup PNPM
         uses: pnpm/action-setup@v4

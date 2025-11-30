@@ -4,49 +4,49 @@
  * Checks for SEO integration, Layout structure, and Svelte 5 Runes syntax.
  */
 
-import fs from 'fs';
+import fs from "fs";
 
 console.log("🔍 Starting Epic 4 Verification...");
 
 const checks = [
   {
-    path: 'src/components/system/SEOHead.astro',
+    path: "src/components/system/SEOHead.astro",
     patterns: [
       /import.*Schema.*from.*astro-seo-schema/, // Checks for Schema.org integration
-      /<title>\{title\}<\/title>/               // Checks for dynamic title
+      /<title>\{title\}<\/title>/, // Checks for dynamic title
     ],
-    desc: "SEO Head System"
+    desc: "SEO Head System",
   },
   {
     path: 'src/layouts/Layout.astro',
     patterns: [
-      /import.*SEOHead.*from/,                  // Must use the SEO component
-      /id="skip-nav"/,                          // Accessibility requirement
-      /<slot \/>/                               // Must render children
+      /import.*SEOHead.*from/, // Must use the SEO component
+      /id="skip-nav"/, // Accessibility requirement
+      /<slot \/>/, // Must render children
     ],
-    desc: "Base Layout Shell"
+    desc: "Base Layout Shell",
   },
   {
-    path: 'src/components/ui/button/Button.svelte',
+    path: 'src/components/ui/Button.svelte',
     patterns: [
-      /\$props/,                                // Svelte 5 Runes syntax check (supports generics)
-      /onclick/                                 // Native event handling (not on:click)
+      /\$props/, // Svelte 5 Runes syntax check (supports generics)
+      /onclick/, // Native event handling (not on:click)
     ],
-    desc: "Svelte 5 Button Primitive"
-  }
+    desc: "Svelte 5 Button Primitive",
+  },
 ];
 
 let failed = false;
 
-checks.forEach(check => {
+checks.forEach((check) => {
   if (!fs.existsSync(check.path)) {
     console.error(`❌ Missing file: ${check.path}`);
     failed = true;
     return;
   }
 
-  const content = fs.readFileSync(check.path, 'utf-8');
-  const missingPattern = check.patterns.find(p => !p.test(content));
+  const content = fs.readFileSync(check.path, "utf-8");
+  const missingPattern = check.patterns.find((p) => !p.test(content));
 
   if (missingPattern) {
     console.error(`❌ ${check.desc} failed pattern check: ${missingPattern}`);

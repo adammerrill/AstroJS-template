@@ -10,10 +10,10 @@ test.describe("Visual Regression", () => {
   test("Homepage visual snapshot", async ({ page }) => {
     await page.goto("/");
     await page.waitForLoadState("networkidle");
-    
+
     await expect(page).toHaveScreenshot("homepage-desktop.png", {
       maxDiffPixelRatio: 0.02,
-      fullPage: true
+      fullPage: true,
     });
   });
 
@@ -24,7 +24,7 @@ test.describe("Visual Regression", () => {
 
     // Use specific ID to avoid ambiguity with debug toolbars
     const header = page.locator("#main-header");
-    
+
     await expect(header).toBeVisible();
     await expect(header).toHaveScreenshot("header-mobile.png");
   });

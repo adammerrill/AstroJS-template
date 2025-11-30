@@ -114,7 +114,12 @@ export async function run(): Promise<SpawnResult> {
       process.exit(1);
     });
 
-    await waitOn({ resources: ["http://127.0.0.1:4321"], timeout: 120_000 });
+    await waitOn({ 
+      resources: ["https://127.0.0.1:4321"], 
+      timeout: 120_000,
+      strictSSL: false // This is crucial for mkcert
+    });
+    
     console.log("Server ready. Starting Playwright tests...");
 
     const testResult = await spawnAsync("pnpm", [
@@ -122,7 +127,9 @@ export async function run(): Promise<SpawnResult> {
       "--",
       "playwright",
       "test",
-    ]);
+    ], {
+      env: { ...process.env, SKIP_PW_SERVER: "true" }
+    });
 
     // Graceful shutdown
     if (serverChild && !serverChild.killed) {

@@ -4,13 +4,13 @@
  * Updated to support strict TypeScript patterns (unknown type, generics).
  */
 
-import fs from 'fs';
+import fs from "fs";
 
 console.log("🔍 Starting Epic 2 Verification...");
 
 const checks = [
   {
-    path: 'src/lib/storyblok.ts',
+    path: "src/lib/storyblok.ts",
     // Regex explanation:
     // 1. matches "getSafeStory" function definition
     // 2. matches "try {" block
@@ -18,40 +18,37 @@ const checks = [
     patterns: [
       /export\s+async\s+function\s+getSafeStory/,
       /try\s*\{/,
-      /catch\s*\(\s*error(?::\s*(?:any|unknown))?\s*\)/
+      /catch\s*\(\s*error(?::\s*(?:any|unknown))?\s*\)/,
     ],
-    desc: "Safe API Client"
+    desc: "Safe API Client",
   },
   {
-    path: 'src/components/fallbacks/FallbackComponent.astro',
-    patterns: [
-      /isDev\s*\?/,
-      /Missing Component/
-    ],
-    desc: "Fallback Component"
+    path: "src/components/fallbacks/FallbackComponent.astro",
+    patterns: [/isDev\s*\?/, /Missing Component/],
+    desc: "Fallback Component",
   },
   {
-    path: 'src/pages/[...slug].astro',
+    path: "src/pages/[...slug].astro",
     patterns: [
       /getSafeStory(?:<[^>]+>)?\(/, // Matches getSafeStory( or getSafeStory<Type>(
-      /Astro\.redirect\(\s*["']\/404["']\s*\)/
+      /Astro\.redirect\(\s*["']\/404["']\s*\)/,
     ],
-    desc: "Resilient Routing"
-  }
+    desc: "Resilient Routing",
+  },
 ];
 
 let failed = false;
 
-checks.forEach(check => {
+checks.forEach((check) => {
   if (!fs.existsSync(check.path)) {
     console.error(`❌ Missing file: ${check.path}`);
     failed = true;
     return;
   }
 
-  const content = fs.readFileSync(check.path, 'utf-8');
-  
-  check.patterns.forEach(pattern => {
+  const content = fs.readFileSync(check.path, "utf-8");
+
+  check.patterns.forEach((pattern) => {
     if (!pattern.test(content)) {
       console.error(`❌ ${check.desc} failed pattern match: ${pattern}`);
       failed = true;

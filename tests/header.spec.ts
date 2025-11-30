@@ -1,7 +1,6 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Header Component - Production Validation", () => {
-  test.use({ baseURL: "http://localhost:4321" });
 
   const viewports = {
     wide: { width: 1280, height: 900 },

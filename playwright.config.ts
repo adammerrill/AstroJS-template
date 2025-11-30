@@ -36,7 +36,8 @@ export default defineConfig({
     headless: true,
     viewport: { width: 1280, height: 800 },
     actionTimeout: 0,
-    baseURL: "http://127.0.0.1:4321",
+    baseURL: "https://127.0.0.1:4321",
+    ignoreHTTPSErrors: true,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
@@ -53,10 +54,11 @@ export default defineConfig({
   // ====================
   // Dev Server Orchestration
   // ====================
-  webServer: {
+  webServer: process.env.SKIP_PW_SERVER ? undefined : {
     command: "pnpm dev -- --host 127.0.0.1 --port 4321",
-    url: "http://127.0.0.1:4321",
+    url: "https://127.0.0.1:4321",
     timeout: 120_000,
-    reuseExistingServer: process.env.CI ? false : true,
+    reuseExistingServer: !process.env.CI,
+    ignoreHTTPSErrors: true,
   },
 });

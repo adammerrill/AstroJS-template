@@ -7,47 +7,47 @@
  * - Updated regex to accept `json:` property in route fulfillment.
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 console.log("🔍 Starting Epic 6 Verification...");
 
 const checks = [
   {
-    path: 'tests/fixtures/storyblok-home.json',
+    path: "tests/fixtures/storyblok-home.json",
     patterns: [/"component": "page"/, /"uuid":/],
-    desc: "Storyblok Mock Fixture"
+    desc: "Storyblok Mock Fixture",
   },
   {
-    path: 'tests/e2e/home-mock.spec.ts',
+    path: "tests/e2e/home-mock.spec.ts",
     patterns: [
-      /page\.route/,           // Checks for network interception
-      /json:\s*homeFixture/    // Checks for fixture usage via json prop
+      /page\.route/, // Checks for network interception
+      /json:\s*homeFixture/, // Checks for fixture usage via json prop
     ],
-    desc: "Deterministic Mock Test"
+    desc: "Deterministic Mock Test",
   },
   {
-    path: 'tests/e2e/visual.spec.ts',
+    path: "tests/e2e/visual.spec.ts",
     patterns: [
-      /expect\(page\)\.toHaveScreenshot\(/ // Checks for visual regression (allows args)
+      /expect\(page\)\.toHaveScreenshot\(/, // Checks for visual regression (allows args)
     ],
-    desc: "Visual Regression Suite"
-  }
+    desc: "Visual Regression Suite",
+  },
 ];
 
 let failed = false;
 
-checks.forEach(check => {
+checks.forEach((check) => {
   const filePath = path.resolve(check.path);
-  
+
   if (!fs.existsSync(filePath)) {
     console.error(`❌ Missing file: ${check.path}`);
     failed = true;
     return;
   }
 
-  const content = fs.readFileSync(filePath, 'utf-8');
-  const missingPattern = check.patterns.find(p => !p.test(content));
+  const content = fs.readFileSync(filePath, "utf-8");
+  const missingPattern = check.patterns.find((p) => !p.test(content));
 
   if (missingPattern) {
     console.error(`❌ ${check.desc} failed pattern check: ${missingPattern}`);

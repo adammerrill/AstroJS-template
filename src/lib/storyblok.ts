@@ -8,7 +8,12 @@
  * @date 2025-11-24
  */
 
-import { useStoryblokApi, type ISbStoriesParams, type ISbStoryData, type SbBlokData } from "@storyblok/astro";
+import {
+  useStoryblokApi,
+  type ISbStoriesParams,
+  type ISbStoryData,
+  type SbBlokData,
+} from "@storyblok/astro";
 
 /**
  * Defines the standardized response shape for safe fetch operations.
@@ -38,18 +43,18 @@ interface StoryblokError {
  * Safely fetches a single story by its slug.
  * * @description
  * Wraps the Storyblok API call in a try/catch block to ensure the application
- * never crashes due to upstream API failures. Automatically determines the 
+ * never crashes due to upstream API failures. Automatically determines the
  * correct API version ('draft' vs 'published') based on the environment.
  * * @param {string} slug - The full path slug of the story (e.g., "home", "blog/my-post").
  * @param {ISbStoriesParams} [params] - Optional query parameters for the API.
  * @returns {Promise<SafeStoryResponse>} A normalized response object containing data or error info.
  */
 export async function getSafeStory<T = SbBlokData>(
-  slug: string, 
-  params?: ISbStoriesParams
+  slug: string,
+  params?: ISbStoriesParams,
 ): Promise<SafeStoryResponse<T>> {
   const storyblokApi = useStoryblokApi();
-  
+
   // Determine version based on environment
   // DEV mode = "draft" to see latest changes
   // PROD mode = "published" for optimized, public content
@@ -64,9 +69,8 @@ export async function getSafeStory<T = SbBlokData>(
     return {
       story: data.story,
       error: null,
-      status: 200
+      status: 200,
     };
-
   } catch (error: unknown) {
     console.error(`[Storyblok] Failed to fetch story: ${slug}`, error);
 
@@ -80,10 +84,10 @@ export async function getSafeStory<T = SbBlokData>(
     }
 
     // Return generic error for other failures (500s, network issues)
-    return { 
-      story: null, 
-      error: error instanceof Error ? error : new Error(String(error)), 
-      status
+    return {
+      story: null,
+      error: error instanceof Error ? error : new Error(String(error)),
+      status,
     };
   }
 }

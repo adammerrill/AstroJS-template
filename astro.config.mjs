@@ -24,37 +24,37 @@ import { storyblok } from "@storyblok/astro";
 import { loadEnv } from "vite";
 
 // Load environment variables to access STORYBLOK_TOKEN
-const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), "");
+const env = loadEnv(process.env.NODE_ENV || "development", process.cwd(), "");
 
 /**
  * @type {import('astro/config').AstroUserConfig}
  */
 export default defineConfig({
   // --- CORE ARCHITECTURE CONFIGURATION ---
-  
+
   // Site: Required for sitemap and canonical URL generation
   site: "https://astro-js-template.vercel.app",
-  
+
   // Output Mode: 'server' enables SSR/hybrid rendering for Server Islands
   output: "server",
-  
+
   // Adapter: Node.js adapter for standalone SSR deployment
   adapter: vercel({
-    webAnalytics: { enabled: true }
+    webAnalytics: { enabled: true },
   }),
 
   // Trailing Slash: Normalized to 'always' for consistency
   trailingSlash: "always",
 
   // --- INTEGRATIONS ---
-  
+
   integrations: [
     // Svelte Integration: Supports Svelte 5 Runes for interactive islands
     svelte(),
-    
+
     // Sitemap: Auto-generates sitemap.xml and sitemap-index.xml at build time
     sitemap(),
-    
+
     // Storyblok CMS Integration: Handles content fetching and visual bridge
     storyblok({
       accessToken: env.STORYBLOK_DELIVERY_API_TOKEN,
@@ -66,14 +66,13 @@ export default defineConfig({
         teaser: "storyblok/Teaser",
       },
       bridge: {
-        customParent: "https://app.storyblok.com", 
-        preventClicks: true, 
+        customParent: "https://app.storyblok.com",
       }
     }),
   ],
 
   // --- BUILD & DEV CONFIGURATION ---
-  
+
   vite: {
     plugins: [
       // Tailwind v4 is now a Vite plugin
@@ -81,9 +80,6 @@ export default defineConfig({
       mkcert(), // Local HTTPS for development
     ],
     logLevel: 'info',
-    server: {
-      https: true, // Enable HTTPS in dev server
-    },
   },
 
   // Dev Toolbar: explicitly enabled for debugging hydration issues

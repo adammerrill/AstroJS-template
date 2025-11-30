@@ -13,17 +13,21 @@ This document provides a phased approach to completing all placeholder content i
 ### Task 1.1: GitHub Actions CI Badge
 
 **Placeholder Location**: Line 9
+
 ```markdown
 ![Build Status](https://img.shields.io/github/actions/workflow/status/adammerrill/AstroJS-template/ci.yml?branch=main)
+
 <!-- TODO: Add actual CI workflow badge once GitHub Actions is configured -->
 ```
 
 **Required Information**:
+
 - GitHub Actions workflow file name
 - Repository owner and name
 - Branch to track (main/develop)
 
 **Implementation Steps**:
+
 1. Create `.github/workflows/ci.yml` file
 2. Configure workflow with:
    ```yaml
@@ -55,6 +59,7 @@ This document provides a phased approach to completing all placeholder content i
 ### Task 1.2: Performance Metrics & Lighthouse Scores
 
 **Placeholder Location**: Lines 35-41
+
 ```markdown
 ## 📊 Performance Metrics
 
@@ -64,6 +69,7 @@ This document provides a phased approach to completing all placeholder content i
 ```
 
 **Required Information**:
+
 - Lighthouse audit results (Performance, Accessibility, Best Practices, SEO)
 - Core Web Vitals metrics (LCP, FID, CLS)
 - Production bundle sizes (JavaScript, CSS, total)
@@ -72,6 +78,7 @@ This document provides a phased approach to completing all placeholder content i
 **Implementation Steps**:
 
 **Step 1: Run Lighthouse Audit**
+
 ```bash
 # Install Lighthouse CLI
 npm install -g lighthouse
@@ -83,21 +90,24 @@ lighthouse http://localhost:4321 --output=html --output-path=./lighthouse-report
 ```
 
 **Step 2: Capture Scores**
+
 - Open `lighthouse-report.html`
 - Take screenshot of score summary (top section)
 - Record individual scores:
-  - Performance: __/100
-  - Accessibility: __/100
-  - Best Practices: __/100
-  - SEO: __/100
+  - Performance: \_\_/100
+  - Accessibility: \_\_/100
+  - Best Practices: \_\_/100
+  - SEO: \_\_/100
 
 **Step 3: Extract Core Web Vitals**
 From the Lighthouse report, document:
-- **LCP (Largest Contentful Paint)**: __ seconds
-- **TBT (Total Blocking Time)**: __ ms
-- **CLS (Cumulative Layout Shift)**: __
+
+- **LCP (Largest Contentful Paint)**: \_\_ seconds
+- **TBT (Total Blocking Time)**: \_\_ ms
+- **CLS (Cumulative Layout Shift)**: \_\_
 
 **Step 4: Analyze Bundle Size**
+
 ```bash
 # Build for production
 pnpm build
@@ -113,10 +123,11 @@ du -sh dist/_astro/
 ```
 
 Record:
-- Total dist size: __ MB
-- JavaScript bundle: __ KB
-- CSS bundle: __ KB
-- Images/assets: __ MB
+
+- Total dist size: \_\_ MB
+- JavaScript bundle: \_\_ KB
+- CSS bundle: \_\_ KB
+- Images/assets: \_\_ MB
 
 **Step 5: Create Performance Section**
 Save screenshot to `public/docs/lighthouse-scores.png` and update README:
@@ -128,20 +139,20 @@ Save screenshot to `public/docs/lighthouse-scores.png` and update README:
 
 ### Current Benchmarks (as of [DATE])
 
-| Metric | Score | Status |
-|--------|-------|--------|
-| Performance | 95/100 | ✅ Excellent |
-| Accessibility | 98/100 | ✅ Excellent |
-| Best Practices | 100/100 | ✅ Perfect |
-| SEO | 100/100 | ✅ Perfect |
+| Metric         | Score   | Status       |
+| -------------- | ------- | ------------ |
+| Performance    | 95/100  | ✅ Excellent |
+| Accessibility  | 98/100  | ✅ Excellent |
+| Best Practices | 100/100 | ✅ Perfect   |
+| SEO            | 100/100 | ✅ Perfect   |
 
 ### Core Web Vitals
 
-| Metric | Value | Target | Status |
-|--------|-------|--------|--------|
-| LCP (Largest Contentful Paint) | 1.1s | < 2.5s | ✅ Good |
-| TBT (Total Blocking Time) | 120ms | < 300ms | ✅ Good |
-| CLS (Cumulative Layout Shift) | 0.02 | < 0.1 | ✅ Good |
+| Metric                         | Value | Target  | Status  |
+| ------------------------------ | ----- | ------- | ------- |
+| LCP (Largest Contentful Paint) | 1.1s  | < 2.5s  | ✅ Good |
+| TBT (Total Blocking Time)      | 120ms | < 300ms | ✅ Good |
+| CLS (Cumulative Layout Shift)  | 0.02  | < 0.1   | ✅ Good |
 
 ### Bundle Analysis
 
@@ -150,7 +161,7 @@ Save screenshot to `public/docs/lighthouse-scores.png` and update README:
 - **CSS**: 12KB (gzipped)
 - **Initial Page Load**: < 1.2s on 3G
 
-*Benchmarks measured on [Vercel production deployment / local build] using Lighthouse 11.x*
+_Benchmarks measured on [Vercel production deployment / local build] using Lighthouse 11.x_
 ```
 
 **Validation**: Run Lighthouse again after any major changes to verify consistency.
@@ -160,6 +171,7 @@ Save screenshot to `public/docs/lighthouse-scores.png` and update README:
 ### Task 1.3: Test Coverage Statistics
 
 **Placeholder Location**: Lines 315-320
+
 ```markdown
 ### Test Coverage
 
@@ -168,6 +180,7 @@ Save screenshot to `public/docs/lighthouse-scores.png` and update README:
 ```
 
 **Required Information**:
+
 - Line coverage percentage
 - Branch coverage percentage
 - Function coverage percentage
@@ -177,30 +190,30 @@ Save screenshot to `public/docs/lighthouse-scores.png` and update README:
 **Implementation Steps**:
 
 **Step 1: Install Coverage Tools**
+
 ```bash
 pnpm add -D @playwright/test nyc c8
 ```
 
 **Step 2: Configure Playwright Coverage**
 Update `playwright.config.ts`:
+
 ```typescript
-import { defineConfig } from '@playwright/test';
+import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: "./tests",
   use: {
-    trace: 'on-first-retry',
+    trace: "on-first-retry",
     // Enable coverage collection
-    screenshot: 'only-on-failure',
+    screenshot: "only-on-failure",
   },
-  reporter: [
-    ['html'],
-    ['json', { outputFile: 'test-results/results.json' }],
-  ],
+  reporter: [["html"], ["json", { outputFile: "test-results/results.json" }]],
 });
 ```
 
 **Step 3: Run Tests with Coverage**
+
 ```bash
 # Run tests
 pnpm test
@@ -211,21 +224,23 @@ pnpm c8 report --reporter=html --reporter=text
 
 **Step 4: Document Coverage**
 Open `coverage/index.html` and record:
-- Statements: ___%
-- Branches: ___%
-- Functions: ___%
-- Lines: ___%
+
+- Statements: \_\_\_%
+- Branches: \_\_\_%
+- Functions: \_\_\_%
+- Lines: \_\_\_%
 
 **Step 5: Update README**
+
 ```markdown
 ### Test Coverage
 
-| Type | Coverage | Target | Status |
-|------|----------|--------|--------|
-| Statements | 85% | > 80% | ✅ |
-| Branches | 78% | > 75% | ✅ |
-| Functions | 82% | > 80% | ✅ |
-| Lines | 86% | > 80% | ✅ |
+| Type       | Coverage | Target | Status |
+| ---------- | -------- | ------ | ------ |
+| Statements | 85%      | > 80%  | ✅     |
+| Branches   | 78%      | > 75%  | ✅     |
+| Functions  | 82%      | > 80%  | ✅     |
+| Lines      | 86%      | > 80%  | ✅     |
 
 ### Coverage by Area
 
@@ -241,7 +256,7 @@ Open `coverage/index.html` and record:
 - **Integration Tests**: 12 tests for API/CMS integration
 - **Total Test Execution Time**: ~45 seconds
 
-*Run `pnpm test` to generate the latest coverage report in `coverage/index.html`*
+_Run `pnpm test` to generate the latest coverage report in `coverage/index.html`_
 ```
 
 **Validation**: Coverage reports should be reproducible and consistent across environments.
@@ -255,12 +270,15 @@ Open `coverage/index.html` and record:
 ### Task 2.1: Testing Guide
 
 **Placeholder Location**: Line 356
+
 ```markdown
 See our [Testing Guide](./docs/TESTING.md) for detailed documentation.
+
 <!-- TODO: Create comprehensive testing guide -->
 ```
 
 **Required Information**:
+
 - Testing philosophy and approach
 - How to write new tests
 - Test organization patterns
@@ -271,6 +289,7 @@ See our [Testing Guide](./docs/TESTING.md) for detailed documentation.
 **Implementation Steps**:
 
 **Step 1: Create Documentation Structure**
+
 ```bash
 mkdir -p docs
 touch docs/TESTING.md
@@ -278,6 +297,7 @@ touch docs/TESTING.md
 
 **Step 2: Gather Testing Information**
 Document the following from your current setup:
+
 - Playwright configuration options
 - Test file naming conventions
 - Fixture usage patterns
@@ -292,47 +312,64 @@ Structure the guide with these sections:
 # Testing Guide
 
 ## Overview
+
 [Brief description of testing philosophy]
 
 ## Getting Started
+
 ### Running Tests
+
 [Commands and options]
 
 ### Writing Your First Test
+
 [Step-by-step example]
 
 ## Test Organization
+
 ### File Structure
+
 [Explain tests/ directory layout]
 
 ### Naming Conventions
+
 [Test file naming patterns]
 
 ## Testing Patterns
+
 ### Page Object Model
+
 [Examples if applicable]
 
 ### Component Testing
+
 [How to test Svelte components]
 
 ### API/Integration Testing
+
 [Storyblok integration tests]
 
 ## Debugging
+
 ### Debug Mode
+
 [How to use Playwright debug features]
 
 ### Common Issues
+
 [Troubleshooting section]
 
 ## CI Integration
+
 [How tests run in GitHub Actions]
 
 ## Best Practices
+
 [List of testing best practices]
 ```
 
 **Step 4: Extract Examples from Existing Tests**
+
 ```bash
 # Find all test files
 find tests/ -name "*.spec.ts"
@@ -352,11 +389,13 @@ Remove TODO comment and verify link works.
 ### Task 2.2: Architecture Decision Records (ADR)
 
 **Placeholder Location**: Line 587
+
 ```markdown
 - [Architecture Decision Records](./docs/ADR.md) <!-- TODO: Create ADR documentation -->
 ```
 
 **Required Information**:
+
 - Why Astro was chosen
 - Why Svelte 5 over React/Vue
 - Why Tailwind v4
@@ -368,12 +407,14 @@ Remove TODO comment and verify link works.
 **Implementation Steps**:
 
 **Step 1: Create ADR Template**
+
 ```bash
 touch docs/ADR.md
 ```
 
 **Step 2: Document Each Decision**
 For each architectural choice, document:
+
 1. **Context**: What problem were we solving?
 2. **Decision**: What did we choose?
 3. **Rationale**: Why did we choose it?
@@ -381,6 +422,7 @@ For each architectural choice, document:
 5. **Alternatives Considered**: What else did we evaluate?
 
 **Step 3: Create ADR.md Structure**
+
 ```markdown
 # Architecture Decision Records
 
@@ -388,13 +430,14 @@ For each architectural choice, document:
 
 **Date**: 2025-01-15
 
-**Context**: 
+**Context**:
 Needed a framework optimized for content-heavy sites with excellent performance...
 
-**Decision**: 
+**Decision**:
 Chose Astro 5 as the primary web framework.
 
 **Rationale**:
+
 - Zero JavaScript by default
 - Island architecture for selective hydration
 - Framework-agnostic (can use Svelte, React, Vue)
@@ -402,12 +445,14 @@ Chose Astro 5 as the primary web framework.
 - Native TypeScript support
 
 **Consequences**:
+
 - (+) Superior performance metrics
 - (+) Smaller bundle sizes
 - (-) Learning curve for team
 - (-) Smaller ecosystem compared to Next.js
 
 **Alternatives Considered**:
+
 - Next.js 14: More mature, but heavier runtime
 - SvelteKit: Great, but less flexible for mixed frameworks
 - Remix: Good SSR, but more complex routing
@@ -415,11 +460,13 @@ Chose Astro 5 as the primary web framework.
 ---
 
 ## ADR-002: UI Framework Selection (Svelte 5)
+
 [Continue pattern...]
 ```
 
 **Step 4: Interview Decision Makers**
 If you weren't involved in initial decisions:
+
 - Review commit history for initial framework choices
 - Check project planning documents
 - Interview team lead or architect
@@ -427,6 +474,7 @@ If you weren't involved in initial decisions:
 
 **Step 5: Keep ADRs Updated**
 Create a process for adding new ADRs:
+
 ```markdown
 ## How to Add New ADRs
 
@@ -444,11 +492,13 @@ Create a process for adding new ADRs:
 ### Task 2.3: Component Documentation
 
 **Placeholder Location**: Line 588
+
 ```markdown
 - [Component Documentation](./docs/COMPONENTS.md) <!-- TODO: Create component docs -->
 ```
 
 **Required Information**:
+
 - List of all UI components
 - Component props and types
 - Usage examples
@@ -459,6 +509,7 @@ Create a process for adding new ADRs:
 **Implementation Steps**:
 
 **Step 1: Inventory Components**
+
 ```bash
 # List all components
 find src/components -name "*.astro" -o -name "*.svelte"
@@ -466,6 +517,7 @@ find src/storyblok -name "*.svelte"
 ```
 
 Create a spreadsheet or document listing:
+
 - Component name
 - File location
 - Purpose
@@ -476,33 +528,39 @@ Create a spreadsheet or document listing:
 
 Create `docs/COMPONENTS.md`:
 
-```markdown
+````markdown
 # Component Documentation
 
 ## Overview
+
 This document catalogs all reusable components in the application.
 
 ## Component Categories
 
 ### UI Components (`src/components/ui/`)
+
 Shadcn-based primitive components.
 
 #### Button
+
 **Location**: `src/components/ui/Button.svelte`
 
 **Purpose**: Primary interactive element for user actions.
 
 **Props**:
+
 ```typescript
 interface ButtonProps {
-  variant?: 'default' | 'destructive' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: "default" | "destructive" | "outline" | "ghost";
+  size?: "sm" | "md" | "lg";
   disabled?: boolean;
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
 }
 ```
+````
 
 **Usage**:
+
 ```svelte
 <Button variant="default" size="md" on:click={handleClick}>
   Click Me
@@ -514,7 +572,8 @@ interface ButtonProps {
 ---
 
 [Continue for each component...]
-```
+
+````
 
 **Step 3: Extract Prop Types**
 ```bash
@@ -523,24 +582,26 @@ interface ButtonProps {
 
 # Example extraction script
 grep -r "interface.*Props" src/components/
-```
+````
 
 **Step 4: Create Usage Examples**
 For each component:
+
 1. Copy from actual usage in pages
 2. Create minimal working example
 3. Show different variants/props
 4. Include accessibility considerations
 
 **Step 5: Document Storyblok Mappings**
-```markdown
+
+````markdown
 ## Storyblok Component Mapping
 
-| Storyblok Block | Svelte Component | Location |
-|----------------|------------------|----------|
-| `hero_section` | `HeroSection.svelte` | `src/storyblok/` |
-| `feature_grid` | `FeatureGrid.svelte` | `src/storyblok/` |
-| `cta_banner` | `CtaBanner.svelte` | `src/storyblok/` |
+| Storyblok Block | Svelte Component     | Location         |
+| --------------- | -------------------- | ---------------- |
+| `hero_section`  | `HeroSection.svelte` | `src/storyblok/` |
+| `feature_grid`  | `FeatureGrid.svelte` | `src/storyblok/` |
+| `cta_banner`    | `CtaBanner.svelte`   | `src/storyblok/` |
 
 ### Creating New Mappings
 
@@ -550,18 +611,21 @@ For each component:
    ```javascript
    storyblok({
      components: {
-       hero_section: 'storyblok/HeroSection',
-     }
-   })
+       hero_section: "storyblok/HeroSection",
+     },
+   });
    ```
-```
+````
+
+````
 
 **Step 6: Add Component Screenshots**
 ```bash
 mkdir -p docs/assets/components
-```
+````
 
 For visual components, capture screenshots:
+
 ```bash
 # Use Playwright to capture component screenshots
 # Or manually screenshot from Storybook/dev server
@@ -574,11 +638,13 @@ For visual components, capture screenshots:
 ### Task 2.4: API Documentation
 
 **Placeholder Location**: Line 589
+
 ```markdown
 - [API Documentation](./docs/API.md) <!-- TODO: Create API docs -->
 ```
 
 **Required Information**:
+
 - Storyblok API endpoints used
 - Custom API routes (if any)
 - Environment variables required
@@ -589,6 +655,7 @@ For visual components, capture screenshots:
 **Implementation Steps**:
 
 **Step 1: Audit API Usage**
+
 ```bash
 # Find all API calls in codebase
 grep -r "fetch(" src/
@@ -597,6 +664,7 @@ grep -r "api.storyblok.com" src/
 ```
 
 Document each API interaction:
+
 - Endpoint URL
 - HTTP method
 - Required parameters
@@ -604,29 +672,35 @@ Document each API interaction:
 - Error responses
 
 **Step 2: Create API.md Structure**
-```markdown
+
+````markdown
 # API Documentation
 
 ## Storyblok API Integration
 
 ### Authentication
+
 All requests require the `STORYBLOK_TOKEN` environment variable.
 
 **Token Types**:
+
 - **Preview Token**: Used for draft content in development
 - **Public Token**: Used for published content in production
 
 ### Base Configuration
+
 ```typescript
 const storyblokApi = useStoryblokApi({
   accessToken: import.meta.env.STORYBLOK_TOKEN,
   use: [apiPlugin],
 });
 ```
+````
 
 ### Endpoints Used
 
 #### 1. Get Story by Slug
+
 **Endpoint**: `GET /v2/cdn/stories/{slug}`
 
 **Purpose**: Fetch a single story/page by its slug.
@@ -639,13 +713,15 @@ const storyblokApi = useStoryblokApi({
 | `cv` | timestamp | No | Cache version |
 
 **Example Request**:
+
 ```typescript
 const story = await storyblokApi.get(`cdn/stories/${slug}`, {
-  version: 'draft',
+  version: "draft",
 });
 ```
 
 **Response**:
+
 ```json
 {
   "story": {
@@ -659,6 +735,7 @@ const story = await storyblokApi.get(`cdn/stories/${slug}`, {
 ```
 
 **Error Responses**:
+
 - `404`: Story not found
 - `401`: Invalid token
 - `429`: Rate limit exceeded
@@ -666,7 +743,8 @@ const story = await storyblokApi.get(`cdn/stories/${slug}`, {
 ---
 
 [Continue for each endpoint...]
-```
+
+````
 
 **Step 3: Document Rate Limits**
 Research Storyblok documentation:
@@ -691,18 +769,20 @@ Research Storyblok documentation:
 ```typescript
 // Cache stories for 1 hour
 const cacheVersion = Math.floor(Date.now() / (1000 * 60 * 60));
-```
+````
 
 **Step 4: Document Custom Endpoints**
 If you have custom API routes:
 
-```markdown
+````markdown
 ## Custom API Routes
 
 ### POST /api/contact
+
 **Purpose**: Handle contact form submissions.
 
 **Request Body**:
+
 ```json
 {
   "name": "string",
@@ -710,15 +790,18 @@ If you have custom API routes:
   "message": "string"
 }
 ```
+````
 
 **Response**:
+
 ```json
 {
   "success": true,
   "message": "Form submitted successfully"
 }
 ```
-```
+
+````
 
 **Step 5: Add Environment Variables Reference**
 ```markdown
@@ -736,7 +819,7 @@ If you have custom API routes:
 | Variable | Purpose | Default |
 |----------|---------|---------|
 | `STORYBLOK_VERSION` | Content version | `published` |
-```
+````
 
 **Validation**: Try following the API docs to make a new API call without referring to existing code.
 
@@ -745,11 +828,13 @@ If you have custom API routes:
 ### Task 2.5: Deployment Guide
 
 **Placeholder Location**: Line 590
+
 ```markdown
 - [Deployment Guide](./docs/DEPLOYMENT.md) <!-- TODO: Create deployment guide -->
 ```
 
 **Required Information**:
+
 - Step-by-step Vercel deployment
 - Alternative platform instructions
 - Environment variable setup
@@ -762,6 +847,7 @@ If you have custom API routes:
 
 **Step 1: Document Current Deployment**
 If already deployed:
+
 - Screenshot your Vercel dashboard
 - Note all configuration settings
 - Document build commands
@@ -770,12 +856,13 @@ If already deployed:
 
 **Step 2: Create DEPLOYMENT.md**
 
-```markdown
+````markdown
 # Deployment Guide
 
 ## Quick Deploy to Vercel (Recommended)
 
 ### Prerequisites
+
 - GitHub account
 - Vercel account (free tier works)
 - Storyblok preview/public token
@@ -787,21 +874,26 @@ If already deployed:
 ### Manual Deployment
 
 #### Step 1: Prepare Repository
+
 ```bash
 # Ensure code is pushed to GitHub
 git push origin main
 ```
+````
 
 #### Step 2: Import to Vercel
+
 1. Go to [vercel.com/new](https://vercel.com/new)
 2. Click "Import Project"
 3. Select your GitHub repository
 4. Click "Import"
 
 #### Step 3: Configure Project
+
 Vercel will auto-detect Astro. Verify these settings:
 
 **Build Settings**:
+
 - Framework Preset: `Astro`
 - Build Command: `pnpm build`
 - Output Directory: `dist`
@@ -810,20 +902,23 @@ Vercel will auto-detect Astro. Verify these settings:
 **Root Directory**: `./` (leave blank)
 
 #### Step 4: Add Environment Variables
+
 Click "Environment Variables" and add:
 
-| Name | Value | Note |
-|------|-------|------|
-| `STORYBLOK_TOKEN` | `your_token_here` | Get from Storyblok Settings |
-| `SITE_URL` | `https://your-domain.vercel.app` | Auto-populated after first deploy |
-| `NODE_VERSION` | `20` | Ensures Node 20+ |
+| Name              | Value                            | Note                              |
+| ----------------- | -------------------------------- | --------------------------------- |
+| `STORYBLOK_TOKEN` | `your_token_here`                | Get from Storyblok Settings       |
+| `SITE_URL`        | `https://your-domain.vercel.app` | Auto-populated after first deploy |
+| `NODE_VERSION`    | `20`                             | Ensures Node 20+                  |
 
 #### Step 5: Deploy
+
 1. Click "Deploy"
 2. Wait 2-3 minutes for build
 3. Visit your deployment URL
 
 #### Step 6: Custom Domain (Optional)
+
 1. Go to Project Settings → Domains
 2. Add your domain: `example.com`
 3. Configure DNS records as shown:
@@ -837,28 +932,32 @@ Click "Environment Variables" and add:
 ## Deploy to Netlify
 
 ### Prerequisites
+
 - Netlify account
 - GitHub repository
 
 ### Steps
 
 #### 1. Install Netlify Adapter
+
 ```bash
 pnpm add @astrojs/netlify
 ```
 
 #### 2. Update astro.config.mjs
+
 ```javascript
-import { defineConfig } from 'astro/config';
-import netlify from '@astrojs/netlify';
+import { defineConfig } from "astro/config";
+import netlify from "@astrojs/netlify";
 
 export default defineConfig({
-  output: 'server',
+  output: "server",
   adapter: netlify(),
 });
 ```
 
 #### 3. Deploy via Netlify Dashboard
+
 1. Go to [app.netlify.com](https://app.netlify.com)
 2. Click "Add new site" → "Import an existing project"
 3. Connect to GitHub
@@ -874,28 +973,32 @@ export default defineConfig({
 ## Deploy to Cloudflare Pages
 
 ### Prerequisites
+
 - Cloudflare account
 - Wrangler CLI installed
 
 ### Steps
 
 #### 1. Install Cloudflare Adapter
+
 ```bash
 pnpm add @astrojs/cloudflare
 ```
 
 #### 2. Update Configuration
+
 ```javascript
-import { defineConfig } from 'astro/config';
-import cloudflare from '@astrojs/cloudflare';
+import { defineConfig } from "astro/config";
+import cloudflare from "@astrojs/cloudflare";
 
 export default defineConfig({
-  output: 'server',
+  output: "server",
   adapter: cloudflare(),
 });
 ```
 
 #### 3. Deploy via Wrangler
+
 ```bash
 # Login to Cloudflare
 npx wrangler login
@@ -910,6 +1013,7 @@ npx wrangler pages publish dist
 ## Environment Variables per Environment
 
 ### Development
+
 ```bash
 # .env.local (not committed)
 STORYBLOK_TOKEN=preview_token_here
@@ -917,13 +1021,16 @@ SITE_URL=http://localhost:4321
 ```
 
 ### Staging
+
 Set in your platform dashboard:
+
 ```
 STORYBLOK_TOKEN=preview_token_here
 SITE_URL=https://staging.example.com
 ```
 
 ### Production
+
 ```
 STORYBLOK_TOKEN=public_token_here
 SITE_URL=https://example.com
@@ -949,18 +1056,20 @@ SITE_URL=https://example.com
 ## Monitoring & Alerts
 
 ### Vercel Analytics
+
 1. Go to Project Settings → Analytics
 2. Enable Web Analytics
 3. View real-time metrics
 
 ### Error Tracking with Sentry (Optional)
+
 ```bash
 pnpm add @sentry/astro
 ```
 
 ```javascript
 // astro.config.mjs
-import sentry from '@sentry/astro';
+import sentry from "@sentry/astro";
 
 export default defineConfig({
   integrations: [
@@ -976,12 +1085,14 @@ export default defineConfig({
 ## Rollback Procedures
 
 ### Vercel Rollback
+
 1. Go to Deployments tab
 2. Find previous successful deployment
 3. Click "..." menu
 4. Select "Promote to Production"
 
 ### Git-based Rollback
+
 ```bash
 # Revert to previous commit
 git revert HEAD
@@ -997,21 +1108,25 @@ git push --force origin main
 ## Troubleshooting
 
 ### Build Fails
+
 - Check build logs in deployment platform
 - Verify all environment variables are set
 - Ensure Node version is 20+
 - Check for missing dependencies
 
 ### 404 on Dynamic Routes
+
 - Verify `output: 'server'` in astro.config.mjs
 - Check adapter is configured correctly
 - Ensure [...slug].astro exists
 
 ### Storyblok Content Not Loading
+
 - Verify STORYBLOK_TOKEN is set correctly
 - Check token has correct permissions
 - Ensure using preview token in staging, public in production
-```
+
+````
 
 **Step 3: Test Deployment Process**
 Actually go through deployment on a test account:
@@ -1033,7 +1148,7 @@ Actually go through deployment on a test account:
 | DDoS protection | ✅ | ✅ | ✅ |
 | Custom domains | Unlimited | 1 free | Unlimited |
 | Best for | Astro/SSR | Static sites | Global apps |
-```
+````
 
 **Validation**: Have someone deploy the project following only the guide.
 
@@ -1042,11 +1157,13 @@ Actually go through deployment on a test account:
 ### Task 2.6: Troubleshooting Guide
 
 **Placeholder Location**: Line 591
+
 ```markdown
 - [Troubleshooting](./docs/TROUBLESHOOTING.md) <!-- TODO: Create troubleshooting guide -->
 ```
 
 **Required Information**:
+
 - Common error messages
 - Solutions to frequent issues
 - Debugging techniques
@@ -1057,6 +1174,7 @@ Actually go through deployment on a test account:
 
 **Step 1: Collect Common Issues**
 Methods to gather:
+
 1. Review GitHub Issues (current and closed)
 2. Check Discord/Slack support channels
 3. Review your own debugging history
@@ -1073,10 +1191,13 @@ Methods to gather:
 ### Build & Development Issues
 
 #### Issue: `pnpm install` fails with EACCES error
+
 **Symptoms**:
 ```
+
 Error: EACCES: permission denied
-```
+
+````
 
 **Cause**: npm global folder permissions issue
 
@@ -1090,12 +1211,14 @@ sudo chown -R $(whoami) /usr/local/lib/node_modules
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 nvm install 20
 nvm use 20
-```
+````
 
 ---
 
 #### Issue: Port 4321 already in use
+
 **Symptoms**:
+
 ```
 Error: listen EADDRINUSE: address already in use :::4321
 ```
@@ -1103,6 +1226,7 @@ Error: listen EADDRINUSE: address already in use :::4321
 **Cause**: Another process is using port 4321
 
 **Solution**:
+
 ```bash
 # Find process using port
 lsof -i :4321
@@ -1117,11 +1241,13 @@ pnpm dev -- --port 3000
 ---
 
 #### Issue: Astro dev server crashes on save
+
 **Symptoms**: Server restarts or crashes when editing files
 
 **Cause**: File watchers limit reached
 
 **Solution**:
+
 ```bash
 # Increase file watcher limit (Linux/Mac)
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
@@ -1136,7 +1262,9 @@ brew install watchman
 ### Storyblok Integration Issues
 
 #### Issue: "Invalid access token" error
+
 **Symptoms**:
+
 ```
 Error: You provided an invalid access token
 ```
@@ -1144,6 +1272,7 @@ Error: You provided an invalid access token
 **Cause**: Wrong token or token not set
 
 **Solution**:
+
 1. Verify token in `.env`:
    ```bash
    cat .env | grep STORYBLOK_TOKEN
@@ -1159,11 +1288,13 @@ Error: You provided an invalid access token
 ---
 
 #### Issue: Content not updating in Visual Editor
+
 **Symptoms**: Changes in Storyblok don't reflect immediately
 
 **Cause**: Caching or preview URL misconfigured
 
 **Solution**:
+
 1. Clear browser cache
 2. Verify preview URL in Storyblok:
    - Settings → Visual Editor
@@ -1171,11 +1302,11 @@ Error: You provided an invalid access token
 3. Check token version:
    ```typescript
    // Use preview token, not public
-   version: 'draft'
+   version: "draft";
    ```
 4. Disable cache during development:
    ```typescript
-   cv: Date.now() // Bust cache
+   cv: Date.now(); // Bust cache
    ```
 
 ---
@@ -1183,7 +1314,9 @@ Error: You provided an invalid access token
 ### TypeScript Issues
 
 #### Issue: Type errors in Svelte files
+
 **Symptoms**:
+
 ```
 Cannot find name 'props'
 ```
@@ -1191,6 +1324,7 @@ Cannot find name 'props'
 **Cause**: TypeScript not recognizing Svelte 5 runes
 
 **Solution**:
+
 1. Update `tsconfig.json`:
    ```json
    {
@@ -1207,7 +1341,9 @@ Cannot find name 'props'
 ---
 
 #### Issue: Module not found errors
+
 **Symptoms**:
+
 ```
 Cannot find module '@/components/ui/button'
 ```
@@ -1216,6 +1352,7 @@ Cannot find module '@/components/ui/button'
 
 **Solution**:
 Check `tsconfig.json` has paths:
+
 ```json
 {
   "compilerOptions": {
@@ -1232,7 +1369,9 @@ Check `tsconfig.json` has paths:
 ### Testing Issues
 
 #### Issue: Playwright tests timeout
+
 **Symptoms**:
+
 ```
 Test timeout of 30000ms exceeded
 ```
@@ -1240,9 +1379,10 @@ Test timeout of 30000ms exceeded
 **Cause**: Server not starting or page not loading
 
 **Solution**:
+
 1. Increase timeout in `playwright.config.ts`:
    ```typescript
-   timeout: 60000
+   timeout: 60000;
    ```
 2. Ensure dev server is running:
    ```bash

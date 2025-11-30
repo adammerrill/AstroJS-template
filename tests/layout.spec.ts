@@ -1,35 +1,30 @@
+// tests/layout.spec.ts
 import { test, expect } from "@playwright/test";
 
-test.describe("Layout - Vertical Centering & Max Width", () => {
+test.describe("Layout - Structure & Dimensions", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
   });
 
-  test("content is vertically centered on desktop (≥768px)", async ({
-    page,
-  }) => {
+  test("Main content area fills available height", async ({ page }) => {
     const viewport = { width: 1024, height: 768 };
     await page.setViewportSize(viewport);
     await page.goto("/");
 
-    // Target the Layout.astro main element
-    const mainElement = page.locator("body > main");
+    const mainElement = page.locator('[data-testid="layout-main"]');
+
+    // In BaseLayout, we use flex-1 to push the footer down,
+    // but we do NOT enforce vertical centering of children.
     const computedStyle = await mainElement.evaluate((el) => {
       const styles = window.getComputedStyle(el);
       return {
-        display: styles.display,
-        alignItems: styles.alignItems,
-        justifyContent: styles.justifyContent,
-        // Parse pixel value for comparison
-        minHeight: parseInt(styles.minHeight, 10),
+        minHeight: styles.minHeight, // should be 100vh or handled by flex-grow
+        flexGrow: styles.flexGrow, // should be 1
       };
     });
 
-    expect(computedStyle.display).toBe("flex");
-    expect(computedStyle.alignItems).toBe("center");
-    expect(computedStyle.justifyContent).toBe("center");
-    // Should equal viewport height (100vh computes to 768px)
-    expect(computedStyle.minHeight).toBe(viewport.height);
+    // Ensure the main area grows to fill space (flex-1 class)
+    expect(computedStyle.flexGrow).toBe("1");
   });
 
   test("content uses max-width token of 4xl (896px)", async ({ page }) => {
@@ -47,25 +42,6 @@ test.describe("Layout - Vertical Centering & Max Width", () => {
     );
     // max-w-4xl = 56rem = 896px
     expect(width).toBeLessThanOrEqual(896);
-    expect(width).toBeGreaterThan(800); // Ensure it's actually using the width
-  });
-
-  test("content remains centered on mobile (<768px)", async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 812 });
-    await page.goto("/");
-
-    const mainElement = page.locator("body > main");
-    const computedStyle = await mainElement.evaluate((el) => {
-      const styles = window.getComputedStyle(el);
-      return {
-        display: styles.display,
-        alignItems: styles.alignItems,
-        justifyContent: styles.justifyContent,
-      };
-    });
-
-    expect(computedStyle.display).toBe("flex");
-    expect(computedStyle.alignItems).toBe("center");
-    expect(computedStyle.justifyContent).toBe("center");
+    expect(width).toBeGreaterThan(800);
   });
 });

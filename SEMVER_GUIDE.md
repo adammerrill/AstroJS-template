@@ -19,7 +19,7 @@ Your `package.json` already contains a version field. Update it manually or via 
 ```json
 {
   "name": "astro-enterprise-boilerplate",
-  "version": "1.0.0",  // <-- Your SemVer version
+  "version": "1.0.0", // <-- Your SemVer version
   "scripts": {
     "version:patch": "npm version patch",
     "version:minor": "npm version minor",
