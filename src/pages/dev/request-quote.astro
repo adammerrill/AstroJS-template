@@ -1,0 +1,19 @@
+---
+/**
+ * @file request-quote.astro
+ * @description Development playground for RequestQuoteForm.
+ */
+import Layout from "../../layouts/Layout.astro";
+import RequestQuoteFormBlock from "../../storyblok/RequestQuoteForm.astro";
+
+const mockBlok = {
+  _uid: "dev-quote",
+  component: "request_quote_form",
+  headline: "Get Your Free Quote",
+  subheadline: "Tell us about your project and we will get back to you with an estimate."
+};
+---
+
+<Layout title="Dev: Request Quote">
+  <RequestQuoteFormBlock blok={mockBlok} />
+</Layout>

@@ -1,0 +1,17 @@
+---
+/**
+ * @file ContactForm.astro
+ * @description Astro wrapper for ContactForm.
+ * Uses client:load to ensure form validation and submission logic is ready immediately.
+ */
+import ContactFormSvelte from './ContactForm.svelte';
+import type { SbBlokData } from '@storyblok/astro';
+
+interface Props {
+  blok: SbBlokData;
+}
+
+const { blok } = Astro.props;
+---
+
+<ContactFormSvelte blok={blok} client:load />

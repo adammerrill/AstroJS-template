@@ -1,0 +1,52 @@
+---
+/**
+ * @file pricing-table.astro
+ * @description Development playground for PricingTable.
+ */
+import Layout from "../../layouts/Layout.astro";
+import PricingTableBlock from "../../storyblok/PricingTable.astro";
+
+const mockBlok = {
+  _uid: "dev-pricing",
+  component: "pricing_table",
+  headline: "Flexible Plans for Every Team",
+  subheadline: "Start small and scale as you grow. No hidden fees.",
+  tiers: [
+    {
+      _uid: "p1",
+      name: "Hobby",
+      description: "Perfect for side projects.",
+      price_monthly: "$0",
+      price_yearly: "$0",
+      features: [{ text: "1 Project" }, { text: "Community Support" }],
+      cta_label: "Start Free",
+      cta_url: { url: "#" }
+    },
+    {
+      _uid: "p2",
+      name: "Pro",
+      description: "For professional developers.",
+      price_monthly: "$20",
+      price_yearly: "$190", // Slight discount
+      features: [{ text: "Unlimited Projects" }, { text: "Priority Support" }, { text: "Analytics" }],
+      cta_label: "Go Pro",
+      cta_url: { url: "#" },
+      highlight: true
+    },
+    {
+      _uid: "p3",
+      name: "Enterprise",
+      description: "For large organizations.",
+      price_monthly: "$100",
+      price_yearly: "$990",
+      features: [{ text: "SSO" }, { text: "Audit Logs" }, { text: "Dedicated Success Manager" }],
+      cta_label: "Contact Sales",
+      cta_url: { url: "#" }
+    }
+  ]
+};
+---
+
+<Layout title="Dev: Pricing Table">
+  <PricingTableBlock blok={mockBlok} />
+</Layout>

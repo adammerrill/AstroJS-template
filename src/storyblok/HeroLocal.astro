@@ -1,0 +1,12 @@
+---
+import HeroLocalSvelte from './HeroLocal.svelte';
+import type { SbBlokData } from '@storyblok/astro';
+
+interface Props {
+  blok: SbBlokData;
+}
+
+const { blok } = Astro.props;
+---
+
+<HeroLocalSvelte blok={blok} client:idle />

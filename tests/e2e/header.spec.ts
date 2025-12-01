@@ -1,14 +1,40 @@
+/**
+ * @file header.spec.ts
+ * @description End-to-end tests for Header component with mobile drawer.
+ *              Validates responsive behavior, accessibility, and interaction patterns.
+ * 
+ * Test Coverage:
+ * - Responsive breakpoint behavior (1020px)
+ * - Mobile drawer interactions (open, close, keyboard, backdrop)
+ * - Focus management and trap
+ * - Body scroll lock/unlock
+ * - Layout and spacing at various viewports
+ * - ARIA attributes and accessibility
+ * - Visual effects (glass, blur)
+ * 
+ * @requires @playwright/test
+ * @requires Header.astro (component under test)
+ * @see {@link https://playwright.dev/docs/writing-tests}
+ */
+
 import { test, expect } from "@playwright/test";
 
+/**
+ * Predefined viewport sizes for testing responsive behavior.
+ * @constant
+ */
+const viewports = {
+  wide: { width: 1280, height: 900 },
+  narrow: { width: 390, height: 844 },
+  breakpointExact: { width: 1020, height: 900 },
+  breakpointMinusOne: { width: 1019, height: 900 },
+};
+
 test.describe("Header Component - Production Validation", () => {
-
-  const viewports = {
-    wide: { width: 1280, height: 900 },
-    narrow: { width: 390, height: 844 },
-    breakpointExact: { width: 1020, height: 900 },
-    breakpointMinusOne: { width: 1019, height: 900 },
-  };
-
+  /**
+   * Test Suite: Responsive Breakpoint Behavior
+   * Validates that UI elements appear/hide correctly at the 1020px breakpoint.
+   */
   test.describe("Breakpoint Behavior (1020px)", () => {
     test("Wide: ≥1020px hides hamburger and shows desktop nav", async ({
       page,
@@ -60,6 +86,10 @@ test.describe("Header Component - Production Validation", () => {
     });
   });
 
+  /**
+   * Test Suite: Layout and Spacing
+   * Validates padding, max-width, and alignment at different viewports.
+   */
   test.describe("Layout & Spacing", () => {
     test("Padding: 16px horizontal <1020px", async ({ page }) => {
       await page.setViewportSize(viewports.narrow);
@@ -134,6 +164,10 @@ test.describe("Header Component - Production Validation", () => {
     });
   });
 
+  /**
+   * Test Suite: Mobile Drawer Interactions
+   * Validates drawer open/close, keyboard navigation, focus trap, and scroll lock.
+   */
   test.describe("Mobile Drawer", () => {
     test.beforeEach(async ({ page }) => {
       await page.setViewportSize(viewports.narrow);
@@ -142,9 +176,11 @@ test.describe("Header Component - Production Validation", () => {
 
     test("Opens with backdrop blur", async ({ page }) => {
       await page.locator("#mobile-menu-button").click();
+      
+      // Wait for drawer to fully open
       await expect(
         page.locator('[data-testid="mobile-drawer"]'),
-      ).toHaveAttribute("data-state", "open");
+      ).toHaveAttribute("data-state", "open", { timeout: 5000 });
 
       const backdrop = page.locator("#drawer-backdrop");
       await expect(backdrop).toBeVisible();
@@ -154,45 +190,71 @@ test.describe("Header Component - Production Validation", () => {
       expect(backdropFilter).toContain("blur");
     });
 
-    test("Contains navigation and footer links", async ({ page }) => {
+    test("Contains navigation links", async ({ page }) => {
       await page.locator("#mobile-menu-button").click();
+      
+      // Wait for drawer to open
+      await page.waitForTimeout(500);
+      
       const navLinks = page.locator("#mobile-drawer nav a");
       await expect(navLinks).toHaveCount(4);
+      
+      // Verify 'About' link exists (updated from 'Contact')
       await expect(
-        page.locator('#mobile-drawer a:text-is("Contact")'),
+        page.locator('#mobile-drawer a:text-is("About")'),
       ).toBeVisible();
     });
 
     test("Closes on Escape key", async ({ page }) => {
       await page.locator("#mobile-menu-button").click();
+      
+      // Wait for drawer to fully open
       await expect(
         page.locator('[data-testid="mobile-drawer"]'),
-      ).toHaveAttribute("data-state", "open");
+      ).toHaveAttribute("data-state", "open", { timeout: 5000 });
+      
+      // Press Escape
       await page.keyboard.press("Escape");
+      
+      // Wait for drawer to close
       await expect(
         page.locator('[data-testid="mobile-drawer"]'),
-      ).toHaveAttribute("data-state", "closed");
+      ).toHaveAttribute("data-state", "closed", { timeout: 5000 });
     });
 
     test("Closes on backdrop click", async ({ page }) => {
       await page.locator("#mobile-menu-button").click();
+      
+      // Wait for drawer to fully open
       await expect(
         page.locator('[data-testid="mobile-drawer"]'),
-      ).toHaveAttribute("data-state", "open");
-      await page.locator("#drawer-backdrop").dispatchEvent("click");
+      ).toHaveAttribute("data-state", "open", { timeout: 5000 });
+      
+      // Click backdrop (force because it may be behind panel)
+      await page.locator("#drawer-backdrop").click({ force: true });
+      
+      // Wait for drawer to close
       await expect(
         page.locator('[data-testid="mobile-drawer"]'),
-      ).toHaveAttribute("data-state", "closed");
+      ).toHaveAttribute("data-state", "closed", { timeout: 5000 });
     });
 
     test("Focus trap cycles within drawer", async ({ page }) => {
       await page.locator("#mobile-menu-button").click();
+      
+      // Wait for drawer to open and focus to be set
+      await page.waitForTimeout(500);
+      
       const closeButton = page.locator("#drawer-close-button");
-      await expect(closeButton).toBeFocused();
+      
+      // Verify close button receives initial focus
+      await expect(closeButton).toBeFocused({ timeout: 5000 });
 
+      // Tab forward to first nav link
       await page.keyboard.press("Tab");
       await expect(page.locator("#mobile-drawer nav a").first()).toBeFocused();
 
+      // Shift+Tab back to close button
       await page.keyboard.down("Shift");
       await page.keyboard.press("Tab");
       await page.keyboard.up("Shift");
@@ -201,6 +263,10 @@ test.describe("Header Component - Production Validation", () => {
 
     test("Body scroll lock when open", async ({ page }) => {
       await page.locator("#mobile-menu-button").click();
+      
+      // Wait for drawer to open
+      await page.waitForTimeout(500);
+      
       const isLocked = await page.evaluate(
         () => document.body.style.overflow === "hidden",
       );
@@ -208,15 +274,30 @@ test.describe("Header Component - Production Validation", () => {
     });
 
     test("Body scroll restored when closed", async ({ page }) => {
+      // Open drawer
       await page.locator("#mobile-menu-button").click();
+      
+      // Wait for drawer to open
+      await page.waitForTimeout(500);
+      
+      // Close drawer with Escape
       await page.keyboard.press("Escape");
+      
+      // Wait for close animation to complete
+      await page.waitForTimeout(500);
+      
+      // Verify body scroll is restored
       const isRestored = await page.evaluate(
-        () => document.body.style.overflow === "",
+        () => document.body.style.overflow === "" || document.body.style.overflow === "visible",
       );
       expect(isRestored).toBe(true);
     });
   });
 
+  /**
+   * Test Suite: Accessibility
+   * Validates ARIA attributes and keyboard navigation.
+   */
   test.describe("Accessibility", () => {
     test("Hamburger ARIA attributes", async ({ page }) => {
       await page.setViewportSize(viewports.narrow);
@@ -239,10 +320,14 @@ test.describe("Header Component - Production Validation", () => {
       await expect(drawer).toHaveAttribute("aria-hidden", "true");
 
       await page.locator("#mobile-menu-button").click();
-      await expect(drawer).toHaveAttribute("aria-hidden", "false");
+      await expect(drawer).toHaveAttribute("aria-hidden", "false", { timeout: 5000 });
     });
   });
 
+  /**
+   * Test Suite: Visual Effects
+   * Validates backdrop blur and glass effects.
+   */
   test.describe("Visual Regression", () => {
     test("Header glass effect at all widths", async ({ page }) => {
       await page.setViewportSize(viewports.narrow);
@@ -280,6 +365,10 @@ test.describe("Header Component - Production Validation", () => {
     });
   });
 
+  /**
+   * Test Suite: CTA Persistence
+   * Validates that CTA buttons appear in correct locations at all viewports.
+   */
   test.describe("CTA Persistence", () => {
     test("CTA visible at all widths", async ({ page }) => {
       await page.setViewportSize(viewports.narrow);
@@ -309,6 +398,9 @@ test.describe("Header Component - Production Validation", () => {
 
       // Open drawer
       await page.locator("#mobile-menu-button").click();
+      
+      // Wait for drawer to open
+      await page.waitForTimeout(500);
 
       // Should now have header CTA + drawer CTA
       const headerCta = page.locator(

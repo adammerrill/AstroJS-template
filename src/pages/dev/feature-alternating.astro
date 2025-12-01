@@ -1,0 +1,47 @@
+---
+/**
+ * @file feature-alternating.astro
+ * @description Development route for isolation testing of the FeatureAlternating component.
+ * Uses mock data to simulate Storyblok content injection.
+ */
+import Layout from "../../layouts/Layout.astro";
+import FeatureAlternatingBlock from "../../storyblok/FeatureAlternating.astro";
+
+// Mock Data Structure
+const mockBlok = {
+  _uid: "dev-alternating",
+  component: "feature_alternating",
+  headline: "Core Platform Capabilities",
+  subheadline: "Explore the technical details that drive our enterprise performance.",
+  items: [
+    {
+      _uid: "item-1",
+      headline: "Server-Side Rendering",
+      description: "Delivers HTML to the browser instantly, improving First Contentful Paint (FCP) and SEO rankings without client-side waterfalls.",
+      cta_label: "Learn about SSR",
+      cta_url: { url: "#" },
+      image: { filename: "" } // Trigger placeholder
+    },
+    {
+      _uid: "item-2",
+      headline: "Edge Network Distribution",
+      description: "Content is cached and served from 300+ edge locations worldwide, ensuring low latency regardless of user location.",
+      cta_label: "View Network Map",
+      cta_url: { url: "#" },
+      image: { filename: "" } // Trigger placeholder
+    },
+    {
+      _uid: "item-3",
+      headline: "Zero-Trust Security",
+      description: "Enterprise-grade security controls including SSO, role-based access, and audit logging built into the core.",
+      cta_label: "Security Whitepaper",
+      cta_url: { url: "#" },
+      image: { filename: "" } // Trigger placeholder
+    }
+  ]
+};
+---
+
+<Layout title="Dev: Feature Alternating">
+  <FeatureAlternatingBlock blok={mockBlok} />
+</Layout>

@@ -3,21 +3,24 @@
  * @description
  * Svelte configuration file for AstroJS application.
  * Configures the Svelte compiler and preprocessing pipeline.
- * Enables Vite-powered preprocessing for .svelte files.
+ * Enables Vite-powered preprocessing and Svelte 5 runes mode.
  */
-import { vitePreprocess } from "@astrojs/svelte";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
 /**
  * Default Svelte configuration object.
- * Defines preprocessors and supported file extensions.
+ * Defines preprocessors, compiler options, and supported file extensions.
  *
- * @type {object}
- * @property {Function} preprocess - Vite-powered preprocessor for Svelte files
- * @property {string[]} extensions - File extensions processed by Svelte
+ * @type {import('@sveltejs/vite-plugin-svelte').SvelteConfig}
  */
 export default {
   // Enable Vite-powered preprocessing for Svelte components
   preprocess: vitePreprocess(),
+
+  // Compiler Options: Enable Svelte 5 runes mode
+  compilerOptions: {
+    runes: true, // CRITICAL: Enables $props, $state, $effect, $derived
+  },
 
   // Restrict processing to .svelte files
   extensions: [".svelte"],

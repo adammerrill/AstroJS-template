@@ -1,0 +1,12 @@
+---
+import HeroConsultantSvelte from './HeroConsultant.svelte';
+import type { SbBlokData } from '@storyblok/astro';
+
+interface Props {
+  blok: SbBlokData;
+}
+
+const { blok } = Astro.props;
+---
+
+<HeroConsultantSvelte blok={blok} client:idle />

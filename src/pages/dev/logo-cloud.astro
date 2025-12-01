@@ -1,0 +1,28 @@
+---
+/**
+ * @file logo-cloud.astro
+ * @description Development playground for LogoCloud.
+ * Uses placeholders to simulate loaded images.
+ */
+import Layout from "../../layouts/Layout.astro";
+import LogoCloudBlock from "../../storyblok/LogoCloud.astro";
+
+const mockBlok = {
+  _uid: "dev-cloud",
+  component: "logo_cloud",
+  headline: "Powering Next-Gen Companies",
+  logos: [
+    { _uid: "1", filename: "", name: "Stripe" },
+    { _uid: "2", filename: "", name: "Vercel" },
+    { _uid: "3", filename: "", name: "Storyblok" },
+    { _uid: "4", filename: "", name: "Tailwind" },
+    { _uid: "5", filename: "", name: "Svelte" }
+  ]
+};
+---
+
+<Layout title="Dev: Logo Cloud">
+  <div class="pt-20">
+    <LogoCloudBlock blok={mockBlok} />
+  </div>
+</Layout>

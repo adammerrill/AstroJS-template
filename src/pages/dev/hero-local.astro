@@ -1,0 +1,20 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import HeroLocalBlock from "../../storyblok/HeroLocal.astro";
+
+// Mock Data Structure matching Storyblok
+const mockBlok = {
+  _uid: "test-hero-local",
+  component: "hero_local",
+  headline: "Emergency HVAC Repair & Installation",
+  subheadline: "24/7 Service for all major brands. We guarantee upfront pricing and 100% satisfaction on every job.",
+  service_area: "Dallas-Fort Worth Metroplex",
+  cta_primary_label: "Call Now (214) 555-0101",
+  form_placeholder_text: "RequestQuoteForm.svelte Placeholder"
+  // Note: Background image is not set here, so it will use the default color overlay.
+};
+---
+
+<Layout title="Dev: Hero Local">
+  <HeroLocalBlock blok={mockBlok} />
+</Layout>

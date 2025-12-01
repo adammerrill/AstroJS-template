@@ -1,0 +1,22 @@
+---
+import Layout from "../../layouts/Layout.astro";
+// Rename import to avoid conflict with local variable scopes
+import FeatureGridBlock from "../../storyblok/FeatureGrid.astro";
+
+// Mock Data
+const mockBlok = {
+  _uid: "test-feature-grid",
+  component: "feature_grid",
+  headline: "Why Choose Astro Enterprise",
+  description: "Built for speed, scalability, and developer experience.",
+  columns: [
+    { _uid: "1", component: "feature", headline: "Zero JS Runtime", description: "Astro ships zero JavaScript to the client by default." },
+    { _uid: "2", component: "feature", headline: "Svelte 5 Runes", description: "The latest reactivity model for complex interactive islands." },
+    { _uid: "3", component: "feature", headline: "Tailwind v4", description: "The next generation of utility-first CSS." }
+  ]
+};
+---
+
+<Layout title="Dev: Feature Grid">
+  <FeatureGridBlock blok={mockBlok} />
+</Layout>

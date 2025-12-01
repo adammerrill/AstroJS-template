@@ -1,0 +1,78 @@
+<script lang="ts">
+  import { storyblokEditable } from "@storyblok/svelte";
+  import { Button } from "@/components/ui/button";
+  import type { SbBlokData } from "@storyblok/astro";
+
+  interface HeroSaasProps {
+    blok: SbBlokData & {
+      headline?: string;
+      subheadline?: string;
+      cta_primary?: { url: string }[];
+      cta_primary_label?: string;
+      cta_secondary?: { url: string }[];
+      cta_secondary_label?: string;
+      image?: { filename: string; alt?: string };
+      badge?: string;
+    };
+  }
+
+  let { blok }: HeroSaasProps = $props();
+</script>
+
+<section
+  data-testid="hero-saas"
+  use:storyblokEditable={blok}
+  class="relative overflow-hidden pt-16 pb-32 md:pt-32 md:pb-48"
+>
+  <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/10 via-background to-background opacity-40"></div>
+
+  <div class="container mx-auto px-4 text-center">
+    {#if blok.badge}
+      <div class="mb-6 inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-medium text-primary">
+        {blok.badge}
+      </div>
+    {/if}
+
+    <h1 class="mx-auto max-w-4xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
+      {blok.headline || "Enterprise SaaS Solution"}
+    </h1>
+    
+    <p class="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
+      {blok.subheadline || "Streamline your workflow."}
+    </p>
+
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+      {#if blok.cta_primary_label}
+        <Button size="lg" href={blok.cta_primary?.[0]?.url || "#"}>
+          {blok.cta_primary_label}
+        </Button>
+      {/if}
+      
+      {#if blok.cta_secondary_label}
+        <Button variant="outline" size="lg" href={blok.cta_secondary?.[0]?.url || "#"}>
+          {blok.cta_secondary_label}
+        </Button>
+      {/if}
+    </div>
+
+    <div class="mt-20 relative mx-auto max-w-5xl">
+      <div class="relative rounded-xl border bg-background/50 p-2 ring-1 ring-inset ring-foreground/10 lg:rounded-2xl lg:p-4 glass">
+        {#if blok.image?.filename}
+          <img
+            src={blok.image.filename}
+            alt={blok.image.alt || "Dashboard Preview"}
+            class="w-full rounded-md shadow-2xl ring-1 ring-foreground/10"
+            width="1200"
+            height="800"
+          />
+        {:else}
+          <div class="aspect-video w-full rounded-md bg-linear-to-br from-muted to-muted/50 flex items-center justify-center border border-dashed border-border">
+            <span class="text-muted-foreground font-mono text-sm">Dashboard Image Placeholder</span>
+          </div>
+        {/if}
+      </div>
+      
+      <div class="absolute -top-24 -inset-x-20 -z-10 bg-primary/20 blur-3xl h-[120%] opacity-30 pointer-events-none"></div>
+    </div>
+  </div>
+</section>

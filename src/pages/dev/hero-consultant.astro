@@ -1,0 +1,19 @@
+---
+import Layout from "../../layouts/Layout.astro";
+// Rename import to avoid conflict
+import HeroConsultantBlock from "../../storyblok/HeroConsultant.astro";
+
+// Mock Data Structure matching Storyblok
+const mockBlok = {
+  _uid: "test-hero-consultant",
+  component: "hero_consultant",
+  headline: "Unlock Elite Performance & Strategic Advantage",
+  subheadline: "I combine decades of C-level experience with proprietary frameworks to deliver immediate, measurable impact for my select cohort of clients.",
+  cta_primary_label: "Apply for a Discovery Session",
+  headshot: { filename: "" } // Triggers the placeholder
+};
+---
+
+<Layout title="Dev: Hero Consultant">
+  <HeroConsultantBlock blok={mockBlok} />
+</Layout>

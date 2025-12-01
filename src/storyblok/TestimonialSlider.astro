@@ -1,0 +1,12 @@
+---
+import TestimonialSliderSvelte from './TestimonialSlider.svelte';
+import type { SbBlokData } from '@storyblok/astro';
+
+interface Props {
+  blok: SbBlokData;
+}
+
+const { blok } = Astro.props;
+---
+
+<TestimonialSliderSvelte blok={blok} client:load />

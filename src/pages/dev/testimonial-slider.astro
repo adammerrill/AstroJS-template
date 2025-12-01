@@ -1,0 +1,20 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import TestimonialSliderBlock from "../../storyblok/TestimonialSlider.astro";
+
+// Mock Data Structure
+const mockBlok = {
+  _uid: "test-slider",
+  component: "testimonial_slider",
+  headline: "Trust Our Global Clients",
+  testimonials: [
+    { _uid: "t1", quote: "Working with this team was a game-changer.", name: "Jane Doe", title: "VP Marketing" },
+    { _uid: "t2", quote: "The Svelte 5 performance is next-level.", name: "Sam Smith", title: "Lead Architect" },
+    { _uid: "t3", quote: "Highly recommend the boilerplate.", name: "Michael Lee", title: "Business Owner" }
+  ]
+};
+---
+
+<Layout title="Dev: Testimonial Slider">
+  <TestimonialSliderBlock blok={mockBlok} />
+</Layout>

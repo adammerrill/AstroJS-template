@@ -2,7 +2,7 @@
 /**
  * @fileoverview Layout Shell
  * @description The immutable outer shell for all pages. 
- * Includes the "Skip to Content" accessibility feature and dynamic SEO injection.
+ * Fetches Global Settings (nav, footer) from Storyblok and injects them.
  */
 import "../styles/global.css";
 import Header from "../components/ui/Header.astro";
@@ -10,6 +10,8 @@ import Footer from "../components/ui/Footer.astro";
 import SEOHead from "../components/system/SEOHead.astro";
 import StoryblokBridge from '../components/logic/StoryblokBridge.astro'; 
 import { ClientRouter } from 'astro:transitions';
+import { getGlobalSettings } from "../lib/storyblok";
+import type { GlobalSettings } from "@/types/storyblok";
 
 interface Props {
   title: string;
@@ -17,6 +19,10 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+// Fetch global settings once per page load
+// In a real Storyblok setup, 'config/global-settings' would be a content entry
+const globalSettings = await getGlobalSettings() as GlobalSettings | null;
 ---
 
 <!doctype html>
@@ -26,7 +32,6 @@ const { title, description } = Astro.props;
     <ClientRouter />
   </head>
   <body class="min-h-screen flex flex-col bg-background font-sans text-foreground antialiased">
-    <!-- Accessibility: Skip to Main Content -->
     <a 
       href="#main-content" 
       id="skip-nav"
@@ -35,14 +40,16 @@ const { title, description } = Astro.props;
       Skip to content
     </a>
 
-    <Header />
+    <!-- Pass settings to Header -->
+    <Header settings={globalSettings} />
 
-    <!-- Main Content Area -->
     <main id="main-content" class="flex-1 w-full" data-testid="layout-main">
       <slot />
     </main>
 
-    <Footer />
+    <!-- Pass settings to Footer -->
+    <Footer settings={globalSettings} />
+    
     <StoryblokBridge />
   </body>
 </html>

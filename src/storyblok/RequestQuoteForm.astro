@@ -1,0 +1,17 @@
+---
+/**
+ * @file RequestQuoteForm.astro
+ * @description Wrapper for the interactive quote wizard.
+ * Uses client:load for immediate interactivity.
+ */
+import RequestQuoteFormSvelte from './RequestQuoteForm.svelte';
+import type { SbBlokData } from '@storyblok/astro';
+
+interface Props {
+  blok: SbBlokData;
+}
+
+const { blok } = Astro.props;
+---
+
+<RequestQuoteFormSvelte blok={blok} client:load />

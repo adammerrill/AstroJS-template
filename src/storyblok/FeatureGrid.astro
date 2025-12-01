@@ -1,0 +1,12 @@
+---
+import FeatureGridSvelte from './FeatureGrid.svelte';
+import type { SbBlokData } from '@storyblok/astro';
+
+interface Props {
+  blok: SbBlokData;
+}
+
+const { blok } = Astro.props;
+---
+
+<FeatureGridSvelte blok={blok} client:idle />

@@ -17,6 +17,28 @@
 
   // Compiler Options: Customized for Astro ecosystem and project structure
   "compilerOptions": {
+    // --- CORE OUTPUT SETTINGS ---
+    "target": "ESNext",
+    "module": "ESNext",
+
+    // Module Resolution: "bundler" is critical for Vite 5/6 and Svelte 5 to properly resolve exports
+    "moduleResolution": "bundler",
+
+    // Verbatim Module Syntax: Enforces explicitly using `import type` for type-only imports.
+    // This prevents runtime crashes where the bundler tries to import a type as a value.
+    "verbatimModuleSyntax": true,
+
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+
+    // --- STRICTNESS & INTEROP ---
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+
+    // --- FRAMEWORK SPECIFIC ---
+
     // JSX: Preserve syntax for Astro's compiler processing
     // Astro handles JSX transformation internally, so we preserve original syntax
     "jsx": "preserve",
@@ -36,12 +58,14 @@
     },
 
     // Type Definitions: Explicitly includes types for Svelte components and Node.js runtime
+    // astro/client: Must be included for client-side hydration types
     // svelte: Enables TypeScript support in .svelte files
     // node: Provides Node.js built-in module types
     "types": [
-      "svelte", 
-      "node", 
-      "@testing-library/jest-dom", 
+      "astro/client",
+      "svelte",
+      "node",
+      "@testing-library/jest-dom",
       "vitest/globals"
     ]
   },
@@ -50,6 +74,7 @@
   // Covers Astro-generated types, source files across multiple frameworks, and tests
   "include": [
     ".astro/types.d.ts", // Astro-generated type definitions from content collections
+    "src/**/*.astro", // Astro component files
     "src/**/*.ts", // TypeScript source files
     "src/**/*.tsx", // TypeScript React/JSX files
     "src/**/*.svelte", // Svelte component files

@@ -38,14 +38,16 @@
         if (event.reload || !event.slugChanged) {
           window.location.reload(); 
         } else {
-          // If slug changed, reload to handle the new route
+          // If slug changed, 
+          // reload to handle the new route
           window.location.reload();
         }
       });
-      
+
       // Optional: Handle real-time input (keystrokes)
       // Docs: 'input' event returns the complete, unsaved story
-      storyblokInstance.on("input", (event) => {
+      storyblokInstance.on("input", () => {
+         // Input event handling (currently unused)
          // console.log("Live update:", event.story);
       });
     }

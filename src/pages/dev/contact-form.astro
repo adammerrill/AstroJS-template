@@ -1,0 +1,21 @@
+---
+/**
+ * @file contact-form.astro
+ * @description Development playground for ContactForm.
+ */
+import Layout from "../../layouts/Layout.astro";
+import ContactFormBlock from "../../storyblok/ContactForm.astro";
+
+const mockBlok = {
+  _uid: "dev-contact",
+  component: "contact_form",
+  headline: "Contact Sales",
+  subheadline: "We'd love to hear from you. Fill out the form below.",
+  submit_label: "Send Inquiry",
+  success_message: "Thanks! We've received your inquiry."
+};
+---
+
+<Layout title="Dev: Contact Form">
+  <ContactFormBlock blok={mockBlok} />
+</Layout>

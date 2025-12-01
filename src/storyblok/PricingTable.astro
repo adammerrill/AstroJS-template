@@ -1,0 +1,18 @@
+---
+/**
+ * @file PricingTable.astro
+ * @description Astro wrapper for the PricingTable component.
+ * Uses client:visible hydration to ensure the toggle works immediately
+ * when the user scrolls to the pricing section.
+ */
+import PricingTableSvelte from './PricingTable.svelte';
+import type { SbBlokData } from '@storyblok/astro';
+
+interface Props {
+  blok: SbBlokData;
+}
+
+const { blok } = Astro.props;
+---
+
+<PricingTableSvelte blok={blok} client:load />

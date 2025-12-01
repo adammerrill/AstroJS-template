@@ -1,0 +1,18 @@
+---
+/**
+ * @file FeatureAlternating.astro
+ * @description Astro wrapper for the Svelte FeatureAlternating component.
+ * Enables client-side hydration only when the component enters the viewport (client:visible)
+ * to optimize performance for lower-page content.
+ */
+import FeatureAlternatingSvelte from './FeatureAlternating.svelte';
+import type { SbBlokData } from '@storyblok/astro';
+
+interface Props {
+  blok: SbBlokData;
+}
+
+const { blok } = Astro.props;
+---
+
+<FeatureAlternatingSvelte blok={blok} client:visible />
