@@ -3,7 +3,7 @@
  * @description TypeScript environment declarations for Astro project.
  *              Defines global Window interface extensions for test instrumentation
  *              and third-party script integration.
- * 
+ *
  * @see {@link https://docs.astro.build/en/guides/typescript/}
  */
 
@@ -25,7 +25,7 @@ interface Window {
    * @see {@link https://www.storyblok.com/docs/guide/essentials/visual-editor}
    */
   StoryblokBridge: any;
-  
+
   /**
    * Storyblok event registration helper.
    * Used to subscribe to real-time content updates in the Visual Editor.
@@ -37,7 +37,7 @@ interface Window {
    * Exposes the active slide index for E2E assertions.
    */
   __testimonialActiveIndex?: number;
-  
+
   /**
    * Test instrumentation: TestimonialSlider hydration flag.
    * Set to true when the Svelte component is fully interactive.
@@ -51,7 +51,7 @@ interface Window {
   __contactFormData?: any;
   __contactFormStatus?: "idle" | "submitting" | "success" | "error";
   __contactFormErrors?: any;
-  
+
   /**
    * Test instrumentation: ContactForm hydration flag.
    * Set to true when the Svelte component is fully interactive.

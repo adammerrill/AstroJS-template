@@ -10,7 +10,7 @@ import type { SbBlokData } from "@storyblok/astro";
 const mockBlok = {
   _uid: "quote-1",
   component: "request_quote_form",
-  headline: "Get a Quote"
+  headline: "Get a Quote",
 } as unknown as SbBlokData;
 
 describe("RequestQuoteForm Component", () => {
@@ -22,7 +22,7 @@ describe("RequestQuoteForm Component", () => {
 
   it("validates step 1 before proceeding", async () => {
     render(RequestQuoteForm, { props: { blok: mockBlok } });
-    
+
     const nextBtn = screen.getByText("Next Step");
     await fireEvent.click(nextBtn);
 
@@ -32,11 +32,11 @@ describe("RequestQuoteForm Component", () => {
 
   it("moves to step 2 after valid input", async () => {
     render(RequestQuoteForm, { props: { blok: mockBlok } });
-    
+
     // Fill Step 1
     const select = screen.getByLabelText(/Service Type/);
     await fireEvent.change(select, { target: { value: "plumbing" } });
-    
+
     const desc = screen.getByLabelText(/Description/);
     await fireEvent.input(desc, { target: { value: "Leaky faucet" } });
 

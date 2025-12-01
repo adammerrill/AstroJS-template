@@ -14,23 +14,46 @@ const mockBlok = {
   component: "feature_alternating",
   headline: "Deep Dive",
   items: [
-    { _uid: "1", headline: "Item One (Left)", description: "Desc 1", image: { filename: "" } },
-    { _uid: "2", headline: "Item Two (Right)", description: "Desc 2", image: { filename: "" } },
-    { _uid: "3", headline: "Item Three (Left)", description: "Desc 3", image: { filename: "" } }
-  ]
+    {
+      _uid: "1",
+      headline: "Item One (Left)",
+      description: "Desc 1",
+      image: { filename: "" },
+    },
+    {
+      _uid: "2",
+      headline: "Item Two (Right)",
+      description: "Desc 2",
+      image: { filename: "" },
+    },
+    {
+      _uid: "3",
+      headline: "Item Three (Left)",
+      description: "Desc 3",
+      image: { filename: "" },
+    },
+  ],
 } as unknown as SbBlokData;
 
 describe("FeatureAlternating Component", () => {
   it("renders the main headline", () => {
     render(FeatureAlternating, { props: { blok: mockBlok } });
-    expect(screen.getByRole("heading", { name: "Deep Dive" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Deep Dive" }),
+    ).toBeInTheDocument();
   });
 
   it("renders all feature items", () => {
     render(FeatureAlternating, { props: { blok: mockBlok } });
-    expect(screen.getByRole("heading", { name: "Item One (Left)" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Item Two (Right)" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Item Three (Left)" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Item One (Left)" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Item Two (Right)" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Item Three (Left)" }),
+    ).toBeInTheDocument();
   });
 
   it("applies alternating layout classes", () => {

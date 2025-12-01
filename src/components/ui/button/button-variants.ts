@@ -15,9 +15,9 @@ import type { Snippet } from "svelte";
 
 /**
  * Tailwind Variants configuration for the Button component.
- * utilzes the `tv` helper to define base styles, variants, and compound variants.
+ * Utilizes the `tv` helper to define base styles, variants, and compound variants.
+ *
  * * @constant
- * @type {import("tailwind-variants").TVReturnType}
  * * @property {object} base - The foundational classes applied to all buttons (flexbox, focus rings, disabled states).
  * @property {object} variants - The configurable style categories.
  * @property {object} variants.variant - Visual style themes (default, destructive, outline, etc.).
@@ -57,13 +57,11 @@ export const buttonVariants = tv({
 
 /**
  * Extract of the 'variant' keys from the buttonVariants configuration.
- * @typedef {string} ButtonVariant
  */
 export type ButtonVariant = VariantProps<typeof buttonVariants>["variant"];
 
 /**
  * Extract of the 'size' keys from the buttonVariants configuration.
- * @typedef {string} ButtonSize
  */
 export type ButtonSize = VariantProps<typeof buttonVariants>["size"];
 

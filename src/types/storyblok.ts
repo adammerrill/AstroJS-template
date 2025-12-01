@@ -4,11 +4,11 @@
  *              Provides type safety for CMS content structures used throughout
  *              the application, including global settings, navigation, and
  *              component-specific content types.
- * 
+ *
  * @module types/storyblok
  * @version 1.0.0
  * @date 2025-11-30
- * 
+ *
  * @see {@link https://www.storyblok.com/docs/guide/essentials/content-structures}
  */
 
@@ -17,7 +17,7 @@ import type { SbBlokData } from "@storyblok/astro";
 /**
  * Represents a Storyblok link object.
  * Can be either an internal link (with cached_url) or external link (with url).
- * 
+ *
  * @interface StoryblokLink
  * @property {string} [cached_url] - Internal link path (e.g., "about", "blog/post-1")
  * @property {string} [url] - External URL (e.g., "https://example.com")
@@ -35,7 +35,7 @@ export interface StoryblokLink {
 
 /**
  * Represents a single navigation item in the header or footer.
- * 
+ *
  * @interface NavigationItem
  * @property {string} _uid - Unique identifier for this item
  * @property {string} name - Display text for the navigation link
@@ -51,7 +51,7 @@ export interface NavigationItem {
 
 /**
  * Represents a footer column with multiple links.
- * 
+ *
  * @interface FooterColumn
  * @property {string} _uid - Unique identifier for this column
  * @property {string} title - Column heading text
@@ -67,7 +67,7 @@ export interface FooterColumn {
 
 /**
  * Represents a social media link with icon.
- * 
+ *
  * @interface SocialLink
  * @property {string} _uid - Unique identifier for this social link
  * @property {string} platform - Social platform name (e.g., "twitter", "linkedin", "github")
@@ -86,10 +86,10 @@ export interface SocialLink {
 /**
  * Global Settings content type from Storyblok.
  * Contains site-wide configuration including navigation, footer, and metadata.
- * 
+ *
  * @interface GlobalSettings
  * @extends {SbBlokData}
- * 
+ *
  * @property {string} [site_title] - Site name displayed in header (e.g., "Astro Template")
  * @property {string} [site_description] - Default meta description for SEO
  * @property {string} [site_url] - Canonical site URL (e.g., "https://example.com")
@@ -129,8 +129,7 @@ export interface GlobalSettings extends SbBlokData {
 /**
  * Represents a rich text field from Storyblok.
  * Contains structured content in Storyblok's document format.
- * 
- * @interface StoryblokRichText
+ * * @interface StoryblokRichText
  * @property {string} type - Document type (usually "doc")
  * @property {Array} content - Array of content nodes (paragraphs, headings, etc.)
  */
@@ -138,16 +137,16 @@ export interface StoryblokRichText {
   type: string;
   content?: Array<{
     type: string;
-    content?: any[];
-    attrs?: Record<string, any>;
-    marks?: Array<{ type: string; attrs?: Record<string, any> }>;
+    content?: SbBlokData[];
+    attrs?: Record<string, unknown>;
+    marks?: Array<{ type: string; attrs?: Record<string, unknown> }>;
     text?: string;
   }>;
 }
 
 /**
  * Represents an asset (image, video, file) from Storyblok.
- * 
+ *
  * @interface StoryblokAsset
  * @property {string} filename - Full URL to the asset
  * @property {string} [alt] - Alt text for images
@@ -165,41 +164,43 @@ export interface StoryblokAsset {
 
 /**
  * Type guard to check if a value is a valid NavigationItem.
- * 
- * @param {any} item - Value to check
+ * * @param {unknown} item - Value to check
  * @returns {boolean} True if item is a valid NavigationItem
  */
-export function isNavigationItem(item: any): item is NavigationItem {
+export function isNavigationItem(item: unknown): item is NavigationItem {
+  // We use type narrowing inside the return block.
   return (
-    item &&
-    typeof item === "object" &&
-    typeof item.name === "string" &&
-    typeof item.link === "object"
+    !!item && // Ensure item is not null/undefined
+    typeof item === "object" && // Ensure it's an object
+    // Perform safer type check on properties
+    typeof (item as NavigationItem).name === "string" &&
+    typeof (item as NavigationItem).link === "object"
   );
 }
 
 /**
  * Type guard to check if a value is a valid StoryblokLink.
- * 
- * @param {any} link - Value to check
+ * * @param {unknown} link - Value to check
  * @returns {boolean} True if link is a valid StoryblokLink
  */
-export function isStoryblokLink(link: any): link is StoryblokLink {
+export function isStoryblokLink(link: unknown): link is StoryblokLink {
   return (
-    link &&
-    typeof link === "object" &&
-    (typeof link.cached_url === "string" || typeof link.url === "string")
+    !!link && // Ensure link is not null/undefined
+    typeof link === "object" && // Ensure it's an object
+    // Check if EITHER cached_url OR url is present and a string
+    (typeof (link as StoryblokLink).cached_url === "string" ||
+      typeof (link as StoryblokLink).url === "string")
   );
 }
 
 /**
  * Helper function to safely resolve a Storyblok link to a URL string.
  * Prioritizes internal links (cached_url) over external links (url).
- * 
+ *
  * @param {StoryblokLink | undefined} link - Link object to resolve
  * @param {string} [fallback="#"] - Fallback URL if link is invalid
  * @returns {string} Resolved URL string
- * 
+ *
  * @example
  * const url = resolveLink({ cached_url: "about" }); // Returns "/about"
  * const url = resolveLink({ url: "https://example.com" }); // Returns "https://example.com"
@@ -207,31 +208,31 @@ export function isStoryblokLink(link: any): link is StoryblokLink {
  */
 export function resolveLink(
   link: StoryblokLink | undefined,
-  fallback: string = "#"
+  fallback: string = "#",
 ): string {
   if (!link) return fallback;
-  
+
   if (link.cached_url) {
     // Internal link - prepend slash if not present
-    return link.cached_url.startsWith("/") 
-      ? link.cached_url 
+    return link.cached_url.startsWith("/")
+      ? link.cached_url
       : `/${link.cached_url}`;
   }
-  
+
   if (link.url) {
     // External link - return as-is
     return link.url;
   }
-  
+
   return fallback;
 }
 
 /**
  * Helper function to determine if a link should open in a new tab.
- * 
+ *
  * @param {StoryblokLink | undefined} link - Link object to check
  * @returns {boolean} True if link should open in new tab
- * 
+ *
  * @example
  * const shouldOpenNewTab = isExternalLink({ url: "https://example.com" }); // true
  * const shouldOpenNewTab = isExternalLink({ cached_url: "about" }); // false

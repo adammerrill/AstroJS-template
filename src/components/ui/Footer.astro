@@ -4,8 +4,15 @@
  * @description Global Footer component.
  * Dynamically renders navigation columns based on Storyblok Global Settings.
  * Supports flexible column layouts via the 'footer_columns' block list.
+ *
+ * @module components/ui/Footer
+ * @version 1.1.0
+ * * @imports
+ * - GlobalSettings, FooterColumn, NavigationItem: For type-safe content injection.
+ * - resolveLink: ISO-compliant, type-safe utility for URL resolution.
  */
 import type { GlobalSettings, FooterColumn, NavigationItem } from "@/types/storyblok";
+import { resolveLink } from "@/types/storyblok"; 
 
 interface Props {
   settings?: GlobalSettings | null;
@@ -27,7 +34,7 @@ const defaultColumns: FooterColumn[] = [
     component: "footer_column"
   },
   {
-    _uid: "def-2",
+   _uid: "def-2",
     title: "Resources",
     links: [
       { _uid: "l4", name: "Documentation", link: { url: "#" } } as NavigationItem,
@@ -43,23 +50,13 @@ const footerColumns = settings?.footer_columns?.length
   ? settings.footer_columns 
   : defaultColumns;
 
-// Helper to resolve Storyblok links (handles leading slash consistency)
-const getHref = (link: any) => {
-  if (!link) return '#';
-  if (link.cached_url) {
-    return link.cached_url.startsWith('/') ? link.cached_url : `/${link.cached_url}`;
-  }
-  return link.url || '#';
-};
 ---
 
 <footer class="border-t border-border bg-card py-12 md:py-16 mt-auto">
   <div class="mx-auto w-full max-w-7xl px-4 bp1020:px-6">
     <div class="grid gap-10 md:gap-12 lg:grid-cols-4 mb-12">
-      <!-- Brand Section (Always first, spans 2 cols on large screens) -->
       <div class="lg:col-span-2 space-y-4">
         <div class="flex items-center gap-2">
-          <!-- Optional Logo could go here -->
           <h3 class="font-bold text-xl text-foreground">
             {settings?.site_title || "Astro Template"}
           </h3>
@@ -69,7 +66,6 @@ const getHref = (link: any) => {
         </p>
       </div>
       
-      <!-- Dynamic Columns Loop (Fixed: Using .map instead of #each) -->
       {footerColumns.map((col) => (
         <div>
           <h4 class="font-semibold text-sm mb-4 text-foreground uppercase tracking-wider">
@@ -79,7 +75,7 @@ const getHref = (link: any) => {
             {col.links && col.links.map((item) => (
               <li>
                 <a 
-                  href={getHref(item.link)} 
+                  href={resolveLink(item.link)}
                   class="text-sm text-muted-foreground hover:text-primary transition-colors block"
                 >
                   {item.name}
@@ -97,10 +93,8 @@ const getHref = (link: any) => {
           {settings?.copyright_text || `© ${year} ${settings?.site_title || "Astro Template"}. All rights reserved.`}
         </p>
         
-        <!-- Social Links Placeholder -->
         <div class="flex gap-4">
-          <!-- Future: Map social_links from settings here -->
-        </div>
+          </div>
       </div>
     </div>
   </div>

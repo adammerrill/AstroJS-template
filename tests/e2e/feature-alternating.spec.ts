@@ -9,19 +9,28 @@ test.describe("Feature Alternating Component", () => {
   // Block third-party scripts to ensure stability
   test.beforeEach(async ({ context }) => {
     await context.route("**/@storyblok/**", (route) => route.abort());
-    await context.route("**/node_modules/.vite/deps/@storyblok**", (route) => route.abort());
+    await context.route("**/node_modules/.vite/deps/@storyblok**", (route) =>
+      route.abort(),
+    );
     await context.route("**/__astro_dev_toolbar__**", (route) => route.abort());
   });
 
   test("renders correctly on desktop with zig-zag layout", async ({ page }) => {
-    await page.goto("/dev/feature-alternating", { timeout: 30000, waitUntil: "domcontentloaded" });
+    await page.goto("/dev/feature-alternating", {
+      timeout: 30000,
+      waitUntil: "domcontentloaded",
+    });
 
     const container = page.getByTestId("feature-alternating");
     await expect(container).toBeVisible();
 
     // Verify Content
-    await expect(page.getByRole("heading", { name: "Core Platform Capabilities" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Server-Side Rendering" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Core Platform Capabilities" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Server-Side Rendering" }),
+    ).toBeVisible();
 
     // Verify Layout Classes
     // Item 1 (Index 0): Should NOT have row-reverse
@@ -36,22 +45,30 @@ test.describe("Feature Alternating Component", () => {
     await page.waitForLoadState("networkidle");
 
     // Visual Check
-    await expect(container).toHaveScreenshot("feature-alternating-desktop.png", {
-      maxDiffPixelRatio: 0.02,
-      timeout: 10000,
-    });
+    await expect(container).toHaveScreenshot(
+      "feature-alternating-desktop.png",
+      {
+        maxDiffPixelRatio: 0.02,
+        timeout: 10000,
+      },
+    );
   });
 
   test("stacks vertically on mobile", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.goto("/dev/feature-alternating", { timeout: 30000, waitUntil: "domcontentloaded" });
+    await page.goto("/dev/feature-alternating", {
+      timeout: 30000,
+      waitUntil: "domcontentloaded",
+    });
 
     const container = page.getByTestId("feature-alternating");
     await expect(container).toBeVisible();
 
     // On mobile, flex-direction defaults to column (from 'flex flex-col' class).
     // We check that the element is visible and roughly correct.
-    await expect(page.getByRole("heading", { name: "Edge Network Distribution" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Edge Network Distribution" }),
+    ).toBeVisible();
 
     await page.waitForLoadState("networkidle");
 

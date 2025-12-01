@@ -12,7 +12,7 @@ const mockBlok = {
   _uid: "form-1",
   component: "contact_form",
   headline: "Contact Us",
-  submit_label: "Send"
+  submit_label: "Send",
 } as unknown as SbBlokData;
 
 describe("ContactForm Component", () => {
@@ -25,7 +25,7 @@ describe("ContactForm Component", () => {
 
   it("shows validation errors on empty submit", async () => {
     render(ContactForm, { props: { blok: mockBlok } });
-    
+
     const submitBtn = screen.getByRole("button", { name: "Send" });
     await fireEvent.click(submitBtn);
 
@@ -36,7 +36,7 @@ describe("ContactForm Component", () => {
 
   it("validates email format", async () => {
     render(ContactForm, { props: { blok: mockBlok } });
-    
+
     const nameInput = screen.getByLabelText(/Name/);
     const emailInput = screen.getByLabelText(/Email/);
     const messageInput = screen.getByLabelText(/Message/);
@@ -44,24 +44,28 @@ describe("ContactForm Component", () => {
     await fireEvent.input(nameInput, { target: { value: "Test" } });
     await fireEvent.input(emailInput, { target: { value: "invalid-email" } });
     await fireEvent.input(messageInput, { target: { value: "Test message" } });
-    
+
     const submitBtn = screen.getByRole("button", { name: "Send" });
     await fireEvent.click(submitBtn);
 
-    expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();
+    expect(
+      screen.getByText("Please enter a valid email address"),
+    ).toBeInTheDocument();
   });
 
   it("submits successfully with valid data", async () => {
     render(ContactForm, { props: { blok: mockBlok } });
-    
+
     const nameInput = screen.getByLabelText(/Name/);
     const emailInput = screen.getByLabelText(/Email/);
     const messageInput = screen.getByLabelText(/Message/);
 
     await fireEvent.input(nameInput, { target: { value: "Test User" } });
-    await fireEvent.input(emailInput, { target: { value: "test@example.com" } });
+    await fireEvent.input(emailInput, {
+      target: { value: "test@example.com" },
+    });
     await fireEvent.input(messageInput, { target: { value: "Test message" } });
-    
+
     const submitBtn = screen.getByRole("button", { name: "Send" });
     await fireEvent.click(submitBtn);
 

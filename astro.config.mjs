@@ -43,7 +43,7 @@ export default defineConfig({
         feature_alternating: "storyblok/FeatureAlternating",
         testimonial_slider: "storyblok/TestimonialSlider",
         logo_cloud: "storyblok/LogoCloud",
-        
+
         // CONVERSION COMPONENTS
         pricing_table: "storyblok/PricingTable",
         contact_form: "storyblok/ContactForm",
@@ -62,10 +62,7 @@ export default defineConfig({
   ],
 
   vite: {
-    plugins: [
-      tailwindcss(),
-      mkcert(),
-    ],
+    plugins: [tailwindcss(), mkcert()],
     logLevel: "info",
     server: {
       host: "localhost",

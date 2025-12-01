@@ -28,7 +28,10 @@ describe("Card System", () => {
   describe("Card (Root)", () => {
     it("renders with default classes and data-slot", () => {
       render(Card, {
-        props: { children: createSnippet("Card Body") } as Record<string, unknown>,
+        props: { children: createSnippet("Card Body") } as Record<
+          string,
+          unknown
+        >,
       });
       const card = screen.getByText("Card Body").closest("div");
 

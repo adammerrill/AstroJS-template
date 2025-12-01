@@ -15,8 +15,8 @@ const mockBlok = {
   headline: "Trusted by Industry Leaders",
   logos: [
     { _uid: "l1", filename: "https://example.com/logo1.png", alt: "Acme Corp" },
-    { _uid: "l2", filename: "https://example.com/logo2.png", name: "Globex" } // Fallback to name
-  ]
+    { _uid: "l2", filename: "https://example.com/logo2.png", name: "Globex" }, // Fallback to name
+  ],
 } as unknown as SbBlokData;
 
 describe("LogoCloud Component", () => {
@@ -27,7 +27,7 @@ describe("LogoCloud Component", () => {
 
   it("renders logos with correct alt text", () => {
     render(LogoCloud, { props: { blok: mockBlok } });
-    
+
     // Check explicit alt
     const img1 = screen.getByAltText("Acme Corp");
     expect(img1).toBeInTheDocument();

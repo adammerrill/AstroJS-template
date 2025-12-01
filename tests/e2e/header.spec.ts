@@ -2,7 +2,7 @@
  * @file header.spec.ts
  * @description End-to-end tests for Header component with mobile drawer.
  *              Validates responsive behavior, accessibility, and interaction patterns.
- * 
+ *
  * Test Coverage:
  * - Responsive breakpoint behavior (1020px)
  * - Mobile drawer interactions (open, close, keyboard, backdrop)
@@ -11,7 +11,7 @@
  * - Layout and spacing at various viewports
  * - ARIA attributes and accessibility
  * - Visual effects (glass, blur)
- * 
+ *
  * @requires @playwright/test
  * @requires Header.astro (component under test)
  * @see {@link https://playwright.dev/docs/writing-tests}
@@ -176,7 +176,7 @@ test.describe("Header Component - Production Validation", () => {
 
     test("Opens with backdrop blur", async ({ page }) => {
       await page.locator("#mobile-menu-button").click();
-      
+
       // Wait for drawer to fully open
       await expect(
         page.locator('[data-testid="mobile-drawer"]'),
@@ -192,13 +192,13 @@ test.describe("Header Component - Production Validation", () => {
 
     test("Contains navigation links", async ({ page }) => {
       await page.locator("#mobile-menu-button").click();
-      
+
       // Wait for drawer to open
       await page.waitForTimeout(500);
-      
+
       const navLinks = page.locator("#mobile-drawer nav a");
       await expect(navLinks).toHaveCount(4);
-      
+
       // Verify 'About' link exists (updated from 'Contact')
       await expect(
         page.locator('#mobile-drawer a:text-is("About")'),
@@ -207,15 +207,15 @@ test.describe("Header Component - Production Validation", () => {
 
     test("Closes on Escape key", async ({ page }) => {
       await page.locator("#mobile-menu-button").click();
-      
+
       // Wait for drawer to fully open
       await expect(
         page.locator('[data-testid="mobile-drawer"]'),
       ).toHaveAttribute("data-state", "open", { timeout: 5000 });
-      
+
       // Press Escape
       await page.keyboard.press("Escape");
-      
+
       // Wait for drawer to close
       await expect(
         page.locator('[data-testid="mobile-drawer"]'),
@@ -224,15 +224,15 @@ test.describe("Header Component - Production Validation", () => {
 
     test("Closes on backdrop click", async ({ page }) => {
       await page.locator("#mobile-menu-button").click();
-      
+
       // Wait for drawer to fully open
       await expect(
         page.locator('[data-testid="mobile-drawer"]'),
       ).toHaveAttribute("data-state", "open", { timeout: 5000 });
-      
+
       // Click backdrop (force because it may be behind panel)
       await page.locator("#drawer-backdrop").click({ force: true });
-      
+
       // Wait for drawer to close
       await expect(
         page.locator('[data-testid="mobile-drawer"]'),
@@ -241,12 +241,12 @@ test.describe("Header Component - Production Validation", () => {
 
     test("Focus trap cycles within drawer", async ({ page }) => {
       await page.locator("#mobile-menu-button").click();
-      
+
       // Wait for drawer to open and focus to be set
       await page.waitForTimeout(500);
-      
+
       const closeButton = page.locator("#drawer-close-button");
-      
+
       // Verify close button receives initial focus
       await expect(closeButton).toBeFocused({ timeout: 5000 });
 
@@ -263,10 +263,10 @@ test.describe("Header Component - Production Validation", () => {
 
     test("Body scroll lock when open", async ({ page }) => {
       await page.locator("#mobile-menu-button").click();
-      
+
       // Wait for drawer to open
       await page.waitForTimeout(500);
-      
+
       const isLocked = await page.evaluate(
         () => document.body.style.overflow === "hidden",
       );
@@ -276,19 +276,21 @@ test.describe("Header Component - Production Validation", () => {
     test("Body scroll restored when closed", async ({ page }) => {
       // Open drawer
       await page.locator("#mobile-menu-button").click();
-      
+
       // Wait for drawer to open
       await page.waitForTimeout(500);
-      
+
       // Close drawer with Escape
       await page.keyboard.press("Escape");
-      
+
       // Wait for close animation to complete
       await page.waitForTimeout(500);
-      
+
       // Verify body scroll is restored
       const isRestored = await page.evaluate(
-        () => document.body.style.overflow === "" || document.body.style.overflow === "visible",
+        () =>
+          document.body.style.overflow === "" ||
+          document.body.style.overflow === "visible",
       );
       expect(isRestored).toBe(true);
     });
@@ -320,7 +322,9 @@ test.describe("Header Component - Production Validation", () => {
       await expect(drawer).toHaveAttribute("aria-hidden", "true");
 
       await page.locator("#mobile-menu-button").click();
-      await expect(drawer).toHaveAttribute("aria-hidden", "false", { timeout: 5000 });
+      await expect(drawer).toHaveAttribute("aria-hidden", "false", {
+        timeout: 5000,
+      });
     });
   });
 
@@ -398,7 +402,7 @@ test.describe("Header Component - Production Validation", () => {
 
       // Open drawer
       await page.locator("#mobile-menu-button").click();
-      
+
       // Wait for drawer to open
       await page.waitForTimeout(500);
 

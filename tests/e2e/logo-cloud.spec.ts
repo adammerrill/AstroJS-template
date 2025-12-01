@@ -8,12 +8,17 @@ test.describe("Logo Cloud Component", () => {
   // Block third-party scripts
   test.beforeEach(async ({ context }) => {
     await context.route("**/@storyblok/**", (route) => route.abort());
-    await context.route("**/node_modules/.vite/deps/@storyblok**", (route) => route.abort());
+    await context.route("**/node_modules/.vite/deps/@storyblok**", (route) =>
+      route.abort(),
+    );
     await context.route("**/__astro_dev_toolbar__**", (route) => route.abort());
   });
 
   test("renders correctly on desktop", async ({ page }) => {
-    await page.goto("/dev/logo-cloud", { timeout: 30000, waitUntil: "domcontentloaded" });
+    await page.goto("/dev/logo-cloud", {
+      timeout: 30000,
+      waitUntil: "domcontentloaded",
+    });
 
     const cloud = page.getByTestId("logo-cloud");
     await expect(cloud).toBeVisible();
@@ -34,7 +39,10 @@ test.describe("Logo Cloud Component", () => {
 
   test("responsiveness: grid adjusts on mobile", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.goto("/dev/logo-cloud", { timeout: 30000, waitUntil: "domcontentloaded" });
+    await page.goto("/dev/logo-cloud", {
+      timeout: 30000,
+      waitUntil: "domcontentloaded",
+    });
 
     const cloud = page.getByTestId("logo-cloud");
     await expect(cloud).toBeVisible();

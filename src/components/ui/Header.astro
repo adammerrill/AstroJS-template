@@ -2,21 +2,24 @@
 /**
  * @file Header.astro
  * @description Global Header component with responsive navigation.
- *              Implements accessible mobile drawer with focus management,
- *              keyboard navigation, and proper ARIA attributes.
- * 
- * Features:
+ * Implements accessible mobile drawer with focus management,
+ * keyboard navigation, and proper ARIA attributes. [cite: 2]
+ * * Features:
  * - Responsive breakpoint at 1020px (bp1020 Tailwind variant)
  * - Mobile drawer with backdrop blur and focus trap
  * - Dynamic navigation from Storyblok Global Settings
  * - Keyboard accessibility (Escape to close, Tab cycling)
  * - Body scroll lock when drawer is open
- * 
- * @requires @storyblok/astro
+ * * @requires @storyblok/astro
  * @requires GlobalSettings type definition
- * @see {@link https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/}
+ * * @module components/ui/Header
+ * @version 1.1.0
+ * * @imports
+ * - GlobalSettings, NavigationItem: For type-safe content injection.
+ * - resolveLink: ISO-compliant, type-safe utility for URL resolution.
  */
- import type { GlobalSettings } from "@/types/storyblok";
+ import type { GlobalSettings, NavigationItem } from "@/types/storyblok"; 
+ import { resolveLink } from "@/types/storyblok";
 
 interface Props {
   settings?: GlobalSettings | null;
@@ -30,25 +33,15 @@ const currentPath = Astro.url.pathname;
  * are unavailable or empty.
  * @constant
  */
-const defaultLinks = [
-  { name: "Home", link: { url: "/" } },
-  { name: "Services", link: { url: "/services" } },
-  { name: "About", link: { url: "/about" } },
-  { name: "Blog", link: { url: "/blog" } },
+const defaultLinks: NavigationItem[] = [
+  { _uid: "d1", name: "Home", link: { cached_url: "/" } }, 
+  { _uid: "d2", name: "Services", link: { cached_url: "services" } },
+  { _uid: "d3", name: "About", link: { cached_url: "about" } },
+  { _uid: "d4", name: "Blog", link: { cached_url: "blog" } },
 ];
 
 const navLinks = settings?.header_nav || defaultLinks;
 
-/**
- * Resolves Storyblok link objects to URL strings.
- * Handles both internal (cached_url) and external (url) links.
- * 
- * @param {any} link - Storyblok link object
- * @returns {string} Resolved URL path
- */
-const getHref = (link: any) => {
-  return link.cached_url ? `/${link.cached_url}` : link.url || '#';
-};
 ---
 
 <header 
@@ -87,7 +80,7 @@ const getHref = (link: any) => {
       <!-- Desktop Navigation -->
       <nav class="hidden bp1020:flex items-center gap-6 ml-8" data-testid="desktop-nav">
         {navLinks.map((item) => {
-          const href = getHref(item.link);
+          const href = resolveLink(item.link);
           const isActive = currentPath === href || (href !== '/' && currentPath.startsWith(href));
           return (
             <a
@@ -178,7 +171,7 @@ const getHref = (link: any) => {
     <div class="flex-1 flex flex-col justify-between p-4">
       <nav class="flex flex-col space-y-2">
         {navLinks.map((item) => {
-          const href = getHref(item.link);
+          const href = resolveLink(item.link);
           const isActive = currentPath === href;
           return (
             <a

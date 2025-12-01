@@ -80,7 +80,10 @@ describe("Button Component", () => {
     const handleClick = vi.fn();
     // FIX: Removed unused 'component'
     render(Button, {
-      props: { children: createSnippet("Clickable") } as Record<string, unknown>,
+      props: { children: createSnippet("Clickable") } as Record<
+        string,
+        unknown
+      >,
     });
 
     const button = screen.getByRole("button");

@@ -1,29 +1,47 @@
+// /tests/e2e/contact-form.spec.ts
 /**
  * @file contact-form.spec.ts
  * @description E2E tests for ContactForm component.
  * Verifies validation and successful submission flow.
+ * * * ISO 8601:2004 - Type instrumentation for strict Playwright/TypeScript compliance.
+ *
+ * @module tests/e2e/contact-form.spec
+ * @requires Playwright Page
  */
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
+
+// Define the required custom window interface for type safety
+interface WindowWithContactTest extends Window {
+  __contactFormReady?: boolean;
+}
 
 test.describe("Contact Form Component", () => {
   const BASE_URL = "https://localhost:4321";
 
   test.beforeEach(async ({ page }) => {
-    // Log console messages for debugging
+    /**
+     * Helper to log all browser console messages to the test output.
+     * @param msg - The console message object from Playwright.
+     */
     page.on("console", (msg) => {
       console.log(`[BROWSER ${msg.type()}]:`, msg.text());
     });
   });
 
-  // Helper to wait for component hydration
-  async function waitForComponentReady(page: any) {
+  /**
+   * Helper to wait for the ContactForm Svelte component to complete client-side hydration.
+   * Asserts the existence of the '__contactFormReady' flag set by the component's $effect rune.
+   */
+  async function waitForComponentReady(page: Page): Promise<void> {
     await page.waitForLoadState("networkidle");
     await page.waitForTimeout(3000);
 
     try {
       await page.waitForFunction(
-        () => (window as any).__contactFormReady === true,
-        { timeout: 10000 }
+        () =>
+          (window as unknown as WindowWithContactTest).__contactFormReady ===
+          true,
+        { timeout: 10000 },
       );
       console.log("[TEST] Component is ready");
     } catch (err) {
@@ -74,10 +92,10 @@ test.describe("Contact Form Component", () => {
     // 4. Verify Success State
     const successMessage = page.getByTestId("success-message");
     await expect(successMessage).toBeVisible({ timeout: 5000 });
-    
+
     // Check for success text (partial match)
     await expect(
-      successMessage.getByText(/Thanks.*received your inquiry/i)
+      successMessage.getByText(/Thanks.*received your inquiry/i),
     ).toBeVisible();
 
     console.log("[TEST] Form submitted successfully");
@@ -101,7 +119,9 @@ test.describe("Contact Form Component", () => {
     await page.waitForTimeout(500);
 
     // Check for email validation error
-    await expect(page.getByText("Please enter a valid email address")).toBeVisible();
+    await expect(
+      page.getByText("Please enter a valid email address"),
+    ).toBeVisible();
 
     console.log("[TEST] Email validation works correctly");
   });
@@ -121,7 +141,9 @@ test.describe("Contact Form Component", () => {
     await page.getByRole("button", { name: "Send Inquiry" }).click();
 
     // Wait for success
-    await expect(page.getByTestId("success-message")).toBeVisible({ timeout: 5000 });
+    await expect(page.getByTestId("success-message")).toBeVisible({
+      timeout: 5000,
+    });
 
     // Click "Send another message"
     await page.getByText("Send another message").click();
