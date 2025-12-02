@@ -1,6 +1,5 @@
 <script lang="ts">
   import { storyblokEditable } from "@storyblok/svelte";
-  import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
   import type { SbBlokData } from "@storyblok/astro";
 
   interface FeatureGridProps {

@@ -1,7 +1,25 @@
 ---
 // src/storyblok/Grid.astro
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import GridSvelte from './Grid.svelte';
-const { blok } = Astro.props;
+import type { SbBlokData } from '@storyblok/astro';
+
+// 1. Define the specific structure for the Grid blok.
+interface GridBlok extends SbBlokData {
+  columns?: Array<SbBlokData>;
+}
+
+interface Props {
+  blok: GridBlok;
+}
+
+// 2. Cast props to the interface to resolve the TS error
+const { blok } = Astro.props as Props;
 ---
 
-<GridSvelte blok={blok} />
+<GridSvelte blok={blok}>
+  {/* 3. Pass nested components as children to Svelte */}
+  {blok.columns?.map((nestedBlok) => (
+    <StoryblokComponent blok={nestedBlok} />
+  ))}
+</GridSvelte>

@@ -36,6 +36,14 @@
   let errors = $state<Record<string, string>>({});
   let status = $state<"idle" | "submitting" | "success" | "error">("idle");
 
+  // --- Type Definitions for E2E Testing ---
+  // Extends the global Window interface to include our test hooks
+  interface TestWindow extends Window {
+    __quoteFormStep?: number;
+    __quoteFormStatus?: string;
+    __quoteFormReady?: boolean;
+  }
+
   // --- Validation Logic ---
   const validateStep = (step: number) => {
     const newErrors: Record<string, string> = {};
@@ -98,9 +106,12 @@
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // eslint-disable-next-line no-console
       console.log("[RequestQuote] Submission:", formData);
       status = "success";
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
       status = "error";
     }
@@ -109,11 +120,15 @@
   // --- E2E Instrumentation ---
   $effect(() => {
     if (typeof window !== "undefined") {
-      (window as any).__quoteFormStep = currentStep;
-      (window as any).__quoteFormStatus = status;
+      // Safe cast to our extended interface
+      const testWindow = window as unknown as TestWindow;
       
-      if (!(window as any).__quoteFormReady) {
-        (window as any).__quoteFormReady = true;
+      testWindow.__quoteFormStep = currentStep;
+      testWindow.__quoteFormStatus = status;
+      
+      if (!testWindow.__quoteFormReady) {
+        testWindow.__quoteFormReady = true;
+        // eslint-disable-next-line no-console
         console.log("[QUOTE] Component Ready");
       }
     }
@@ -143,7 +158,6 @@
           <p class="text-muted-foreground">We will review your request and contact you shortly.</p>
         </div>
       {:else}
-        <!-- Progress Bar -->
         <div class="flex items-center justify-between mb-8 text-sm font-medium text-muted-foreground">
           <span>Step {currentStep} of {totalSteps}</span>
           <div class="h-2 w-32 bg-secondary rounded-full overflow-hidden">
@@ -152,7 +166,6 @@
         </div>
 
         <form onsubmit={(e) => e.preventDefault()}>
-          <!-- STEP 1: Service Info -->
           {#if currentStep === 1}
             <div class="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
               <div class="space-y-2">
@@ -177,7 +190,7 @@
                 <textarea 
                   id="desc" 
                   bind:value={formData.description}
-                  class={cn("flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50", errors.description && "border-destructive")}
+                  class={cn("flex min-h-80px w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50", errors.description && "border-destructive")}
                   placeholder="Describe your issue..."
                 ></textarea>
                 {#if errors.description}
@@ -187,7 +200,6 @@
             </div>
           {/if}
 
-          <!-- STEP 2: Location -->
           {#if currentStep === 2}
             <div class="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
               <div class="space-y-2">
@@ -220,7 +232,6 @@
             </div>
           {/if}
 
-          <!-- STEP 3: Contact Info -->
           {#if currentStep === 3}
             <div class="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
               <div class="space-y-2">
@@ -253,7 +264,6 @@
             </div>
           {/if}
 
-          <!-- Navigation Buttons -->
           <div class="flex justify-between mt-8 pt-4 border-t">
             <Button 
               variant="outline" 
