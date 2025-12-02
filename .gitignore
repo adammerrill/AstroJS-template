@@ -34,3 +34,5 @@ playwright-results.json
 
 # Generated Knowledgebase
 knowledge_base.txt
+*.copy
+scripts/*.copy
