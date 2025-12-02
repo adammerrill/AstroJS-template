@@ -79,7 +79,10 @@
     "src/**/*.tsx", // TypeScript React/JSX files
     "src/**/*.svelte", // Svelte component files
     "tests/**/*.ts", // Test suite files
-    "scripts/**/*.ts" // Scripts files
+    "scripts/**/*.ts", // Scripts files
+    "scripts/start-and-test.ts.copy",
+    "scripts/ci-wrapper.ts.copy",
+    "scripts/ci-wrapper.ts.copy"
   ],
 
   // Exclude Patterns: Prevents type checking of build artifacts and dependencies

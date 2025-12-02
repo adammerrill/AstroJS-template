@@ -1,82 +1,65 @@
 /**
- * @file vitest.config.ts
- * @description Configuration for the Vitest unit testing framework.
- * This config utilizes Astro's `getViteConfig` helper to inherit the project's
- * existing Vite settings (Svelte integration, path aliases, etc.).
+ * @fileoverview Vitest Configuration (ISO/ASCII Compliant)
+ * @description
+ * This config uses Astro's getViteConfig to merge with the project's Vite settings,
+ * enabling Vitest for an Astro + Svelte (v5) project with jsdom test environment,
+ * coverage, path aliases, SSR settings, and familiar file patterns.
  *
  * @module config/vitest
- * @see https://docs.astro.build/en/guides/testing/#vitest
+ * @version 2.0.0
+ * @license MIT
  */
 
-/// <reference types="vitest" />
+/// <reference types="vitest/config" />
 import { getViteConfig } from "astro/config";
-import type { UserConfig } from "vite";
-// FIX: Imports InlineConfig from 'vite' to resolve TS Error 2305 ("Module 'vitest' has no exported member 'InlineConfig'.")
-import type { InlineConfig } from "vite";
-import path from "path"; // REQUIRED for robust path resolution
+import path from "path";
 
-// Define a combined interface to satisfy TypeScript strict checks
-interface VitestUserConfig extends UserConfig {
-  /**
-   * @property {InlineConfig} test - Configuration block for Vitest's specific settings.
-   */
-  test: InlineConfig;
-}
-
+/** Vitest + Vite configuration merged via Astro helper. */
 export default getViteConfig({
   test: {
-    /**
-     * The test environment.
-     * 'jsdom' simulates a browser environment (DOM, window, document) in Node.js,
-     * which is required for testing Svelte components.
-     */
     environment: "jsdom",
-
-    /**
-     * Glob patterns to include in the test run.
-     */
-    include: ["src/**/*.{test,spec}.{js,ts,jsx,tsx,svelte}"],
-
-    /**
-     * Glob patterns to exclude from the test run.
-     */
-    exclude: ["**/node_modules/**", "**/dist/**", "**/e2e/**", "tests/**"],
-
-    /**
-     * Coverage configuration.
-     */
+    include: [
+      "src/**/*.{test,spec}.{js,ts,jsx,tsx,svelte}",
+      "tests/unit/**/*.{test,spec}.{js,ts,jsx,tsx,svelte}",
+    ],
+    exclude: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.astro/**",
+      "**/.vercel/**",
+      "**/playwright-report/**",
+      "**/test-results/**",
+      "tests/e2e/**",
+    ],
+    globals: true,
+    testTimeout: 10000,
+    setupFiles: [path.resolve("./vitest.setup.ts")],
     coverage: {
       reporter: ["text", "json", "html"],
       include: ["src/**/*.{js,ts,svelte}"],
-      exclude: ["src/**/*.d.ts", "src/env.d.ts"],
+      exclude: [
+        "src/**/*.d.ts",
+        "src/env.d.ts",
+        "src/**/*.{test,spec}.{js,ts}",
+      ],
+      // thresholds: { /* optionally add thresholds here */ }
     },
-
-    /**
-     * Setup files to run before each test file.
-     * FIX: Corrected path from './src/vitest.setup.ts' to './vitest.setup.ts'
-     * as the file is located in the project root based on the directory listing.
-     * Uses path.resolve for maximum robustness.
-     */
-    setupFiles: [path.resolve("./vitest.setup.ts")],
   },
-
-  /**
-   * RESOLUTION CONFIGURATION (CRITICAL FOR SVELTE 5)
-   *
-   * We force Vite to resolve exports using the 'browser' condition and prioritize browser
-   * fields. This loads the Svelte client-side runtime for testing, preventing the
-   * "lifecycle_function_unavailable" Svelte error.
-   */
   resolve: {
-    conditions: ["browser"],
+    conditions: ["browser", "development", "import"],
     mainFields: ["browser", "module", "main"],
+    // path aliases from Astro will be merged automatically
   },
-
-  /**
-   * SSR CONFIGURATION
-   * Ensures Svelte dependencies are processed by Vite/Vitest and not externalized.
-   */
   ssr: {
-    noExternal: ["@astrojs/svelte", "svelte", "clsx", "tailwind-merge"],
+    noExternal: [
+      "@astrojs/svelte",
+      "svelte",
+      "clsx",
+      "tailwind-merge",
+      "@testing-library/svelte",
+    ],
   },
-} as VitestUserConfig);
+  optimizeDeps: {
+    include: ["svelte", "@testing-library/svelte"],
+  },
+});
