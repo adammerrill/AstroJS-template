@@ -3,7 +3,8 @@
    * @file PricingTable.svelte
    * @description Interactive Pricing Table with Monthly/Yearly toggle.
    * Uses Svelte 5 Runes ($state, $derived) to handle pricing switches instantly.
-   * E2E test instrumentation matches TestimonialSlider pattern for reliability.
+   * @modernization Uses DOM-based hydration detection (data-hydrated attribute)
+   * instead of window properties for improved testability and decoupling.
    */
   import { storyblokEditable } from "@storyblok/svelte";
   import { cn } from "@/lib/utils";
@@ -40,23 +41,19 @@
   // Svelte 5 Rune: Tracks billing cycle (false = Monthly, true = Yearly)
   let isYearly = $state(false);
 
+  // --- DOM-based hydration signal (replaces window.__pricingTableReady) ---
+  let isHydrated = $state(false);
+
   const toggleBilling = () => {
     isYearly = !isYearly;
   };
 
-  // --- E2E Test Instrumentation (Matches TestimonialSlider Pattern) ---
+  // --- Hydration Detection via $effect (runs only in browser after mount) ---
   $effect(() => {
     if (typeof window !== 'undefined') {
-      // 1. Sync reactive state for Playwright assertions
-      (window as any).__pricingIsYearly = isYearly;
-      
-      // 2. Set Ready flag (acts like onMount as it runs on init)
-      if (!(window as any).__pricingTableReady) {
-        (window as any).__pricingTableReady = true;
-        console.log('[PRICING] Component hydrated and ready (via $effect)');
-      }
-      
-      console.log('[PRICING] $effect: isYearly changed to:', isYearly);
+      isHydrated = true;
+      // eslint-disable-next-line no-console
+      console.log('[PRICING] Component hydrated (via $effect)');
     }
   });
 </script>
@@ -65,6 +62,8 @@
   use:storyblokEditable={blok}
   class="py-24 bg-background relative"
   data-testid="pricing-table"
+  data-hydrated={isHydrated}
+  data-billing-mode={isYearly ? 'yearly' : 'monthly'}
 >
   <div class="container mx-auto px-4">
     <!-- Header & Toggle -->

@@ -1,4 +1,11 @@
 <script lang="ts">
+  /**
+   * @file TestimonialSlider.svelte
+   * @description Interactive testimonial carousel with navigation controls.
+   * Uses Svelte 5 Runes ($state) for reactive slide management.
+   * @modernization Uses DOM-based hydration detection (data-hydrated attribute)
+   * instead of window properties for improved testability and decoupling.
+   */
   import { storyblokEditable } from "@storyblok/svelte";
   import type { SbBlokData } from "@storyblok/astro";
 
@@ -21,6 +28,9 @@
   // Svelte 5 Rune: Tracks the active slide index
   let activeIndex = $state(0);
   
+  // --- DOM-based hydration signal (replaces window.__testimonialReady) ---
+  let isHydrated = $state(false);
+  
   const totalSlides = blok.testimonials?.length || 0;
 
   const nextSlide = () => {
@@ -31,19 +41,12 @@
     activeIndex = (activeIndex - 1 + totalSlides) % totalSlides;
   };
 
-  // --- E2E Test Instrumentation & Hydration Logic ---
+  // --- Hydration Detection via $effect (runs only in browser after mount) ---
   $effect(() => {
     if (typeof window !== 'undefined') {
-      // 1. Sync activeIndex for Playwright
-      (window as any).__testimonialActiveIndex = activeIndex;
-      
-      // 2. Set Ready flag (acts like onMount as it runs on init)
-      if (!(window as any).__testimonialReady) {
-        (window as any).__testimonialReady = true;
-        console.log('[TESTIMONIAL] Component hydrated and ready (via $effect)');
-      }
-      
-      console.log('[TESTIMONIAL] $effect: activeIndex changed to:', activeIndex);
+      isHydrated = true;
+      // eslint-disable-next-line no-console
+      console.log('[TESTIMONIAL] Component hydrated (via $effect)');
     }
   });
 </script>
@@ -52,6 +55,8 @@
   use:storyblokEditable={blok}
   class="py-24 bg-primary-foreground/5"
   data-testid="testimonial-slider"
+  data-hydrated={isHydrated}
+  data-active-index={activeIndex}
 >
   <div class="container mx-auto px-4">
     <div class="mx-auto max-w-3xl text-center mb-12">

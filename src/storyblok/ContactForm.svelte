@@ -3,6 +3,8 @@
    * @file ContactForm.svelte
    * @description A generic contact form with client-side validation and state management.
    * Supports configurable endpoints via Storyblok props.
+   * @modernization Uses DOM-based hydration detection (data-hydrated attribute)
+   * instead of window properties for improved testability and decoupling.
    */
   import { storyblokEditable } from "@storyblok/svelte";
   import { cn } from "@/lib/utils";
@@ -37,6 +39,9 @@
 
   type SubmissionStatus = "idle" | "submitting" | "success" | "error";
   let status = $state<SubmissionStatus>("idle");
+
+  // --- DOM-based hydration signal (replaces window.__contactFormReady) ---
+  let isHydrated = $state(false);
 
   // --- Validation Logic ---
   const validate = () => {
@@ -80,6 +85,7 @@
       // Simulate network request if no endpoint provided (dev mode)
       if (!blok.api_endpoint) {
         await new Promise(resolve => setTimeout(resolve, 1000));
+        // eslint-disable-next-line no-console
         console.log("[ContactForm] Dev Submission:", formData);
       } else {
         const response = await fetch(blok.api_endpoint, {
@@ -95,26 +101,18 @@
       // Clear form
       formData = { name: "", email: "", subject: "", message: "" };
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
       status = "error";
     }
   };
 
-  // --- E2E Test Instrumentation (Matches TestimonialSlider Pattern) ---
+  // --- Hydration Detection via $effect (runs only in browser after mount) ---
   $effect(() => {
     if (typeof window !== 'undefined') {
-      // Expose form state for testing
-      (window as any).__contactFormData = formData;
-      (window as any).__contactFormStatus = status;
-      (window as any).__contactFormErrors = errors;
-      
-      // Set ready flag
-      if (!(window as any).__contactFormReady) {
-        (window as any).__contactFormReady = true;
-        console.log('[CONTACT_FORM] Component hydrated and ready (via $effect)');
-      }
-      
-      console.log('[CONTACT_FORM] $effect: status =', status);
+      isHydrated = true;
+      // eslint-disable-next-line no-console
+      console.log('[CONTACT_FORM] Component hydrated (via $effect)');
     }
   });
 </script>
@@ -123,6 +121,8 @@
   use:storyblokEditable={blok}
   class="py-24 bg-muted/30"
   data-testid="contact-form"
+  data-hydrated={isHydrated}
+  data-status={status}
 >
   <div class="container mx-auto px-4 max-w-2xl">
     <div class="text-center mb-12">
