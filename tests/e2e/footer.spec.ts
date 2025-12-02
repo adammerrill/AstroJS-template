@@ -1,24 +1,32 @@
+// /tests/e2e/footer.spec.ts
 /**
  * @file footer.spec.ts
  * @description E2E tests for the Global Footer component.
  * Verifies dynamic rendering and fallback behavior.
+ *
+ * * ISO 8601:2004 - Includes mock setup to ensure deterministic global settings (nav/footer) retrieval.
  */
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page, type BrowserContext } from "@playwright/test";
+import { mockGlobalSettings } from "./global-mock-setup";
 
 test.describe("Global Footer Component", () => {
-  const BASE_URL = "https://localhost:4321";
+  const BASE_URL: string = "https://localhost:4321";
 
-  test.beforeEach(async ({ page, context }) => {
-    // Block third-party scripts
-    await context.route("**/@storyblok/**", (route) => route.abort());
-    await context.route("**/node_modules/.vite/deps/@storyblok**", (route) =>
-      route.abort(),
-    );
+  test.beforeEach(
+    async ({ page, context }: { page: Page; context: BrowserContext }) => {
+      // Block third-party scripts (original logic remains)
+      await context.route("**/@storyblok/**", (route) => route.abort());
+      await context.route("**/node_modules/.vite/deps/@storyblok**", (route) =>
+        route.abort(),
+      );
 
-    await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
-  });
+      await mockGlobalSettings(page);
 
-  test("renders branding and copyright", async ({ page }) => {
+      await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+    },
+  );
+
+  test("renders branding and copyright", async ({ page }: { page: Page }) => {
     const footer = page.locator("footer");
     await expect(footer).toBeVisible();
 
@@ -26,11 +34,11 @@ test.describe("Global Footer Component", () => {
     await expect(footer.getByText("Astro Template").first()).toBeVisible();
 
     // Check Copyright
-    const year = new Date().getFullYear();
+    const year: number = new Date().getFullYear();
     await expect(footer.getByText(`© ${year} Astro Template`)).toBeVisible();
   });
 
-  test("renders navigation columns", async ({ page }) => {
+  test("renders navigation columns", async ({ page }: { page: Page }) => {
     const footer = page.locator("footer");
 
     // Check Column 1 (Quick Links)
@@ -48,7 +56,7 @@ test.describe("Global Footer Component", () => {
     ).toBeVisible();
   });
 
-  test("is responsive", async ({ page }) => {
+  test("is responsive", async ({ page }: { page: Page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
 
     const footer = page.locator("footer");
