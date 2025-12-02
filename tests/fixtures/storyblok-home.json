@@ -11,16 +11,27 @@
       "body": [
         {
           "_uid": "grid-uid-789",
-          "component": "grid",
+          "component": "feature_grid",
+          "headline": "Deterministic QA",
+          "description": "This content comes from a JSON fixture, not the live API.",
           "columns": [
             {
               "_uid": "feature-uid-101",
               "component": "feature",
               "headline": "Deterministic QA",
-              "description": "This content comes from a JSON fixture, not the live API.",
-              "link": {
-                "url": "#"
-              }
+              "description": "This content comes from a JSON fixture, not the live API."
+            },
+            {
+              "_uid": "feature-uid-102",
+              "component": "feature",
+              "headline": "Offline Resilience",
+              "description": "The application gracefully falls back to local fixtures when the API is unavailable."
+            },
+            {
+              "_uid": "feature-uid-103",
+              "component": "feature",
+              "headline": "Test Reliability",
+              "description": "Deterministic test data ensures consistent E2E test results."
             }
           ]
         }
