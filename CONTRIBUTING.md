@@ -75,7 +75,7 @@ git commit -m "docs: update API endpoint documentation"
 - Follow existing component patterns
 - Use Tailwind CSS utility classes
 - Run Prettier before commit: `pnpm format`
-- Audit styles: `node audit-styles.js`
+- Audit styles: `node audit-styles.ts`
 
 ## Reporting Issues
 

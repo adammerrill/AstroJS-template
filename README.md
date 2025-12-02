@@ -160,9 +160,9 @@ pnpm check
 
 **Style Risk Audit:**
 
-We include a custom static analysis tool (audit-styles.js) that scans the codebase for high-risk CSS patterns, such as inline styles or excessive use of Tailwind arbitrary values (e.g., w-\[53px\]).
+We include a custom static analysis tool (audit-styles.ts) that scans the codebase for high-risk CSS patterns, such as inline styles or excessive use of Tailwind arbitrary values (e.g., w-\[53px\]).
 
-node audit-styles.js
+node audit-styles.ts
 
 ## **📂 Project Structure**
 
