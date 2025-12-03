@@ -4,21 +4,22 @@
  * @description Development playground for LogoCloud.
  * Uses placeholders to simulate loaded images.
  */
-import Layout from "../../layouts/Layout.astro";
+ import Layout from "../../layouts/Layout.astro";
 import LogoCloudBlock from "../../storyblok/LogoCloud.astro";
+import type { LogoCloudBlok } from "@/types/generated/storyblok";
 
 const mockBlok = {
   _uid: "dev-cloud",
   component: "logo_cloud",
   headline: "Powering Next-Gen Companies",
   logos: [
-    { _uid: "1", filename: "", name: "Stripe" },
-    { _uid: "2", filename: "", name: "Vercel" },
-    { _uid: "3", filename: "", name: "Storyblok" },
-    { _uid: "4", filename: "", name: "Tailwind" },
-    { _uid: "5", filename: "", name: "Svelte" }
+    { _uid: "1", filename: { filename: "" }, name: "Stripe", component: "logo_item" },
+    { _uid: "2", filename: { filename: "" }, name: "Vercel", component: "logo_item" },
+    { _uid: "3", filename: { filename: "" }, name: "Storyblok", component: "logo_item" },
+    { _uid: "4", filename: { filename: "" }, name: "Tailwind", component: "logo_item" },
+    { _uid: "5", filename: { filename: "" }, name: "Svelte", component: "logo_item" }
   ]
-};
+} as unknown as LogoCloudBlok;
 ---
 
 <Layout title="Dev: Logo Cloud">

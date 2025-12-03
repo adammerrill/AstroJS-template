@@ -1,0 +1,12 @@
+{
+  "name": "testimonial",
+  "display_name": "Testimonial",
+  "component_group_name": "Nested",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "name": { "type": "text", "pos": 0, "required": true },
+    "title": { "type": "text", "pos": 1, "description": "Job Title / Company" },
+    "quote": { "type": "textarea", "pos": 2, "required": true }
+  }
+}

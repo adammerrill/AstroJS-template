@@ -1,72 +1,43 @@
 <script lang="ts">
   /**
    * @file PricingTable.svelte
-   * @description Interactive Pricing Table with Monthly/Yearly toggle.
-   * Uses Svelte 5 Runes ($state, $derived) to handle pricing switches instantly.
-   * @modernization Uses DOM-based hydration detection (data-hydrated attribute)
-   * instead of window properties for improved testability and decoupling.
+   * @description Interactive Pricing Table with strict typing.
    */
   import { storyblokEditable } from "@storyblok/svelte";
   import { cn } from "@/lib/utils";
   import { Button } from "@/components/ui/button";
-  import type { SbBlokData } from "@storyblok/astro";
+  // 1. Import strictly typed interfaces
+  import type { PricingTableBlok, PricingTierBlok, PricingFeatureBlok } from "@/types/generated/storyblok";
+  import { resolveLink } from "@/types/storyblok";
 
-  interface PricingFeature {
-    _uid: string;
-    text: string;
+  interface Props {
+    blok: PricingTableBlok;
   }
 
-  interface PricingTier {
-    _uid: string;
-    name: string;
-    description?: string;
-    price_monthly: string;
-    price_yearly: string;
-    features?: PricingFeature[];
-    cta_label?: string;
-    cta_url?: { url: string };
-    highlight?: boolean;
-  }
+  let { blok }: Props = $props();
 
-  interface PricingTableProps {
-    blok: SbBlokData & {
-      headline?: string;
-      subheadline?: string;
-      tiers?: PricingTier[];
-    };
-  }
-
-  let { blok }: PricingTableProps = $props();
-
-  // Svelte 5 Rune: Tracks billing cycle (false = Monthly, true = Yearly)
   let isYearly = $state(false);
-
-  // --- DOM-based hydration signal (replaces window.__pricingTableReady) ---
   let isHydrated = $state(false);
 
   const toggleBilling = () => {
     isYearly = !isYearly;
   };
 
-  // --- Hydration Detection via $effect (runs only in browser after mount) ---
   $effect(() => {
     if (typeof window !== 'undefined') {
       isHydrated = true;
-      // eslint-disable-next-line no-console
-      console.log('[PRICING] Component hydrated (via $effect)');
     }
   });
 </script>
 
 <section
-  use:storyblokEditable={blok}
+  use:storyblokEditable={blok as any}
   class="py-24 bg-background relative"
   data-testid="pricing-table"
   data-hydrated={isHydrated}
   data-billing-mode={isYearly ? 'yearly' : 'monthly'}
 >
   <div class="container mx-auto px-4">
-    <!-- Header & Toggle -->
     <div class="mx-auto max-w-3xl text-center mb-16">
       <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
         {blok.headline || "Simple, Transparent Pricing"}
@@ -77,7 +48,6 @@
         </p>
       {/if}
 
-      <!-- Billing Toggle -->
       <div class="mt-8 flex items-center justify-center gap-4">
         <span class={cn("text-sm font-medium transition-colors", !isYearly ? "text-foreground" : "text-muted-foreground")}>
           Monthly
@@ -107,10 +77,11 @@
       </div>
     </div>
 
-    <!-- Pricing Cards Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
       {#if blok.tiers && blok.tiers.length > 0}
-        {#each blok.tiers as tier (tier._uid)}
+        {#each blok.tiers as tierBlok (tierBlok._uid)}
+          <!-- Strict casting for nested blocks -->
+          {@const tier = tierBlok as PricingTierBlok}
           <div
             class={cn(
               "relative flex flex-col rounded-2xl border p-8 shadow-sm transition-all duration-300",
@@ -118,7 +89,7 @@
                 ? "border-primary bg-background shadow-xl scale-105 z-10 ring-1 ring-primary" 
                 : "border-border bg-card hover:border-primary/50"
             )}
-            data-testid={`pricing-card-${tier.name.toLowerCase().replace(/\s+/g, '-')}`}
+            data-testid={`pricing-card-${tier.name?.toLowerCase().replace(/\s+/g, '-')}`}
           >
             {#if tier.highlight}
               <div class="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
@@ -144,7 +115,8 @@
 
             <ul class="mb-8 space-y-3 flex-1">
               {#if tier.features}
-                {#each tier.features as feature}
+                {#each tier.features as featureBlok}
+                  {@const feature = featureBlok as PricingFeatureBlok}
                   <li class="flex items-start gap-3 text-sm text-muted-foreground">
                     <svg class="h-5 w-5 shrink-0 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <polyline points="20 6 9 17 4 12"></polyline>
@@ -156,7 +128,7 @@
             </ul>
 
             <Button 
-              href={tier.cta_url?.url || "#"} 
+              href={resolveLink(tier.cta_url)} 
               variant={tier.highlight ? "default" : "outline"}
               class="w-full"
             >

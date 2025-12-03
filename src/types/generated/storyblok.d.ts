@@ -1,83 +1,287 @@
 /**
- * @file storyblok.ts
- * @description Core base types for Storyblok integration.
- * Component-specific types are now AUTO-GENERATED in src/types/generated/storyblok.d.ts
- *
- * @module types/storyblok
+ * 🤖 AUTO-GENERATED FILE. DO NOT EDIT.
+ * Source: Storyblok Management API
  */
+import type {
+  StoryblokAsset,
+  StoryblokLink,
+  StoryblokRichText,
+} from "@/types/storyblok";
 
-import type { SbBlokData } from "@storyblok/astro";
+export interface ContactFormBlok {
+  _uid: string;
+  component: "contact_form";
+  _editable?: string;
 
-/**
- * Represents a Storyblok link object.
- */
-export interface StoryblokLink {
-  cached_url?: string;
-  url?: string;
-  linktype?: "story" | "url" | "email" | "asset";
-  target?: "_self" | "_blank";
-  id?: string;
+  headline?: string;
+
+  subheadline?: string;
+
+  submit_label?: string;
+
+  success_message?: string;
+
+  api_endpoint?: string;
 }
 
-/**
- * Represents a rich text field from Storyblok.
- */
-export interface StoryblokRichText {
-  type: string;
-  content?: Array<{
-    type: string;
-    content?: SbBlokData[];
-    attrs?: Record<string, unknown>;
-    marks?: Array<{ type: string; attrs?: Record<string, unknown> }>;
-    text?: string;
-  }>;
+export interface FeatureBlok {
+  _uid: string;
+  component: "feature";
+  _editable?: string;
+
+  /**
+   * Internal name
+   */
+  name?: string;
+
+  headline?: string;
+
+  description?: string;
+
+  link?: StoryblokLink;
+
+  image?: StoryblokAsset;
 }
 
-/**
- * Represents an asset (image, video, file) from Storyblok.
- */
-export interface StoryblokAsset {
-  filename: string;
+export interface FeatureAlternatingBlok {
+  _uid: string;
+  component: "feature_alternating";
+  _editable?: string;
+
+  headline?: string;
+
+  subheadline?: string;
+
+  items?: FeatureAlternatingItemBlok[];
+}
+
+export interface FeatureAlternatingItemBlok {
+  _uid: string;
+  component: "feature_alternating_item";
+  _editable?: string;
+
+  headline?: string;
+
+  description?: string;
+
+  image?: StoryblokAsset;
+
+  cta_label?: string;
+
+  cta_url?: StoryblokLink;
+}
+
+export interface FeatureGridBlok {
+  _uid: string;
+  component: "feature_grid";
+  _editable?: string;
+
+  headline?: string;
+
+  description?: string;
+
+  columns?: FeatureBlok[];
+}
+
+export interface GridBlok {
+  _uid: string;
+  component: "grid";
+  _editable?: string;
+
+  columns?: any[];
+}
+
+export interface HeroConsultantBlok {
+  _uid: string;
+  component: "hero_consultant";
+  _editable?: string;
+
+  headline: string;
+
+  subheadline?: string;
+
+  headshot?: StoryblokAsset;
+
+  cta_primary_label?: string;
+
+  cta_primary?: StoryblokLink;
+}
+
+export interface HeroLocalBlok {
+  _uid: string;
+  component: "hero_local";
+  _editable?: string;
+
+  headline: string;
+
+  subheadline?: string;
+
+  service_area?: string;
+
+  background_image?: StoryblokAsset;
+
+  cta_primary_label?: string;
+
+  form_placeholder_text?: string;
+}
+
+export interface HeroSaasBlok {
+  _uid: string;
+  component: "hero_saas";
+  _editable?: string;
+
+  headline: string;
+
+  subheadline?: string;
+
+  badge?: string;
+
+  image?: StoryblokAsset;
+
+  cta_primary_label?: string;
+
+  cta_primary?: StoryblokLink;
+
+  cta_secondary_label?: string;
+
+  cta_secondary?: StoryblokLink;
+}
+
+export interface LogoCloudBlok {
+  _uid: string;
+  component: "logo_cloud";
+  _editable?: string;
+
+  headline?: string;
+
+  logos?: LogoItemBlok[];
+}
+
+export interface LogoItemBlok {
+  _uid: string;
+  component: "logo_item";
+  _editable?: string;
+
+  name?: string;
+
+  filename?: StoryblokAsset;
+
   alt?: string;
+}
+
+export interface PageBlok {
+  _uid: string;
+  component: "page";
+  _editable?: string;
+
+  body?: any[];
+
+  seo_title?: string;
+
+  seo_description?: string;
+}
+
+export interface PricingFeatureBlok {
+  _uid: string;
+  component: "pricing_feature";
+  _editable?: string;
+
+  text?: string;
+}
+
+export interface PricingTableBlok {
+  _uid: string;
+  component: "pricing_table";
+  _editable?: string;
+
+  headline?: string;
+
+  subheadline?: string;
+
+  tiers?: PricingTierBlok[];
+}
+
+export interface PricingTierBlok {
+  _uid: string;
+  component: "pricing_tier";
+  _editable?: string;
+
+  name?: string;
+
+  description?: string;
+
+  price_monthly?: string;
+
+  price_yearly?: string;
+
+  highlight?: boolean;
+
+  cta_label?: string;
+
+  cta_url?: StoryblokLink;
+
+  features?: PricingFeatureBlok[];
+}
+
+export interface RequestQuoteFormBlok {
+  _uid: string;
+  component: "request_quote_form";
+  _editable?: string;
+
+  headline?: string;
+
+  subheadline?: string;
+
+  api_endpoint?: string;
+}
+
+export interface TeaserBlok {
+  _uid: string;
+  component: "teaser";
+  _editable?: string;
+
+  headline?: string;
+}
+
+export interface TestimonialBlok {
+  _uid: string;
+  component: "testimonial";
+  _editable?: string;
+
+  name?: string;
+
   title?: string;
-  copyright?: string;
-  fieldtype?: string;
+
+  quote?: string;
 }
 
-// --- Helpers ---
+export interface TestimonialSliderBlok {
+  _uid: string;
+  component: "testimonial_slider";
+  _editable?: string;
 
-/**
- * Type guard to check if a value is a valid StoryblokLink.
- */
-export function isStoryblokLink(link: unknown): link is StoryblokLink {
-  return (
-    !!link && 
-    typeof link === "object" && 
-    (typeof (link as StoryblokLink).cached_url === "string" ||
-      typeof (link as StoryblokLink).url === "string")
-  );
+  headline?: string;
+
+  testimonials?: TestimonialBlok[];
 }
 
-/**
- * Helper function to safely resolve a Storyblok link to a URL string.
- */
-export function resolveLink(
-  link: StoryblokLink | undefined,
-  fallback: string = "#",
-): string {
-  if (!link) return fallback;
-  if (link.cached_url) {
-    return link.cached_url.startsWith("/")
-      ? link.cached_url
-      : `/${link.cached_url}`;
-  }
-  if (link.url) {
-    return link.url;
-  }
-  return fallback;
-}
-
-export function isExternalLink(link: StoryblokLink | undefined): boolean {
-  if (!link) return false;
-  return link.target === "_blank" || (!!link.url && !link.cached_url);
-}
+export type StoryblokComponent =
+  | ContactFormBlok
+  | FeatureBlok
+  | FeatureAlternatingBlok
+  | FeatureAlternatingItemBlok
+  | FeatureGridBlok
+  | GridBlok
+  | HeroConsultantBlok
+  | HeroLocalBlok
+  | HeroSaasBlok
+  | LogoCloudBlok
+  | LogoItemBlok
+  | PageBlok
+  | PricingFeatureBlok
+  | PricingTableBlok
+  | PricingTierBlok
+  | RequestQuoteFormBlok
+  | TeaserBlok
+  | TestimonialBlok
+  | TestimonialSliderBlok;

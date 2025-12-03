@@ -6,31 +6,50 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
 import { describe, it, expect } from "vitest";
 import PricingTable from "./PricingTable.svelte";
-import type { SbBlokData } from "@storyblok/astro";
+import type { PricingTableBlok, PricingTierBlok, PricingFeatureBlok } from "@/types/generated/storyblok";
 
-// Mock Data
-const mockBlok = {
+// Mock Data with proper typing
+const mockBlok: PricingTableBlok = {
   _uid: "pricing-1",
   component: "pricing_table",
   headline: "Pricing Plans",
   tiers: [
     {
       _uid: "t1",
+      component: "pricing_tier",
       name: "Starter",
       price_monthly: "$29",
       price_yearly: "$290",
-      features: [{ text: "Basic Feature" }],
+      features: [
+        {
+          _uid: "f1",
+          component: "pricing_feature",
+          text: "Basic Feature",
+        } as PricingFeatureBlok,
+      ],
       cta_label: "Buy Now",
-    },
+      cta_link: {
+        cached_url: "",
+        linktype: "url",
+      },
+      highlight: false,
+    } as PricingTierBlok,
     {
       _uid: "t2",
+      component: "pricing_tier",
       name: "Pro",
       price_monthly: "$99",
       price_yearly: "$990",
+      features: [],
+      cta_label: "",
+      cta_link: {
+        cached_url: "",
+        linktype: "url",
+      },
       highlight: true,
-    },
+    } as PricingTierBlok,
   ],
-} as unknown as SbBlokData;
+};
 
 describe("PricingTable Component", () => {
   it("renders tiers and initial monthly prices", () => {

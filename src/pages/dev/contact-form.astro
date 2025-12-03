@@ -3,8 +3,9 @@
  * @file contact-form.astro
  * @description Development playground for ContactForm.
  */
-import Layout from "../../layouts/Layout.astro";
+ import Layout from "../../layouts/Layout.astro";
 import ContactFormBlock from "../../storyblok/ContactForm.astro";
+import type { ContactFormBlok } from "@/types/generated/storyblok";
 
 const mockBlok = {
   _uid: "dev-contact",
@@ -14,7 +15,7 @@ const mockBlok = {
   submit_label: "Send Inquiry",
   success_message: "Thanks! We've received your inquiry.",
   api_endpoint: "/api/submit-contact"
-};
+} as ContactFormBlok;
 ---
 
 <Layout title="Dev: Contact Form">

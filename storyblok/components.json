@@ -1,0 +1,230 @@
+[
+  {
+    "name": "page",
+    "display_name": "Page",
+    "is_root": true,
+    "is_nestable": true,
+    "schema": {
+      "body": {
+        "type": "bloks",
+        "pos": 0
+      },
+      "seo_title": { "type": "text", "pos": 1 },
+      "seo_description": { "type": "textarea", "pos": 2 }
+    }
+  },
+  {
+    "name": "grid",
+    "display_name": "Grid",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "columns": {
+        "type": "bloks",
+        "pos": 0
+      }
+    }
+  },
+  {
+    "name": "teaser",
+    "display_name": "Teaser",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "headline": { "type": "text", "pos": 0 }
+    }
+  },
+  {
+    "name": "feature",
+    "display_name": "Feature",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "name": { "type": "text", "pos": 0, "description": "Internal name" },
+      "headline": { "type": "text", "pos": 1 },
+      "description": { "type": "textarea", "pos": 2 },
+      "link": { "type": "multilink", "pos": 3 },
+      "image": { "type": "asset", "file_types": ["images"], "pos": 4 }
+    }
+  },
+  {
+    "name": "feature_alternating",
+    "display_name": "Feature Alternating",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "headline": { "type": "text", "pos": 0 },
+      "subheadline": { "type": "textarea", "pos": 1 },
+      "items": { "type": "bloks", "component_whitelist": ["feature_alternating_item"], "pos": 2 }
+    }
+  },
+  {
+    "name": "feature_alternating_item",
+    "display_name": "Feature Alternating Item",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "headline": { "type": "text", "pos": 0 },
+      "description": { "type": "textarea", "pos": 1 },
+      "image": { "type": "asset", "file_types": ["images"], "pos": 2 },
+      "cta_label": { "type": "text", "pos": 3 },
+      "cta_url": { "type": "multilink", "pos": 4 }
+    }
+  },
+  {
+    "name": "feature_grid",
+    "display_name": "Feature Grid",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "headline": { "type": "text", "pos": 0 },
+      "description": { "type": "textarea", "pos": 1 },
+      "columns": { "type": "bloks", "component_whitelist": ["feature"], "pos": 2 }
+    }
+  },
+  {
+    "name": "logo_cloud",
+    "display_name": "Logo Cloud",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "headline": { "type": "text", "pos": 0 },
+      "logos": { "type": "bloks", "component_whitelist": ["logo_item"], "pos": 1 }
+    }
+  },
+  {
+    "name": "logo_item",
+    "display_name": "Logo Item",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "name": { "type": "text", "pos": 0 },
+      "filename": { "type": "asset", "file_types": ["images"], "pos": 1 },
+      "alt": { "type": "text", "pos": 2 }
+    }
+  },
+  {
+    "name": "testimonial_slider",
+    "display_name": "Testimonial Slider",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "headline": { "type": "text", "pos": 0 },
+      "testimonials": { "type": "bloks", "component_whitelist": ["testimonial"], "pos": 1 }
+    }
+  },
+  {
+    "name": "testimonial",
+    "display_name": "Testimonial",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "name": { "type": "text", "pos": 0, "required": true },
+      "title": { "type": "text", "pos": 1 },
+      "quote": { "type": "textarea", "pos": 2, "required": true }
+    }
+  },
+  {
+    "name": "pricing_table",
+    "display_name": "Pricing Table",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "headline": { "type": "text", "pos": 0 },
+      "subheadline": { "type": "textarea", "pos": 1 },
+      "tiers": { "type": "bloks", "component_whitelist": ["pricing_tier"], "pos": 2 }
+    }
+  },
+  {
+    "name": "pricing_tier",
+    "display_name": "Pricing Tier",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "name": { "type": "text", "pos": 0 },
+      "description": { "type": "textarea", "pos": 1 },
+      "price_monthly": { "type": "text", "pos": 2 },
+      "price_yearly": { "type": "text", "pos": 3 },
+      "highlight": { "type": "boolean", "pos": 4 },
+      "cta_label": { "type": "text", "pos": 5 },
+      "cta_url": { "type": "multilink", "pos": 6 },
+      "features": { "type": "bloks", "component_whitelist": ["pricing_feature"], "pos": 7 }
+    }
+  },
+  {
+    "name": "pricing_feature",
+    "display_name": "Pricing Feature",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "text": { "type": "text", "pos": 0 }
+    }
+  },
+  {
+    "name": "hero_saas",
+    "display_name": "Hero (SaaS)",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "headline": { "type": "text", "pos": 0, "required": true },
+      "subheadline": { "type": "textarea", "pos": 1 },
+      "badge": { "type": "text", "pos": 2 },
+      "image": { "type": "asset", "file_types": ["images"], "pos": 3 },
+      "cta_primary_label": { "type": "text", "pos": 4 },
+      "cta_primary": { "type": "multilink", "pos": 5 },
+      "cta_secondary_label": { "type": "text", "pos": 6 },
+      "cta_secondary": { "type": "multilink", "pos": 7 }
+    }
+  },
+  {
+    "name": "hero_consultant",
+    "display_name": "Hero (Consultant)",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "headline": { "type": "text", "pos": 0, "required": true },
+      "subheadline": { "type": "textarea", "pos": 1 },
+      "headshot": { "type": "asset", "file_types": ["images"], "pos": 2 },
+      "cta_primary_label": { "type": "text", "pos": 3 },
+      "cta_primary": { "type": "multilink", "pos": 4 }
+    }
+  },
+  {
+    "name": "hero_local",
+    "display_name": "Hero (Local)",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "headline": { "type": "text", "pos": 0, "required": true },
+      "subheadline": { "type": "textarea", "pos": 1 },
+      "service_area": { "type": "text", "pos": 2 },
+      "background_image": { "type": "asset", "file_types": ["images"], "pos": 3 },
+      "cta_primary_label": { "type": "text", "pos": 4 },
+      "form_placeholder_text": { "type": "text", "pos": 5 }
+    }
+  },
+  {
+    "name": "contact_form",
+    "display_name": "Contact Form",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "headline": { "type": "text", "pos": 0 },
+      "subheadline": { "type": "textarea", "pos": 1 },
+      "submit_label": { "type": "text", "pos": 2 },
+      "success_message": { "type": "text", "pos": 3 },
+      "api_endpoint": { "type": "text", "pos": 4 }
+    }
+  },
+  {
+    "name": "request_quote_form",
+    "display_name": "Request Quote Form",
+    "is_root": false,
+    "is_nestable": true,
+    "schema": {
+      "headline": { "type": "text", "pos": 0 },
+      "subheadline": { "type": "textarea", "pos": 1 },
+      "api_endpoint": { "type": "text", "pos": 2 }
+    }
+  }
+]

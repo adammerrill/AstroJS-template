@@ -1,10 +1,10 @@
 /**
  * @fileoverview Astro Configuration File (ISO/ASCII Compliant)
  * @description Defines the core build and runtime settings for the Astro project.
- * Integrates Svelte 5, Tailwind v4 (via Vite), Storyblok CMS, Sitemap generation, and Vercel SSR.
+ * Integrates Svelte 5, Tailwind v4 (via Vite), Storyblok CMS, Sitemap generation, and Vercel SSR/SSG.
  *
- * @version 1.1.0
- * @date 2025-12-01
+ * @version 1.1.1
+ * @date 2025-12-02
  */
 
 import { defineConfig } from "astro/config";
@@ -20,9 +20,13 @@ const env = loadEnv(process.env.NODE_ENV || "development", process.cwd(), "");
 
 export default defineConfig({
   site: "https://astro-js-template.vercel.app",
-  output: "server",
+  // CRITICAL: Change output mode to 'static' to enable SSG by default
+  output: "static",
+  
   adapter: vercel({
     webAnalytics: { enabled: true },
+    // Enable Vercel's built-in image optimization service
+    imageService: true,
   }),
   trailingSlash: "ignore",
 

@@ -1,0 +1,15 @@
+{
+  "name": "hero_local",
+  "display_name": "Hero (Local Business)",
+  "component_group_name": "Hero",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "headline": { "type": "text", "pos": 0, "required": true },
+    "subheadline": { "type": "textarea", "pos": 1 },
+    "service_area": { "type": "text", "pos": 2, "description": "e.g. Austin, TX" },
+    "background_image": { "type": "asset", "file_types": ["images"], "pos": 3 },
+    "cta_primary_label": { "type": "text", "pos": 4 },
+    "form_placeholder_text": { "type": "text", "pos": 5 }
+  }
+}

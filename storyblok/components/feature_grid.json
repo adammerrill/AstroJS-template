@@ -1,0 +1,16 @@
+{
+  "name": "feature_grid",
+  "display_name": "Feature Grid",
+  "component_group_name": "Layout",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "headline": { "type": "text", "pos": 0 },
+    "description": { "type": "textarea", "pos": 1 },
+    "columns": { 
+      "type": "bloks", 
+      "component_whitelist": ["feature"], 
+      "pos": 2 
+    }
+  }
+}

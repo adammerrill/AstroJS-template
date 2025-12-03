@@ -1,0 +1,14 @@
+{
+  "name": "hero_consultant",
+  "display_name": "Hero (Consultant)",
+  "component_group_name": "Hero",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "headline": { "type": "text", "pos": 0, "required": true },
+    "subheadline": { "type": "textarea", "pos": 1 },
+    "headshot": { "type": "asset", "file_types": ["images"], "pos": 2 },
+    "cta_primary_label": { "type": "text", "pos": 3 },
+    "cta_primary": { "type": "multilink", "pos": 4 }
+  }
+}

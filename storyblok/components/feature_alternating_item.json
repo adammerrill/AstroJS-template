@@ -1,0 +1,14 @@
+{
+  "name": "feature_alternating_item",
+  "display_name": "Feature Alternating Item",
+  "component_group_name": "Nested",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "headline": { "type": "text", "pos": 0 },
+    "description": { "type": "textarea", "pos": 1 },
+    "image": { "type": "asset", "file_types": ["images"], "pos": 2 },
+    "cta_label": { "type": "text", "pos": 3 },
+    "cta_url": { "type": "multilink", "pos": 4 }
+  }
+}

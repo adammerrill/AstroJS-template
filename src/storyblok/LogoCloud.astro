@@ -1,15 +1,9 @@
 ---
-/**
- * @file LogoCloud.astro
- * @description Astro wrapper for the LogoCloud component.
- * Uses client:visible hydration since social proof is often below the fold
- * but needs to be interactive (hover states) when seen.
- */
 import LogoCloudSvelte from './LogoCloud.svelte';
-import type { SbBlokData } from '@storyblok/astro';
+import type { LogoCloudBlok } from '@/types/generated/storyblok';
 
 interface Props {
-  blok: SbBlokData;
+  blok: LogoCloudBlok;
 }
 
 const { blok } = Astro.props;

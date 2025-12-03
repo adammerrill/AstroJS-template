@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-// Rename import to avoid conflict
 import HeroConsultantBlock from "../../storyblok/HeroConsultant.astro";
+import type { HeroConsultantBlok } from "@/types/generated/storyblok";
 
 // Mock Data Structure matching Storyblok
 const mockBlok = {
@@ -11,7 +11,7 @@ const mockBlok = {
   subheadline: "I combine decades of C-level experience with proprietary frameworks to deliver immediate, measurable impact for my select cohort of clients.",
   cta_primary_label: "Apply for a Discovery Session",
   headshot: { filename: "" } // Triggers the placeholder
-};
+} as HeroConsultantBlok;
 ---
 
 <Layout title="Dev: Hero Consultant">

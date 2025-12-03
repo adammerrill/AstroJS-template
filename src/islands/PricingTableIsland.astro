@@ -1,0 +1,32 @@
+  ---
+  // src/islands/PricingTableIsland.astro
+  /**
+   * @fileoverview Deferred Pricing Server Island
+   * @description This component contains the interactive Svelte component and runs
+   * on the serverless Edge Function (or at build-time). It is rendered asynchronously 
+   * using Astro's `server:defer` strategy.
+   *
+   * @module islands/PricingTableIsland
+   * @version 1.0.0
+   * @author Atom Merrill
+   */
+  import PricingTableSvelte from '../storyblok/PricingTable.svelte';
+  import type { PricingTableBlok } from '@/types/generated/storyblok';
+  
+  interface Props {
+    /** The strictly typed data block for the pricing table. */
+    blok: PricingTableBlok;
+  }
+  const { blok } = Astro.props;
+  
+  // CRITICAL: Simulate server-side delay or heavy, synchronous price fetching here
+  // This demonstrates why deferring is necessary.
+  // This code runs on the server (Build time or Edge Function).
+  await new Promise(resolve => setTimeout(resolve, 500));
+  ---
+  <!-- 
+    The inner Svelte component is now client:load, running ONLY AFTER 
+    the deferred server-side rendering is complete, eliminating hydration 
+    delay from the main page load.
+  -->
+  <PricingTableSvelte blok={blok} client:load />

@@ -1,23 +1,18 @@
 <script lang="ts">
   import { storyblokEditable } from "@storyblok/svelte";
   import { Button } from "@/components/ui/button";
-  import type { SbBlokData } from "@storyblok/astro";
+  import type { HeroConsultantBlok } from "@/types/generated/storyblok";
+  import { resolveLink } from "@/types/storyblok";
 
-  interface HeroConsultantProps {
-    blok: SbBlokData & {
-      headline?: string;
-      subheadline?: string;
-      cta_primary_label?: string;
-      cta_primary?: { url: string }[];
-      headshot?: { filename: string; alt?: string };
-    };
+  interface Props {
+    blok: HeroConsultantBlok;
   }
 
-  let { blok }: HeroConsultantProps = $props();
+  let { blok }: Props = $props();
 </script>
 
 <section
-  use:storyblokEditable={blok}
+  use:storyblokEditable={blok as any}
   class="py-24 md:py-32 lg:py-40 bg-muted/20"
   data-testid="hero-consultant"
 >
@@ -35,7 +30,7 @@
 
         <div class="mt-8">
           {#if blok.cta_primary_label}
-            <Button size="lg" href={blok.cta_primary?.[0]?.url || "#"}>
+            <Button size="lg" href={resolveLink(blok.cta_primary)}>
               {blok.cta_primary_label}
             </Button>
           {/if}

@@ -1,17 +1,30 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, it, expect } from "vitest";
 import HeroSaas from "./HeroSaas.svelte";
-import type { SbBlokData } from "@storyblok/astro";
+import type { HeroSaasBlok } from "@/types/generated/storyblok";
 
-// Mock Storyblok Action
-const mockBlok = {
+// Mock Storyblok Blok with correct structure
+const mockBlok: HeroSaasBlok = {
   _uid: "123",
   component: "hero_saas",
   headline: "Unit Test Headline",
   subheadline: "Unit Test Subheadline",
   cta_primary_label: "Get Started",
-  cta_primary: [{ url: "/signup" }],
-} as unknown as SbBlokData;
+  cta_primary: {
+    cached_url: "/signup",
+    linktype: "url",
+  },
+  cta_secondary_label: "",
+  cta_secondary: {
+    cached_url: "",
+    linktype: "url",
+  },
+  badge: "",
+  image: {
+    filename: "",
+    alt: "",
+  },
+};
 
 describe("HeroSaas Component", () => {
   it("renders the headline and subheadline", () => {

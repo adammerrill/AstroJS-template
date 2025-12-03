@@ -6,18 +6,36 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, it, expect } from "vitest";
 import LogoCloud from "./LogoCloud.svelte";
-import type { SbBlokData } from "@storyblok/astro";
+import type { LogoCloudBlok, LogoItemBlok } from "@/types/generated/storyblok";
 
-// Mock Data
-const mockBlok = {
+// Mock Data with proper structure
+const mockBlok: LogoCloudBlok = {
   _uid: "cloud-1",
   component: "logo_cloud",
   headline: "Trusted by Industry Leaders",
   logos: [
-    { _uid: "l1", filename: "https://example.com/logo1.png", alt: "Acme Corp" },
-    { _uid: "l2", filename: "https://example.com/logo2.png", name: "Globex" }, // Fallback to name
+    {
+      _uid: "l1",
+      component: "logo_item",
+      filename: {
+        filename: "https://example.com/logo1.png",
+        alt: "Acme Corp",
+      },
+      alt: "Acme Corp",
+      name: "Acme Corp",
+    } as LogoItemBlok,
+    {
+      _uid: "l2",
+      component: "logo_item",
+      filename: {
+        filename: "https://example.com/logo2.png",
+        alt: "",
+      },
+      alt: "",
+      name: "Globex",
+    } as LogoItemBlok,
   ],
-} as unknown as SbBlokData;
+};
 
 describe("LogoCloud Component", () => {
   it("renders the headline", () => {
@@ -40,7 +58,12 @@ describe("LogoCloud Component", () => {
   });
 
   it("renders empty state when no logos provided", () => {
-    const emptyBlok = { ...mockBlok, logos: [] };
+    const emptyBlok: LogoCloudBlok = {
+      _uid: "cloud-empty",
+      component: "logo_cloud",
+      headline: "Trusted by Industry Leaders",
+      logos: [],
+    };
     render(LogoCloud, { props: { blok: emptyBlok } });
     expect(screen.getByText(/Add logos in Storyblok/i)).toBeInTheDocument();
   });

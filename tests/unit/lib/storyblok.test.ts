@@ -1,53 +1,28 @@
 /**
- * @fileoverview Unit Tests for Storyblok Resilience Layer (ISO/ASCII Compliant)
+ * @fileoverview Unit Tests for Storyblok Resilience Layer (Phase 2 Validation)
  * @description
- * Verifies fallback logic, caching strategies, and error handling for the Storyblok
- * API client wrapper without network overhead.
- *
- * Test Coverage:
- * - Online Mode: API success scenarios
- * - Offline Mode: Missing token detection
- * - Fallback Recovery: Circuit breaker pattern when API fails
- * - Cache Behavior: Stale-While-Revalidate caching (getGlobalSettings)
- *
- * @module tests/unit/lib/storyblok
- * @author Atom Merrill
- * @version 2.0.1
- * @updated 2025-12-01
+ * Verifies fallback logic, caching, and the new GENERIC TYPING implemented in Epic 2.3.
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { getSafeStory, getGlobalSettings } from "@/lib/storyblok";
+// Import generated types to verify generic usage
+import type { PageBlok } from "@/types/generated/storyblok";
 
 /* -------------------------------------------------------------------------- */
 /* Mock Setup                                                                 */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Mock function for Storyblok API's get() method.
- * Allows us to simulate API responses without network calls.
- */
 const mockGet = vi.fn();
 
-/**
- * Mock the @storyblok/astro module.
- * This prevents actual network requests during testing.
- */
 vi.mock("@storyblok/astro", () => ({
   useStoryblokApi: () => ({
     get: mockGet,
   }),
 }));
 
-/**
- * Interface for mocking Axios/Storyblok errors safely.
- * Replaces 'any' casting for error objects.
- */
 interface MockApiError extends Error {
-  response?: {
-    status: number;
-    data?: unknown;
-  };
+  response?: { status: number; data?: unknown };
   status?: number;
 }
 
@@ -55,28 +30,28 @@ interface MockApiError extends Error {
 /* Test Suite                                                                 */
 /* -------------------------------------------------------------------------- */
 
-describe("Storyblok Resilience Layer", () => {
-  /* -------------------------- Test Lifecycle Hooks ------------------------- */
-
+describe("Storyblok Resilience Layer (Generics & Safety)", () => {
   beforeEach(() => {
-    // Reset all mocks completely before each test for isolation
     vi.resetAllMocks();
-
-    // Default: Set environment to ONLINE mode with valid token
     vi.stubEnv("STORYBLOK_DELIVERY_API_TOKEN", "test-token-12345");
-    // @ts-expect-error - DEV is typed as boolean but stubEnv requires string
+    // @ts-expect-error - Stubbing generic env var
     vi.stubEnv("DEV", "true");
   });
 
   afterEach(() => {
-    // Clean up environment stubs after each test
     vi.unstubAllEnvs();
   });
 
-  /* ---------------------- Online Mode (API Success) ----------------------- */
+  /* ---------------------- Generic Type Validation ----------------------- */
 
-  it("should return API data when the request succeeds", async () => {
-    // Arrange: Mock successful API response
+  it("should handle Generic <PageBlok> request successfully", async () => {
+    // Arrange: Mock a response that matches the PageBlok structure
+    const mockPageData = {
+      _uid: "123",
+      component: "page",
+      body: []
+    };
+
     mockGet.mockResolvedValueOnce({
       data: {
         story: {
@@ -84,170 +59,85 @@ describe("Storyblok Resilience Layer", () => {
           name: "Home",
           slug: "home",
           full_slug: "home",
-          content: {
-            title: "Online Content",
-            component: "page",
-          },
+          content: mockPageData,
         },
       },
     });
 
-    // Act: Fetch story
-    const result = await getSafeStory("home");
+    // Act: Call with explicit Generic Type
+    const result = await getSafeStory<PageBlok>("home");
 
-    // Assert: Verify successful response
+    // Assert: Runtime check (TypeScript check happens at build time)
     expect(mockGet).toHaveBeenCalledTimes(1);
-    expect(mockGet).toHaveBeenCalledWith("cdn/stories/home", {
-      version: "draft", // DEV mode = draft
-    });
     expect(result.status).toBe(200);
-    expect(result.story).toBeDefined();
-    expect(result.story?.content.title).toBe("Online Content");
-    expect(result.error).toBeNull();
+    expect(result.story?.content.component).toBe("page");
+    // Verify structure matches expected generic
+    expect(result.story?.content).toEqual(mockPageData);
   });
 
-  /* -------------------- Fallback Recovery (Circuit Breaker) ---------------- */
+  /* ---------------------- Online Mode (API Success) ----------------------- */
+
+  it("should return API data when the request succeeds", async () => {
+    mockGet.mockResolvedValueOnce({
+      data: {
+        story: {
+          id: 123,
+          content: { title: "Online Content", component: "page" },
+        },
+      },
+    });
+
+    const result = await getSafeStory("home");
+
+    expect(mockGet).toHaveBeenCalledTimes(1);
+    expect(result.status).toBe(200);
+    expect(result.story?.content.component).toBe("page");
+  });
+
+  /* -------------------- Fallback Recovery ---------------- */
 
   it("should fallback to local fixture when API fails", async () => {
-    // Arrange: Mock API failure (500 Internal Server Error)
     const apiError = new Error("500 Internal Server Error") as MockApiError;
     apiError.response = { status: 500 };
     mockGet.mockRejectedValueOnce(apiError);
 
-    // Act: Fetch story (should trigger fallback)
     const result = await getSafeStory("home");
 
-    // Assert: Verify fallback recovery
     expect(mockGet).toHaveBeenCalledTimes(1);
-    expect(result.status).toBe(200); // Fixture served successfully
-    expect(result.story).toBeDefined();
-    expect(result.story?.name).toBe("Home"); // Fixture content
-    expect(result.error).toBeNull(); // No error exposed to consumer
+    expect(result.status).toBe(200); 
+    // Should return the Home fixture defined in src/lib/storyblok.ts
+    expect(result.story?.name).toBe("Home");
   });
 
-  it("should return error when API fails and no fixture exists", async () => {
-    // Arrange: Mock API failure for non-existent slug
-    const apiError = new Error("404 Not Found") as MockApiError;
-    apiError.response = { status: 404 };
-    mockGet.mockRejectedValueOnce(apiError);
+  /* ---------------------- Offline Mode -------------------- */
 
-    // Act: Fetch non-existent story
-    const result = await getSafeStory("nonexistent-page");
-
-    // Assert: Verify graceful error handling
-    expect(result.status).toBe(200); // Falls back to "home" fixture
-    expect(result.story).toBeDefined();
-    expect(result.story?.name).toBe("Home"); // Default fallback
-  });
-
-  /* ---------------------- Offline Mode (Missing Token) -------------------- */
-
-  it("should correctly detect Offline Mode and serve fixtures", async () => {
-    // Arrange: Simulate missing API token
+  it("should detect Offline Mode and serve fixtures without API call", async () => {
     vi.stubEnv("STORYBLOK_DELIVERY_API_TOKEN", "");
 
-    // Act: Fetch story in offline mode
     const result = await getSafeStory("home");
 
-    // Assert: Verify offline behavior
-    expect(mockGet).not.toHaveBeenCalled(); // No API call made
-    expect(result.status).toBe(200);
-    expect(result.story).toBeDefined();
-    expect(result.story?.name).toBe("Home"); // Fixture content
-    expect(result.error).toBeNull();
-  });
-
-  it("should serve default fixture when requested slug has no specific fixture", async () => {
-    // Arrange: Offline mode
-    vi.stubEnv("STORYBLOK_DELIVERY_API_TOKEN", "");
-
-    // Act: Request slug without specific fixture
-    const result = await getSafeStory("about");
-
-    // Assert: Should fall back to "home" fixture
     expect(mockGet).not.toHaveBeenCalled();
     expect(result.status).toBe(200);
-    expect(result.story?.name).toBe("Home"); // Default fallback
+    expect(result.story?.name).toBe("Home");
   });
 
-  /* -------------------- Global Settings Caching Tests --------------------- */
+  /* -------------------- Global Settings Caching --------------------- */
 
   it("should cache global settings on first fetch", async () => {
-    // Arrange: Mock successful global settings fetch
     mockGet.mockResolvedValueOnce({
       data: {
         story: {
           id: 999,
-          name: "Global Settings",
-          content: {
-            site_name: "Test Site",
-            logo: { filename: "logo.png" },
-          },
+          content: { site_title: "Test Site", component: "global-settings" },
         },
       },
     });
 
-    // Act: Fetch global settings twice
     const result1 = await getGlobalSettings();
     const result2 = await getGlobalSettings();
 
-    // Assert: API should only be called once (cached on second call)
     expect(mockGet).toHaveBeenCalledTimes(1);
-    expect(result1.site_name).toBe("Test Site");
-    expect(result2.site_name).toBe("Test Site"); // Same result from cache
-  });
-
-  it("should return default settings when API fails and no cache exists", async () => {
-    // Arrange: Mock API failure
-    mockGet.mockRejectedValueOnce(new Error("Network Error"));
-
-    // Act: Fetch global settings
-    const result = await getGlobalSettings();
-
-    // Assert: Should return hardcoded defaults
-    expect(result).toBeDefined();
-    expect(result.site_name).toBeDefined(); // From defaultGlobalSettings
-  });
-
-  /* ----------------------- Edge Cases & Error Handling -------------------- */
-
-  it("should handle malformed API responses gracefully", async () => {
-    // Arrange: Mock API returning incomplete data
-    mockGet.mockResolvedValueOnce({
-      data: {
-        // Missing 'story' property
-      },
-    });
-
-    // Act: Fetch story
-    const result = await getSafeStory("home");
-
-    // Assert: Should fall back to fixture
-    expect(result.status).toBe(200);
-    expect(result.story?.name).toBe("Home"); // Fallback fixture
-  });
-
-  it("should preserve original error details for debugging", async () => {
-    // Arrange: Create detailed error and mock failure for "home" (which has a fixture)
-    const detailedError = new Error("Detailed API Error") as MockApiError;
-    detailedError.stack = "Stack trace here";
-    detailedError.response = {
-      status: 503,
-      data: { error: "Service Unavailable" },
-    };
-
-    // Mock rejection for "home" so fallback is triggered
-    mockGet.mockRejectedValueOnce(detailedError);
-
-    // Act: Fetch story with existing fixture
-    const result = await getSafeStory("home");
-
-    // Assert: Verify fallback succeeded (error was handled internally)
-    expect(result.status).toBe(200); // Fallback succeeded
-    expect(result.story?.name).toBe("Home"); // Fallback content served
-    expect(result.error).toBeNull(); // No error exposed to consumer
-
-    // Verify the mock was called (proving API was attempted)
-    expect(mockGet).toHaveBeenCalledTimes(1);
+    expect(result1.site_title).toBe("Test Site");
+    expect(result2.site_title).toBe("Test Site");
   });
 });

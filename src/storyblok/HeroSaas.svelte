@@ -1,27 +1,25 @@
 <script lang="ts">
+  /**
+   * @file HeroSaas.svelte
+   * @description SaaS-style Hero component with strict property typing.
+   */
   import { storyblokEditable } from "@storyblok/svelte";
   import { Button } from "@/components/ui/button";
-  import type { SbBlokData } from "@storyblok/astro";
+  // 1. Import strictly typed interface
+  import type { HeroSaasBlok } from "@/types/generated/storyblok";
+  // 2. Import helper for link resolution
+  import { resolveLink } from "@/types/storyblok";
 
-  interface HeroSaasProps {
-    blok: SbBlokData & {
-      headline?: string;
-      subheadline?: string;
-      cta_primary?: { url: string }[];
-      cta_primary_label?: string;
-      cta_secondary?: { url: string }[];
-      cta_secondary_label?: string;
-      image?: { filename: string; alt?: string };
-      badge?: string;
-    };
+  interface Props {
+    blok: HeroSaasBlok;
   }
 
-  let { blok }: HeroSaasProps = $props();
+  let { blok }: Props = $props();
 </script>
 
 <section
   data-testid="hero-saas"
-  use:storyblokEditable={blok}
+  use:storyblokEditable={blok as any}
   class="relative overflow-hidden pt-16 pb-32 md:pt-32 md:pb-48"
 >
   <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/10 via-background to-background opacity-40"></div>
@@ -43,13 +41,17 @@
 
     <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
       {#if blok.cta_primary_label}
-        <Button size="lg" href={blok.cta_primary?.[0]?.url || "#"}>
+        <!-- 
+           FIX: Used resolveLink() because 'cta_primary' is a StoryblokLink object, 
+           not an array as previously mocked.
+        -->
+        <Button size="lg" href={resolveLink(blok.cta_primary)}>
           {blok.cta_primary_label}
         </Button>
       {/if}
       
       {#if blok.cta_secondary_label}
-        <Button variant="outline" size="lg" href={blok.cta_secondary?.[0]?.url || "#"}>
+        <Button variant="outline" size="lg" href={resolveLink(blok.cta_secondary)}>
           {blok.cta_secondary_label}
         </Button>
       {/if}

@@ -1,28 +1,21 @@
 <script lang="ts">
   import { storyblokEditable } from "@storyblok/svelte";
   import { Button } from "@/components/ui/button";
-  import type { SbBlokData } from "@storyblok/astro";
+  // Import strict type
+  import type { HeroLocalBlok } from "@/types/generated/storyblok";
 
-  interface HeroLocalProps {
-    blok: SbBlokData & {
-      headline?: string;
-      subheadline?: string;
-      service_area?: string;
-      cta_primary_label?: string;
-      background_image?: { filename: string; alt?: string };
-      form_placeholder_text?: string;
-    };
+  interface Props {
+    blok: HeroLocalBlok;
   }
 
-  let { blok }: HeroLocalProps = $props();
+  let { blok }: Props = $props();
 
-  // Utility function to get the first word of a string for styling the focus
   const getFirstWord = (text: string) => text.split(' ')[0];
   const restOfText = (text: string) => text.split(' ').slice(1).join(' ');
 </script>
 
 <section
-  use:storyblokEditable={blok}
+  use:storyblokEditable={blok as any}
   class="relative overflow-hidden py-24 md:py-36 lg:py-48"
   data-testid="hero-local"
 >

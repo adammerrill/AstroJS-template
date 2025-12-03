@@ -1,0 +1,17 @@
+{
+  "name": "hero_saas",
+  "display_name": "Hero (SaaS)",
+  "component_group_name": "Hero",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "headline": { "type": "text", "pos": 0, "required": true },
+    "subheadline": { "type": "textarea", "pos": 1 },
+    "badge": { "type": "text", "pos": 2 },
+    "image": { "type": "asset", "file_types": ["images"], "pos": 3 },
+    "cta_primary_label": { "type": "text", "pos": 4 },
+    "cta_primary": { "type": "multilink", "pos": 5 },
+    "cta_secondary_label": { "type": "text", "pos": 6 },
+    "cta_secondary": { "type": "multilink", "pos": 7 }
+  }
+}

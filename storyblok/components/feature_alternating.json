@@ -1,0 +1,16 @@
+{
+  "name": "feature_alternating",
+  "display_name": "Feature Alternating",
+  "component_group_name": "Layout",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "headline": { "type": "text", "pos": 0 },
+    "subheadline": { "type": "textarea", "pos": 1 },
+    "items": { 
+      "type": "bloks", 
+      "component_whitelist": ["feature_alternating_item"], 
+      "pos": 2 
+    }
+  }
+}

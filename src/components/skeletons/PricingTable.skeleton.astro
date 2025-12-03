@@ -1,0 +1,26 @@
+---
+// src/components/skeletons/PricingTable.skeleton.astro
+/**
+ * @fileoverview Pricing Table Skeleton Loader
+ * @description Provides a CLS-safe visual placeholder for the Deferred Pricing Island.
+ * Ensures the layout structure (header + 3 columns) is respected immediately.
+ *
+ * @module components/skeletons
+ * @version 1.0.0
+ */
+---
+<div class="py-24 bg-background container mx-auto px-4" aria-hidden="true" role="status">
+  <div class="mx-auto max-w-3xl text-center mb-16 space-y-4">
+    <!-- Headline Placeholder -->
+    <div class="h-10 bg-muted rounded w-3/4 mx-auto animate-pulse"></div>
+    <!-- Subheadline Placeholder -->
+    <div class="h-6 bg-muted rounded w-1/2 mx-auto animate-pulse"></div>
+  </div>
+  
+  <!-- Pricing Tiers Placeholder (3 Columns) -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+    {[1, 2, 3].map(() => (
+      <div class="h-96 bg-card border rounded-2xl animate-pulse"></div>
+    ))}
+  </div>
+</div>

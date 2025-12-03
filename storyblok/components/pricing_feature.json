@@ -1,0 +1,10 @@
+{
+  "name": "pricing_feature",
+  "display_name": "Pricing Feature",
+  "component_group_name": "Nested",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "text": { "type": "text", "pos": 0 }
+  }
+}

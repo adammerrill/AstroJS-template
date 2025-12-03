@@ -1,0 +1,14 @@
+{
+  "name": "feature",
+  "display_name": "Feature",
+  "component_group_name": "Content",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "name": { "type": "text", "pos": 0, "description": "Internal name or short headline" },
+    "headline": { "type": "text", "pos": 1 },
+    "description": { "type": "textarea", "pos": 2 },
+    "link": { "type": "multilink", "pos": 3 },
+    "image": { "type": "asset", "file_types": ["images"], "pos": 4 }
+  }
+}

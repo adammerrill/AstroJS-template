@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import HeroLocalBlock from "../../storyblok/HeroLocal.astro";
+import type { HeroLocalBlok } from "@/types/generated/storyblok";
 
 // Mock Data Structure matching Storyblok
 const mockBlok = {
@@ -12,7 +13,7 @@ const mockBlok = {
   cta_primary_label: "Call Now (214) 555-0101",
   form_placeholder_text: "RequestQuoteForm.svelte Placeholder"
   // Note: Background image is not set here, so it will use the default color overlay.
-};
+} as HeroLocalBlok;
 ---
 
 <Layout title="Dev: Hero Local">

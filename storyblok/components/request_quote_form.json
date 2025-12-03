@@ -1,0 +1,12 @@
+{
+  "name": "request_quote_form",
+  "display_name": "Request Quote Form",
+  "component_group_name": "Form",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "headline": { "type": "text", "pos": 0 },
+    "subheadline": { "type": "textarea", "pos": 1 },
+    "api_endpoint": { "type": "text", "pos": 2 }
+  }
+}

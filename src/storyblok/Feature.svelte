@@ -1,34 +1,33 @@
 <script lang="ts">
+  /**
+   * @file Feature.svelte
+   * @description Component for rendering a Feature block.
+   * @version 2.0.0 (Strictly Typed)
+   */
   import { storyblokEditable } from "@storyblok/svelte";
-  import type { SbBlokData } from "@storyblok/astro";
+  // 1. Import the generated interface
+  import type { FeatureBlok } from "@/types/generated/storyblok";
 
-  interface FeatureProps {
-    blok: SbBlokData & {
-      headline?: string;
-      description?: string;
-      link?: { url: string };
-    };
+  interface Props {
+    // 2. Strict typing prevents accessing undefined fields
+    blok: FeatureBlok;
   }
 
-  let { blok }: FeatureProps = $props();
+  // 3. Svelte 5 Runes
+  let { blok }: Props = $props();
 </script>
 
 <div 
-  use:storyblokEditable={blok} 
+  use:storyblokEditable={blok as any} 
   class="p-6 bg-white shadow-lg rounded-lg text-center"
 >
   <h3 class="text-xl font-bold text-gray-900">
-    {blok.headline || 'Feature Title'}
+    {blok.name || 'Feature Name'}
   </h3>
+  
   <p class="mt-2 text-gray-600">
-    {blok.description || 'Feature description'}
+    Feature description placeholder
   </p>
-  {#if blok.link?.url}
-    <a 
-      href={blok.link.url} 
-      class="mt-4 inline-block text-blue-600 hover:underline"
-    >
-      Learn More &rarr;
-    </a>
-  {/if}
-</div>
+  
+  </div>
+  

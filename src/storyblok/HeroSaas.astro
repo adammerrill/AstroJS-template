@@ -1,9 +1,9 @@
 ---
 import HeroSaasSvelte from './HeroSaas.svelte';
-import type { SbBlokData } from '@storyblok/astro';
+import type { HeroSaasBlok } from '@/types/generated/storyblok';
 
 interface Props {
-  blok: SbBlokData;
+  blok: HeroSaasBlok;
 }
 
 const { blok } = Astro.props;

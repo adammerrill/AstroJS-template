@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import HeroSaasBlock from "../../storyblok/HeroSaas.astro";
+import type { HeroSaasBlok } from "@/types/generated/storyblok";
 
 // Explicitly disable prerendering for dev routes to ensure instant HMR
 export const prerender = false;
@@ -12,11 +13,11 @@ const mockBlok = {
   headline: "Automate Your Enterprise Workflow",
   subheadline: "Stop wasting time on manual tasks. Our AI-driven platform handles the complexity.",
   cta_primary_label: "Start Free Trial",
-  cta_primary: [{ url: "#" }],
+  cta_primary: { url: "#", linktype: "url" },
   cta_secondary_label: "View Demo",
-  cta_secondary: [{ url: "#" }],
+  cta_secondary: { url: "#", linktype: "url" },
   image: { filename: "" }
-};
+} as HeroSaasBlok;
 ---
 
 <Layout title="Dev: Hero SaaS">

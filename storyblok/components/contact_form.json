@@ -1,0 +1,14 @@
+{
+  "name": "contact_form",
+  "display_name": "Contact Form",
+  "component_group_name": "Form",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "headline": { "type": "text", "pos": 0 },
+    "subheadline": { "type": "textarea", "pos": 1 },
+    "submit_label": { "type": "text", "pos": 2 },
+    "success_message": { "type": "text", "pos": 3 },
+    "api_endpoint": { "type": "text", "pos": 4 }
+  }
+}

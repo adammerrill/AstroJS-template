@@ -1,0 +1,12 @@
+{
+  "name": "logo_item",
+  "display_name": "Logo Item",
+  "component_group_name": "Nested",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "name": { "type": "text", "pos": 0, "description": "Company Name" },
+    "filename": { "type": "asset", "file_types": ["images"], "pos": 1 },
+    "alt": { "type": "text", "pos": 2 }
+  }
+}

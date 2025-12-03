@@ -1,18 +1,33 @@
 ---
 /**
- * @file PricingTable.astro
- * @description Astro wrapper for the PricingTable component.
- * Uses client:visible hydration to ensure the toggle works immediately
- * when the user scrolls to the pricing section.
- */
-import PricingTableSvelte from './PricingTable.svelte';
-import type { SbBlokData } from '@storyblok/astro';
+  * @file PricingTable.astro
+  * @description Astro wrapper for the PricingTable component.
+  * CRITICAL: Now wraps the component in a Server Island with \`server:defer\` to ensure
+  * the main static shell loads instantly while the slow pricing data loads asynchronously.
+  *
+  * @module storyblok/pricing
+  * @version 2.0.0
+  * @author Atom Merrill
+  */
+import PricingTableIsland from '../islands/PricingTableIsland.astro';
+import PricingSkeleton from '../components/skeletons/PricingTable.skeleton.astro';
+import type { PricingTableBlok } from '@/types/generated/storyblok';
 
 interface Props {
-  blok: SbBlokData;
+  blok: PricingTableBlok;
 }
 
 const { blok } = Astro.props;
----
 
-<PricingTableSvelte blok={blok} client:load />
+// Ensure this wrapper is SSG friendly by enabling prerender
+export const prerender = true;
+---
+  
+<!-- 
+  CRITICAL: server:defer attribute tells Astro to render this component 
+  via a dedicated serverless function call, injecting the HTML dynamically. 
+  The fallback slot is rendered instantly and prevents CLS.
+-->
+<PricingTableIsland blok={blok} client:visible>
+  <PricingSkeleton slot="fallback" />
+</PricingTableIsland>

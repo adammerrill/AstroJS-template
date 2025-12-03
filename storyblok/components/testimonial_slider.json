@@ -1,0 +1,15 @@
+{
+  "name": "testimonial_slider",
+  "display_name": "Testimonial Slider",
+  "component_group_name": "Content",
+  "is_root": false,
+  "is_nestable": true,
+  "schema": {
+    "headline": { "type": "text", "pos": 0 },
+    "testimonials": { 
+      "type": "bloks", 
+      "component_whitelist": ["testimonial"], 
+      "pos": 1 
+    }
+  }
+}
