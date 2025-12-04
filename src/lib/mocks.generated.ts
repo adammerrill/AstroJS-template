@@ -1,6 +1,6 @@
 /**
  * 🤖 AUTO-GENERATED MOCK FACTORY. DO NOT EDIT.
- * Generated: 2025-12-04T21:44:58.137Z
+ * Generated: 2025-12-04T22:20:04.325Z
  *
  * @description
  * This file contains mock factory functions for all Storyblok components.

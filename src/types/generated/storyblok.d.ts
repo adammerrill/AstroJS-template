@@ -1,7 +1,7 @@
 /**
  * 🤖 AUTO-GENERATED FILE. DO NOT EDIT.
  * Source: Storyblok Management API
- * Generated: 2025-12-04T22:14:35.916Z
+ * Generated: 2025-12-04T22:20:04.323Z
  *
  * @description
  * This file contains TypeScript type definitions for all Storyblok components.
