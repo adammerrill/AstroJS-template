@@ -1,6 +1,6 @@
 /**
  * 🤖 AUTO-GENERATED ZOD SCHEMAS. DO NOT EDIT.
- * Generated: 2025-12-04T22:25:44.084Z
+ * Generated: (Timestamp removed to prevent CI drift)
  *
  * @description
  * This file contains Zod validation schemas for all Storyblok components.

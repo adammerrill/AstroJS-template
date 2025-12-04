@@ -68,7 +68,7 @@ async function main(): Promise<void> {
   const typesContent = `/**
  * 🤖 AUTO-GENERATED FILE. DO NOT EDIT.
  * Source: Storyblok Management API
- * Generated: ${new Date().toISOString()}
+ * Generated: (Timestamp removed to prevent CI drift)
  *
  * @description
  * This file contains TypeScript type definitions for all Storyblok components.
@@ -132,8 +132,8 @@ ${unionType}
 
   const schemasContent = `/**
  * 🤖 AUTO-GENERATED ZOD SCHEMAS. DO NOT EDIT.
- * Generated: ${new Date().toISOString()}
- *
+ * Generated: (Timestamp removed to prevent CI drift)
+ * 
  * @description
  * This file contains Zod validation schemas for all Storyblok components.
  * Use these schemas to validate component data at runtime, especially when:
@@ -164,7 +164,7 @@ ${zodUnion}
 
   const mocksContent = `/**
  * 🤖 AUTO-GENERATED MOCK FACTORY. DO NOT EDIT.
- * Generated: ${new Date().toISOString()}
+ * Generated: (Timestamp removed to prevent CI drift)
  *
  * @description
  * This file contains mock factory functions for all Storyblok components.
