@@ -90,10 +90,15 @@ jobs:
 
       - name: Build Application
         run: pnpm build
+        env:
+          # CRITICAL FIX: Build needs Storyblok credentials for SSR
+          STORYBLOK_SPACE_ID: ${{ secrets.STORYBLOK_SPACE_ID }}
+          STORYBLOK_PERSONAL_TOKEN: ${{ secrets.STORYBLOK_PERSONAL_TOKEN }}
 
       # Uses your new custom wrapper logic
       - name: Run E2E Tests via Wrapper
         run: pnpm test:ci
+
 
       # Best Practice: Upload artifacts on failure so you can debug
       - uses: actions/upload-artifact@v4
