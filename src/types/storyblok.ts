@@ -26,11 +26,20 @@ import type { SbBlokData } from "@storyblok/astro";
  * @property {string} [id] - Story UUID if linking to internal content
  */
 export interface StoryblokLink {
+  id?: string;
   cached_url?: string;
   url?: string;
-  linktype?: "story" | "url" | "email" | "asset";
+  linktype?: "url" | "story" | "email" | "asset";
+  fieldtype?: string;
+  anchor?: string;
   target?: "_self" | "_blank";
-  id?: string;
+  story?: {
+    id: number;
+    name: string;
+    slug: string;
+    full_slug: string;
+    url: string;
+  };
 }
 
 /**
@@ -135,13 +144,13 @@ export interface GlobalSettings extends SbBlokData {
  */
 export interface StoryblokRichText {
   type: string;
-  content?: Array<{
+  content?: StoryblokRichText[];
+  marks?: Array<{
     type: string;
-    content?: SbBlokData[];
     attrs?: Record<string, unknown>;
-    marks?: Array<{ type: string; attrs?: Record<string, unknown> }>;
-    text?: string;
   }>;
+  attrs?: Record<string, unknown>;
+  text?: string;
 }
 
 /**
@@ -157,7 +166,11 @@ export interface StoryblokRichText {
 export interface StoryblokAsset {
   filename: string;
   alt?: string;
+  id?: number;
   title?: string;
+  focus?: string;
+  name?: string;
+  source?: string;
   copyright?: string;
   fieldtype?: string;
 }
@@ -240,4 +253,13 @@ export function resolveLink(
 export function isExternalLink(link: StoryblokLink | undefined): boolean {
   if (!link) return false;
   return link.target === "_blank" || (!!link.url && !link.cached_url);
+}
+
+/**
+ * Base interface for all Storyblok components
+ */
+export interface StoryblokComponentBase {
+  _uid: string;
+  component: string;
+  _editable?: string;
 }

@@ -6,6 +6,7 @@
    */
   import { storyblokEditable } from "@storyblok/svelte";
   import type { GridBlok } from "@/types/generated/storyblok";
+  import type { SbBlokData } from "@storyblok/svelte";
 
   interface Props {
     blok: GridBlok;
@@ -17,7 +18,7 @@
 </script>
 
 <div
-  use:storyblokEditable={blok as any}
+  use:storyblokEditable={blok as SbBlokData}
   class="container mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-3 gap-8"
   data-testid="grid"
 >

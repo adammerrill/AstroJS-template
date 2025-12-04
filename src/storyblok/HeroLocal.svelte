@@ -1,8 +1,8 @@
 <script lang="ts">
   import { storyblokEditable } from "@storyblok/svelte";
   import { Button } from "@/components/ui/button";
-  // Import strict type
   import type { HeroLocalBlok } from "@/types/generated/storyblok";
+  import type { SbBlokData } from "@storyblok/svelte";
 
   interface Props {
     blok: HeroLocalBlok;
@@ -15,7 +15,7 @@
 </script>
 
 <section
-  use:storyblokEditable={blok as any}
+  use:storyblokEditable={blok as unknown as SbBlokData}
   class="relative overflow-hidden py-24 md:py-36 lg:py-48"
   data-testid="hero-local"
 >

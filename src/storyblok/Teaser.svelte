@@ -6,6 +6,7 @@
      */
     import { storyblokEditable } from "@storyblok/svelte";
     import type { TeaserBlok } from "@/types/generated/storyblok";
+    import type { SbBlokData } from "@storyblok/svelte";
   
     interface Props {
       blok: TeaserBlok;
@@ -16,7 +17,7 @@
   
   <section 
     class="teaser py-20 text-center" 
-    use:storyblokEditable={blok as any}
+    use:storyblokEditable={blok as SbBlokData}
   >
     <h2 class="text-4xl font-bold">
       {blok.headline || 'Teaser Headline'}

@@ -1,10 +1,24 @@
 <script lang="ts">
+  /**
+   * @file HeroConsultant.svelte
+   * @component HeroConsultant
+   * @description A split-layout Hero component designed for personal branding or executive profiles.
+   * Features a text column on the left and a headshot/image column on the right.
+   *
+   * @requires storyblokEditable - For Visual Editor live previews.
+   * @requires resolveLink - Handles internal/external URL normalization.
+   */
   import { storyblokEditable } from "@storyblok/svelte";
   import { Button } from "@/components/ui/button";
   import type { HeroConsultantBlok } from "@/types/generated/storyblok";
   import { resolveLink } from "@/types/storyblok";
+  import type { SbBlokData } from "@storyblok/svelte";
 
   interface Props {
+    /**
+     * The strictly typed data block from Storyblok.
+     * Contains headline, subheadline, CTA, and asset data.
+     */
     blok: HeroConsultantBlok;
   }
 
@@ -12,7 +26,7 @@
 </script>
 
 <section
-  use:storyblokEditable={blok as any}
+  use:storyblokEditable={blok as unknown as SbBlokData}
   class="py-24 md:py-32 lg:py-40 bg-muted/20"
   data-testid="hero-consultant"
 >
@@ -47,6 +61,7 @@
             class="w-full h-auto aspect-square object-cover rounded-full shadow-2xl ring-4 ring-background ring-offset-4 ring-offset-muted/20"
             width="500"
             height="500"
+            loading="eager" 
           />
         {:else}
           <div class="aspect-square w-full rounded-full bg-linear-to-br from-primary/10 to-muted flex items-center justify-center border-4 border-dashed border-primary/20 p-8">

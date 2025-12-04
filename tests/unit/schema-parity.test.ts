@@ -12,8 +12,14 @@ import { MockFactory } from '@/lib/mocks.generated';
 import * as Schemas from '@/types/generated/schemas';
 import { toPascalCase } from '../../scripts/type-gen/utils';
 
-// Helper to infer schema name from component key
-function getSchemaName(key: string) {
+/**
+ * Helper to infer schema name from component key
+ * Converts snake_case component names to PascalCase schema names
+ * 
+ * @param key - Component key from MockFactory (e.g., "pricing_table")
+ * @returns Schema name (e.g., "PricingTableBlokSchema")
+ */
+function getSchemaName(key: string): string {
   return `${toPascalCase(key)}BlokSchema`;
 }
 
@@ -26,18 +32,20 @@ describe('Pipeline Integrity: Schema-Mock Parity', () => {
     
     // 2. Resolve the corresponding Zod Schema
     const schemaName = getSchemaName(componentKey);
-    // @ts-ignore - dynamic access to module exports
+    
+    // @ts-expect-error - Dynamic schema lookup by computed string key
     const schema = Schemas[schemaName];
 
     if (!schema) {
       throw new Error(`Schema not found for ${schemaName}. Check naming consistency.`);
     }
 
-    // 3. Validate
+    // 3. Validate mock data against schema
     const result = schema.safeParse(mockData);
 
-    // 4. Assert
+    // 4. Assert validation succeeded
     if (!result.success) {
+      
       console.error(`Validation failed for ${componentKey}:`, result.error.format());
     }
     expect(result.success).toBe(true);

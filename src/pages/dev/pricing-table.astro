@@ -1,12 +1,19 @@
 ---
 /**
  * @file pricing-table.astro
- * @description Development playground for PricingTable.
+ * @description Development playground for PricingTable component.
+ * @version 1.1.0
+ * 
  */
- import Layout from "../../layouts/Layout.astro";
+import Layout from "../../layouts/Layout.astro";
 import PricingTableBlock from "../../storyblok/PricingTable.astro";
+import type { PricingTableBlok } from "../../types/generated/storyblok";
 
-const mockBlok = {
+/**
+ * Mock data for PricingTable component testing
+ * CRITICAL: 'as const' preserves literal types for strict TypeScript compliance
+ */
+const mockBlok: PricingTableBlok = {
   _uid: "dev-pricing",
   component: "pricing_table",
   headline: "Flexible Plans for Every Team",
@@ -14,34 +21,71 @@ const mockBlok = {
   tiers: [
     {
       _uid: "p1",
+      component: "pricing_tier",
       name: "Hobby",
       description: "Perfect for side projects.",
       price_monthly: "$0",
       price_yearly: "$0",
-      features: [{ text: "1 Project" }, { text: "Community Support" }],
+      features: [
+        { 
+          _uid: "f1", 
+          component: "pricing_feature",
+          text: "1 Project" 
+        }, 
+        { 
+          _uid: "f2",
+          component: "pricing_feature", 
+          text: "Community Support" 
+        }
+      ],
       cta_label: "Start Free",
-      cta_url: { url: "#" }
+      cta_url: { 
+        url: "#",
+        id: "",
+        linktype: "url",
+        cached_url: "#"
+      }
     },
     {
       _uid: "p2",
+      component: "pricing_tier",
       name: "Pro",
       description: "For professional developers.",
       price_monthly: "$20",
       price_yearly: "$190", // Slight discount
-      features: [{ text: "Unlimited Projects" }, { text: "Priority Support" }, { text: "Analytics" }],
+      features: [
+        { _uid: "f3", component: "pricing_feature", text: "Unlimited Projects" },
+        { _uid: "f4", component: "pricing_feature", text: "Priority Support" },
+        { _uid: "f5", component: "pricing_feature", text: "Analytics" }
+      ],
       cta_label: "Go Pro",
-      cta_url: { url: "#" },
+      cta_url: { 
+        url: "#",
+        id: "",
+        linktype: "url",
+        cached_url: "#"
+      },
       highlight: true
     },
     {
       _uid: "p3",
+      component: "pricing_tier",
       name: "Enterprise",
       description: "For large organizations.",
       price_monthly: "$100",
       price_yearly: "$990",
-      features: [{ text: "SSO" }, { text: "Audit Logs" }, { text: "Dedicated Success Manager" }],
+      features: [
+        { _uid: "f6", component: "pricing_feature", text: "SSO" },
+        { _uid: "f7", component: "pricing_feature", text: "Audit Logs" },
+        { _uid: "f8", component: "pricing_feature", text: "Dedicated Success Manager" }
+      ],
       cta_label: "Contact Sales",
-      cta_url: { url: "#" }
+      cta_url: { 
+        url: "#",
+        id: "",
+        linktype: "url",
+        cached_url: "#"
+      }
     }
   ]
 };
@@ -50,4 +94,3 @@ const mockBlok = {
 <Layout title="Dev: Pricing Table">
   <PricingTableBlock blok={mockBlok} />
 </Layout>
-

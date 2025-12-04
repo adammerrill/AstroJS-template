@@ -4,6 +4,7 @@
    * @description Social proof component with strict typing.
    */
   import { storyblokEditable } from "@storyblok/svelte";
+  import type { SbBlokData } from "@storyblok/svelte";
   // 1. Import strictly typed interface
   import type { LogoCloudBlok, LogoItemBlok } from "@/types/generated/storyblok";
 
@@ -15,7 +16,7 @@
 </script>
 
 <section
-  use:storyblokEditable={blok as any}
+  use:storyblokEditable={blok as SbBlokData}
   class="py-12 md:py-20 bg-background border-y border-border/40"
   data-testid="logo-cloud"
 >

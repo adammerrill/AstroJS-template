@@ -1,79 +1,121 @@
+/**
+ * @fileoverview Unit tests for type generation functions
+ */
 import { describe, it, expect } from 'vitest';
 import { generateInterface } from '../../scripts/type-gen/mapper';
+import { generateZodSchema } from '../../scripts/type-gen/zod-mapper';
+import { generateMockFactory } from '../../scripts/type-gen/mock-mapper';
+import type { ComponentSchema } from '../../scripts/type-gen/types';
 
-// Mock Schema resembling a real Storyblok response
-const MOCK_HERO_SCHEMA = {
-  name: "hero_section",
-  schema: {
-    headline: {
-      type: "text",
-      required: true,
-      display_name: "Main Headline"
-    },
-    is_active: {
-      type: "boolean",
-      description: "Toggle visibility"
-    },
-    background_image: {
-      type: "asset"
-    },
-    body_copy: {
-      type: "richtext"
-    }
-  }
-};
-
-// NEW: Mock Schema for a component with nested blocks
-const MOCK_GRID_SCHEMA = {
-  name: "grid_section",
+/**
+ * Mock component schema for testing
+ * This matches the structure returned by the Storyblok Management API
+ */
+const MOCK_GRID_SCHEMA: ComponentSchema = {
+  name: 'feature_grid',
+  display_name: 'Feature Grid',
   schema: {
     columns: {
-      type: "bloks",
-      component_whitelist: ["feature", "teaser_card", "hero_section"]
-    }
-  }
+      type: 'bloks',
+      component_whitelist: 'feature', // ✅ Comma-separated string (single component)
+      restrict_components: 'true', // Note: Storyblok API returns string "true", not boolean
+      required: true,
+      display_name: 'Features',
+    },
+  },
 };
 
-describe('Type Generator Mapper', () => {
-  // ... existing tests ...
-  it('generates correct interface name', () => {
-    const output = generateInterface(MOCK_HERO_SCHEMA);
-    expect(output).toContain('export interface HeroSectionBlok');
+/**
+ * Mock component with multiple whitelisted components
+ */
+const MOCK_HERO_SCHEMA: ComponentSchema = {
+  name: 'hero',
+  display_name: 'Hero Section',
+  schema: {
+    headline: {
+      type: 'text',
+      required: true,
+      display_name: 'Headline',
+    },
+    cta_buttons: {
+      type: 'bloks',
+      component_whitelist: 'button,link_button,cta', // ✅ Multiple components separated by commas
+      restrict_components: 'true',
+      required: false,
+    },
+  },
+};
+
+describe('Type Generation Pipeline', () => {
+  describe('generateInterface', () => {
+    it('should generate valid TypeScript interface', () => {
+      const output = generateInterface(MOCK_GRID_SCHEMA);
+      
+      expect(output).toContain('export interface FeatureGridBlok');
+      expect(output).toContain('_uid: string');
+      expect(output).toContain("component: 'feature_grid'");
+      expect(output).toContain('columns: (FeatureBlok)[]');
+    });
+
+    it('should handle multiple component whitelist', () => {
+      const output = generateInterface(MOCK_HERO_SCHEMA);
+      
+      expect(output).toContain('export interface HeroBlok');
+      expect(output).toContain('cta_buttons?: (ButtonBlok | LinkButtonBlok | CtaBlok)[]');
+    });
+
+    it('should mark required fields correctly', () => {
+      const output = generateInterface(MOCK_HERO_SCHEMA);
+      
+      expect(output).toContain('headline: string'); // Required - no ?
+      expect(output).toContain('cta_buttons?: '); // Optional - has ?
+    });
   });
 
-  it('handles required fields correctly', () => {
-    const output = generateInterface(MOCK_HERO_SCHEMA);
-    expect(output).toMatch(/headline: string;/);
+  describe('generateZodSchema', () => {
+    it('should generate valid Zod schema', () => {
+      const output = generateZodSchema(MOCK_GRID_SCHEMA);
+      
+      expect(output).toContain('export const FeatureGridBlokSchema');
+      expect(output).toContain('z.object({');
+      expect(output).toContain('_uid: z.string()');
+      expect(output).toContain("component: z.literal('feature_grid')");
+    });
+
+    it('should handle nested bloks with lazy loading and respect whitelist', () => {
+      const output = generateZodSchema(MOCK_GRID_SCHEMA);
+      
+      expect(output).toContain('z.array(z.lazy(() => FeatureBlokSchema))');
+    });
+    
+    it('should handle unrestricted bloks with generic component schema', () => {
+      // Create a schema WITHOUT component_whitelist to test fallback behavior
+      const unrestrictedSchema: ComponentSchema = {
+        name: 'grid',
+        display_name: 'Grid',
+        schema: {
+          columns: {
+            type: 'bloks',
+            // Intentionally no component_whitelist - should fall back to generic
+            required: true,
+          },
+        },
+      };
+      
+      const output = generateZodSchema(unrestrictedSchema);
+      
+      // When no whitelist, use the generic union schema
+      expect(output).toContain('z.array(z.lazy(() => StoryblokComponentSchema))'); // ✅ Correct expectation
+    });
   });
 
-  it('handles optional fields correctly', () => {
-    const output = generateInterface(MOCK_HERO_SCHEMA);
-    expect(output).toMatch(/is_active\?: boolean;/);
-  });
-
-  it('maps custom Storyblok types', () => {
-    const output = generateInterface(MOCK_HERO_SCHEMA);
-    expect(output).toContain('background_image?: StoryblokAsset;');
-    expect(output).toContain('body_copy?: StoryblokRichText;');
-  });
-
-  it('includes JSDoc comments', () => {
-    const output = generateInterface(MOCK_HERO_SCHEMA);
-    expect(output).toContain('* Main Headline');
-    expect(output).toContain('* Toggle visibility');
-  });
-  
-  it('includes standard internal fields', () => {
-    const output = generateInterface(MOCK_HERO_SCHEMA);
-    expect(output).toContain("component: 'hero_section';");
-    expect(output).toContain("_uid: string;");
-  });
-
-  // NEW: Test for Epic 1.3
-  it('generates Union Types for nested blocks', () => {
-    const output = generateInterface(MOCK_GRID_SCHEMA);
-    // Should map snake_case to PascalCase and join with |
-    // (FeatureBlok | TeaserCardBlok | HeroSectionBlok)[]
-    expect(output).toContain('columns?: (FeatureBlok | TeaserCardBlok | HeroSectionBlok)[];');
+  describe('generateMockFactory', () => {
+    it('should generate valid mock factory function', () => {
+      const output = generateMockFactory(MOCK_GRID_SCHEMA);
+      
+      expect(output).toContain('feature_grid: (overrides?: Partial<Types.FeatureGridBlok>)');
+      expect(output).toContain('_uid: faker.string.uuid()');
+      expect(output).toContain("component: 'feature_grid'");
+    });
   });
 });

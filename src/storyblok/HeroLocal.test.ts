@@ -1,10 +1,14 @@
+/**
+ * @file HeroLocal.test.ts
+ * @description Unit tests for HeroLocal.
+ */
 import { render, screen } from "@testing-library/svelte";
 import { describe, it, expect } from "vitest";
 import HeroLocal from "./HeroLocal.svelte";
-import type { SbBlokData } from "@storyblok/astro";
+import type { HeroLocalBlok } from "@/types/generated/storyblok";
 
 // Mock Storyblok Action
-const mockBlok = {
+const mockBlok: HeroLocalBlok = {
   _uid: "456",
   component: "hero_local",
   headline: "Plumbing Experts Near You",
@@ -12,7 +16,8 @@ const mockBlok = {
     "Fast, reliable, and affordable plumbing services for your home or business.",
   service_area: "Austin, TX",
   cta_primary_label: "Book Service Now",
-} as unknown as SbBlokData;
+  background_image: { filename: "" }
+};
 
 describe("HeroLocal Component", () => {
   it("renders the split headline correctly", () => {

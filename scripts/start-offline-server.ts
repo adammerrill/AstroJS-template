@@ -34,7 +34,7 @@ import fs from "fs";
 /* -------------------------------------------------------------------------- */
 
 const OFFLINE_HOST = "127.0.0.1";
-const OFFLINE_PORT = 4322;
+const OFFLINE_PORT = 4322; // Distinct from default 4321
 
 /**
  * Registry of active child processes for cleanup on exit.
@@ -66,7 +66,12 @@ function getExecutable(cmd: string): string {
  * @returns {{ executable: string; args: string[] }} Resolved command and arguments.
  */
 function resolveAstroCommand(): { executable: string; args: string[] } {
-  const binPath = path.resolve(process.cwd(), "node_modules", ".bin", "astro");
+  const binPath = path.resolve(
+    process.cwd(), 
+    "node_modules", 
+    ".bin", 
+    "astro"
+  );
   const scriptPath = path.resolve(
     process.cwd(),
     "node_modules",
@@ -198,6 +203,7 @@ function startOfflineServer(): void {
   const sanitizedEnv = {
     ...process.env,
     STORYBLOK_DELIVERY_API_TOKEN: "", // Empty string = offline mode
+    IS_OFFLINE: "true", // Explicit offline flag
     FORCE_COLOR: "1", // Preserve colored output
   };
 

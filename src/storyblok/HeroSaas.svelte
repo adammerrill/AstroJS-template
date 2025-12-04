@@ -5,6 +5,7 @@
    */
   import { storyblokEditable } from "@storyblok/svelte";
   import { Button } from "@/components/ui/button";
+  import type { SbBlokData } from "@storyblok/svelte";
   // 1. Import strictly typed interface
   import type { HeroSaasBlok } from "@/types/generated/storyblok";
   // 2. Import helper for link resolution
@@ -19,7 +20,7 @@
 
 <section
   data-testid="hero-saas"
-  use:storyblokEditable={blok as any}
+  use:storyblokEditable={blok as unknown as SbBlokData}
   class="relative overflow-hidden pt-16 pb-32 md:pt-32 md:pb-48"
 >
   <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/10 via-background to-background opacity-40"></div>

@@ -10,12 +10,30 @@
  * @version 1.1.3
  */
 
- import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 import Layout from "../layouts/Layout.astro";
 import { getSafeStory } from "../lib/storyblok";
 import type { SbBlokData } from "@storyblok/astro";
 import { useStoryblokApi } from "@storyblok/astro";
 import type { ISbStoriesParams } from "@storyblok/astro";
+
+/**
+ * Interface representing a link object returned by Storyblok's Links API.
+ * Used to type-safe the getStaticPaths generation.
+ */
+ interface StoryblokLinkItem {
+  id: number;
+  slug: string;
+  name: string;
+  is_folder: boolean;
+  parent_id: number;
+  published: boolean;
+  position: number;
+  uuid: string;
+  is_startpage: boolean;
+  path: string;
+  real_path: string;
+}
 
 /**
  * @function getStaticPaths
@@ -37,11 +55,11 @@ export async function getStaticPaths(): Promise<Array<{ params: { slug: string |
       version: 'published',
     } as ISbStoriesParams); 
 
-    const links = Object.values(data.links) as any[];
+    const links = Object.values(data.links) as StoryblokLinkItem[];
 
     const generatedPaths = links
-      .filter((link: any) => !link.is_folder && link.slug !== 'home')
-      .map((link: any) => ({
+      .filter((link) => !link.is_folder && link.slug !== 'home')
+      .map((link) => ({
         // Map slug to params object for Astro's routing engine
         params: { slug: link.slug },
       }));
@@ -50,6 +68,7 @@ export async function getStaticPaths(): Promise<Array<{ params: { slug: string |
     return [...generatedPaths, ...fallbackPaths];
 
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("[getStaticPaths] Links API failed. Proceeding with fallback paths only.", error);
     // In case of a failure (like the current 404), ensure we still build the root page
     return fallbackPaths;
@@ -70,6 +89,7 @@ const { story, error, status } = await getSafeStory<SbBlokData>(path, { version 
 
 // 4. Error Handling Boundary
 if (!story || error) {
+  // eslint-disable-next-line no-console
   console.warn(`[Route Error] Could not load slug "${path}":`, error);
   
   if (status === 404) {

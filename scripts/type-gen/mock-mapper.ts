@@ -1,18 +1,5 @@
 import { toPascalCase, cleanFieldName } from './utils';
-
-interface SchemaField {
-  type: string;
-  required?: boolean;
-  description?: string;
-  display_name?: string;
-  component_whitelist?: string[];
-  [key: string]: any;
-}
-
-interface ComponentSchema {
-  name: string;
-  schema: Record<string, SchemaField>;
-}
+import type { ComponentSchema, SchemaField } from "./types";
 
 /**
  * Maps Storyblok field types to Faker.js data generation strings.

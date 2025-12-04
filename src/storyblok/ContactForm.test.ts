@@ -6,14 +6,18 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
 import { describe, it, expect } from "vitest";
 import ContactForm from "./ContactForm.svelte";
-import type { SbBlokData } from "@storyblok/astro";
+import type { ContactFormBlok } from "@/types/generated/storyblok";
 
-const mockBlok = {
+const mockBlok: ContactFormBlok = {
   _uid: "form-1",
   component: "contact_form",
   headline: "Contact Us",
   submit_label: "Send",
-} as unknown as SbBlokData;
+  // Optional fields can be omitted or added as needed
+  subheadline: "", 
+  success_message: "",
+  api_endpoint: ""
+};
 
 describe("ContactForm Component", () => {
   it("renders the form fields", () => {

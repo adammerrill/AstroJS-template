@@ -10,7 +10,7 @@
 import { test, expect, type Page } from "@playwright/test";
 import { MockFactory } from "@/lib/mocks.generated";
 import { mockGlobalSettings } from "./global-mock-setup";
-import type { FeatureGridBlok, FeatureBlok } from "@/types/generated/storyblok";
+import type { FeatureGridBlok } from "@/types/generated/storyblok";
 
 // ============================================================================
 // DYNAMIC FIXTURE GENERATION (No more static JSON imports!)

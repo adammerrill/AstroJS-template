@@ -29,7 +29,7 @@ export default defineConfig({
 
   use: {
     // Use the offline dev server port
-    baseURL: "https://127.0.0.1:4321",
+    baseURL: "https://127.0.0.1:4322",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
@@ -50,7 +50,7 @@ export default defineConfig({
   // Web server configuration - expects the offline dev server to be running
   webServer: {
     command: "npm run dev:offline",
-    url: "https://127.0.0.1:4321",
+    url: "https://127.0.0.1:4322",
     reuseExistingServer: false, // Always restart to ensure clean state
     ignoreHTTPSErrors: true,
     timeout: 120000,

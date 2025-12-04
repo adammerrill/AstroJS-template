@@ -9,6 +9,7 @@
   // 1. Import strictly typed interfaces
   import type { PricingTableBlok, PricingTierBlok, PricingFeatureBlok } from "@/types/generated/storyblok";
   import { resolveLink } from "@/types/storyblok";
+  import type { SbBlokData } from "@storyblok/svelte";
 
   interface Props {
     blok: PricingTableBlok;
@@ -31,7 +32,7 @@
 </script>
 
 <section
-  use:storyblokEditable={blok as any}
+  use:storyblokEditable={blok as SbBlokData}
   class="py-24 bg-background relative"
   data-testid="pricing-table"
   data-hydrated={isHydrated}

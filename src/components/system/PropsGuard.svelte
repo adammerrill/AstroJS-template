@@ -6,7 +6,7 @@
    * Renders an error boundary UI in development if validation fails.
    */
   import { type ZodType } from "zod";
-  import { cn } from "@/lib/utils";
+  import { cn as _cn } from "@/lib/utils";
 
   interface Props {
     data: unknown;

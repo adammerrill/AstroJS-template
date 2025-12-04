@@ -5,6 +5,7 @@
    * @version 2.0.0 (Strictly Typed)
    */
   import { storyblokEditable } from "@storyblok/svelte";
+  import type { SbBlokData } from "@storyblok/svelte";
   // 1. Import the generated interface
   import type { FeatureBlok } from "@/types/generated/storyblok";
 
@@ -18,7 +19,7 @@
 </script>
 
 <div 
-  use:storyblokEditable={blok as any} 
+  use:storyblokEditable={blok as SbBlokData} 
   class="p-6 bg-white shadow-lg rounded-lg text-center"
 >
   <h3 class="text-xl font-bold text-gray-900">
