@@ -6,7 +6,11 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
 import { describe, it, expect } from "vitest";
 import PricingTable from "./PricingTable.svelte";
-import type { PricingTableBlok, PricingTierBlok, PricingFeatureBlok } from "@/types/generated/storyblok";
+import type {
+  PricingTableBlok,
+  PricingTierBlok,
+  PricingFeatureBlok,
+} from "@/types/generated/storyblok";
 
 // Mock Data with proper typing
 const mockBlok: PricingTableBlok = {

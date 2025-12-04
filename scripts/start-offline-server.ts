@@ -66,12 +66,7 @@ function getExecutable(cmd: string): string {
  * @returns {{ executable: string; args: string[] }} Resolved command and arguments.
  */
 function resolveAstroCommand(): { executable: string; args: string[] } {
-  const binPath = path.resolve(
-    process.cwd(), 
-    "node_modules", 
-    ".bin", 
-    "astro"
-  );
+  const binPath = path.resolve(process.cwd(), "node_modules", ".bin", "astro");
   const scriptPath = path.resolve(
     process.cwd(),
     "node_modules",

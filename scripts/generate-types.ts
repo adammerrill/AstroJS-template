@@ -57,7 +57,7 @@ async function main(): Promise<void> {
     .join("\n\n");
 
   const componentNames = components.map(
-    (component: ComponentSchema) => toPascalCase(component.name) + "Blok"
+    (component: ComponentSchema) => toPascalCase(component.name) + "Blok",
   );
 
   const unionType =
@@ -97,27 +97,31 @@ ${unionType}
     .join("\n");
 
   const schemaNames = components.map(
-    (component: ComponentSchema) => toPascalCase(component.name) + "BlokSchema"
+    (component: ComponentSchema) => toPascalCase(component.name) + "BlokSchema",
   );
 
   // CRITICAL FIX: Only import types that are actually used in z.ZodType<T> annotations
   // This prevents "unused import" errors
-  
+
   // Find which components have circular references (use z.ZodType<T> annotation)
-  const componentsWithCircularRefs = components.filter((component: ComponentSchema) =>
-    Object.values(component.schema).some((field) => field.type === 'bloks')
+  const componentsWithCircularRefs = components.filter(
+    (component: ComponentSchema) =>
+      Object.values(component.schema).some((field) => field.type === "bloks"),
   );
-  
+
   const typesUsedInAnnotations = componentsWithCircularRefs.map(
-    (component: ComponentSchema) => toPascalCase(component.name) + "Blok"
+    (component: ComponentSchema) => toPascalCase(component.name) + "Blok",
   );
-  
+
   // Always import StoryblokComponent for the union schema
-  const allTypesToImport = [...new Set([...typesUsedInAnnotations, 'StoryblokComponent'])];
-  
-  const componentTypeImports = allTypesToImport.length > 0 
-    ? `import type {\n  ${allTypesToImport.join(",\n  ")}\n} from './storyblok';`
-    : `import type { StoryblokComponent } from './storyblok';`;
+  const allTypesToImport = [
+    ...new Set([...typesUsedInAnnotations, "StoryblokComponent"]),
+  ];
+
+  const componentTypeImports =
+    allTypesToImport.length > 0
+      ? `import type {\n  ${allTypesToImport.join(",\n  ")}\n} from './storyblok';`
+      : `import type { StoryblokComponent } from './storyblok';`;
 
   const zodUnion =
     schemaNames.length > 0
@@ -234,7 +238,7 @@ ${mockFunctions}
 
   console.log("\n🎉 Generation pipeline complete!");
   console.log(
-    "💡 Run 'pnpm check' to validate the generated types across the project."
+    "💡 Run 'pnpm check' to validate the generated types across the project.",
   );
 }
 

@@ -101,7 +101,7 @@ export async function getSafeStory<T = StoryblokComponent>(
 
     // Even offline fixtures should be validated to ensure test data isn't stale
     if (mockStory.content) {
-       mockStory.content = validateBlok(mockStory.content) as T;
+      mockStory.content = validateBlok(mockStory.content) as T;
     }
 
     return {
@@ -129,7 +129,7 @@ export async function getSafeStory<T = StoryblokComponent>(
     // RUNTIME INTEGRITY CHECK
     // This validates the structure against the Zod schema generated from Storyblok
     if (data.story.content) {
-        data.story.content = validateBlok(data.story.content);
+      data.story.content = validateBlok(data.story.content);
     }
 
     return {

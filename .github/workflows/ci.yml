@@ -40,7 +40,7 @@ jobs:
 
       - name: Sync Astro Types
         run: pnpm astro sync
-      
+
       - name: Generate Storyblok Types
         env:
           # Required for the Management API fetch
@@ -52,7 +52,6 @@ jobs:
         # Fails if the generation caused changes (developer forgot to commit types)
         run: |
           git diff --exit-code src/types/generated || (echo "❌ Generated types are out of sync with Schema. Run 'pnpm gen:types' locally and commit." && exit 1)
-
 
       - name: Lint & Typecheck
         run: |

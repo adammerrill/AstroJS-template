@@ -13,7 +13,7 @@ const logger = {
   },
   error: (...args: unknown[]) => {
     console.error("[Runtime Validation]", ...args);
-  }
+  },
 };
 
 /**
@@ -23,7 +23,7 @@ const logger = {
  */
 export function validateBlok<T = StoryblokComponent>(data: unknown): T {
   // Check basic shape: must be an object with a 'component' property
-  if (!data || typeof data !== 'object' || !('component' in data)) {
+  if (!data || typeof data !== "object" || !("component" in data)) {
     return data as T;
   }
 

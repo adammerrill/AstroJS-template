@@ -14,9 +14,9 @@ const mockBlok: ContactFormBlok = {
   headline: "Contact Us",
   submit_label: "Send",
   // Optional fields can be omitted or added as needed
-  subheadline: "", 
+  subheadline: "",
   success_message: "",
-  api_endpoint: ""
+  api_endpoint: "",
 };
 
 describe("ContactForm Component", () => {

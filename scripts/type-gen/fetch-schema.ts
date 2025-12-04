@@ -65,7 +65,7 @@ const CACHE_FILE_PATH: string = path.resolve(process.cwd(), ".schema-hash");
  */
 const TEMP_SCHEMA_PATH: string = path.resolve(
   process.cwd(),
-  "scripts/type-gen/temp-schema.json"
+  "scripts/type-gen/temp-schema.json",
 );
 
 // --- Type Definitions ---
@@ -125,10 +125,7 @@ const Storyblok = new StoryblokClient({
  * // hash: "a3b5c7d9..."
  */
 function calculateHash(data: unknown): string {
-  return crypto
-    .createHash("sha256")
-    .update(JSON.stringify(data))
-    .digest("hex");
+  return crypto.createHash("sha256").update(JSON.stringify(data)).digest("hex");
 }
 
 /**
@@ -180,12 +177,12 @@ const wait = (ms: number): Promise<void> =>
  */
 async function fetchComponents(
   retries = 3,
-  delay = 1000
+  delay = 1000,
 ): Promise<ComponentSchema[]> {
   // Validate required environment variables
   if (!SPACE_ID || !PERSONAL_TOKEN) {
     throw new Error(
-      "❌ Missing Environment Variables: Ensure STORYBLOK_SPACE_ID and STORYBLOK_PERSONAL_TOKEN are set."
+      "❌ Missing Environment Variables: Ensure STORYBLOK_SPACE_ID and STORYBLOK_PERSONAL_TOKEN are set.",
     );
   }
 
@@ -193,7 +190,7 @@ async function fetchComponents(
   for (let i = 0; i < retries; i++) {
     try {
       console.log(
-        `🔄 Connecting to Storyblok Management API (Attempt ${i + 1}/${retries})...`
+        `🔄 Connecting to Storyblok Management API (Attempt ${i + 1}/${retries})...`,
       );
 
       // Fetch components from Storyblok Management API
@@ -225,7 +222,7 @@ async function fetchComponents(
           const backoffDelay = delay + jitter;
 
           console.warn(
-            `⚠️  API Error ${status}. Retrying in ${Math.round(backoffDelay)}ms...`
+            `⚠️  API Error ${status}. Retrying in ${Math.round(backoffDelay)}ms...`,
           );
 
           await wait(backoffDelay);

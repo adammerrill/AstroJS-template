@@ -80,9 +80,7 @@
       },
       "image": {
         "type": "asset",
-        "file_types": [
-          "images"
-        ],
+        "file_types": ["images"],
         "pos": 4,
         "id": "Dka5wWCOTeardsNHbxh-5g"
       }
@@ -123,9 +121,7 @@
       },
       "items": {
         "type": "bloks",
-        "component_whitelist": [
-          "feature_alternating_item"
-        ],
+        "component_whitelist": ["feature_alternating_item"],
         "pos": 2,
         "id": "pmekMM6lQJq4C4SFyWkNHA"
       }
@@ -166,9 +162,7 @@
       },
       "image": {
         "type": "asset",
-        "file_types": [
-          "images"
-        ],
+        "file_types": ["images"],
         "pos": 2,
         "id": "dynZXmvVQyuCjICWcS9KGg"
       },
@@ -219,9 +213,7 @@
       },
       "columns": {
         "type": "bloks",
-        "component_whitelist": [
-          "feature"
-        ],
+        "component_whitelist": ["feature"],
         "pos": 2,
         "id": "RH4djRr0TfGNQONtiSsDTw"
       }
@@ -293,9 +285,7 @@
       },
       "headshot": {
         "type": "asset",
-        "file_types": [
-          "images"
-        ],
+        "file_types": ["images"],
         "pos": 2,
         "id": "-h3jNHl3QLmCjWsL8gTi0Q"
       },
@@ -352,9 +342,7 @@
       },
       "background_image": {
         "type": "asset",
-        "file_types": [
-          "images"
-        ],
+        "file_types": ["images"],
         "pos": 3,
         "id": "Zs_JMFC6T-6yxLIFX9wVhQ"
       },
@@ -411,9 +399,7 @@
       },
       "image": {
         "type": "asset",
-        "file_types": [
-          "images"
-        ],
+        "file_types": ["images"],
         "pos": 3,
         "id": "iyQUvavjQ527FrcHnoHgXg"
       },
@@ -469,9 +455,7 @@
       },
       "logos": {
         "type": "bloks",
-        "component_whitelist": [
-          "logo_item"
-        ],
+        "component_whitelist": ["logo_item"],
         "pos": 1,
         "id": "jRjCy2R1T2qYxY3eAxh91Q"
       }
@@ -507,9 +491,7 @@
       },
       "filename": {
         "type": "asset",
-        "file_types": [
-          "images"
-        ],
+        "file_types": ["images"],
         "pos": 1,
         "id": "mfomXY9bRkCxzOCPhxG8zw"
       },
@@ -625,9 +607,7 @@
       },
       "tiers": {
         "type": "bloks",
-        "component_whitelist": [
-          "pricing_tier"
-        ],
+        "component_whitelist": ["pricing_tier"],
         "pos": 2,
         "id": "LHaYDLvvSNKvfMJ8cGepOw"
       }
@@ -693,9 +673,7 @@
       },
       "features": {
         "type": "bloks",
-        "component_whitelist": [
-          "pricing_feature"
-        ],
+        "component_whitelist": ["pricing_feature"],
         "pos": 7,
         "id": "twOSuSJzR2SFtK7nfU8eTQ"
       }
@@ -841,9 +819,7 @@
       },
       "testimonials": {
         "type": "bloks",
-        "component_whitelist": [
-          "testimonial"
-        ],
+        "component_whitelist": ["testimonial"],
         "pos": 1,
         "id": "UX42sjk2SK20H4WmSjMyGw"
       }

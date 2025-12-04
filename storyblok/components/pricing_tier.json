@@ -9,13 +9,17 @@
     "description": { "type": "textarea", "pos": 1 },
     "price_monthly": { "type": "text", "pos": 2 },
     "price_yearly": { "type": "text", "pos": 3 },
-    "highlight": { "type": "boolean", "pos": 4, "description": "Mark as Most Popular" },
+    "highlight": {
+      "type": "boolean",
+      "pos": 4,
+      "description": "Mark as Most Popular"
+    },
     "cta_label": { "type": "text", "pos": 5 },
     "cta_url": { "type": "multilink", "pos": 6 },
-    "features": { 
-      "type": "bloks", 
-      "component_whitelist": ["pricing_feature"], 
-      "pos": 7 
+    "features": {
+      "type": "bloks",
+      "component_whitelist": ["pricing_feature"],
+      "pos": 7
     }
   }
 }

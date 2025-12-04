@@ -39,7 +39,8 @@ const isOffline = process.env.IS_OFFLINE === "true";
  */
 const storyblokToken = isOffline
   ? ""
-  : process.env.STORYBLOK_DELIVERY_API_TOKEN || env.STORYBLOK_DELIVERY_API_TOKEN;
+  : process.env.STORYBLOK_DELIVERY_API_TOKEN ||
+    env.STORYBLOK_DELIVERY_API_TOKEN;
 
 export default defineConfig({
   site: "https://astro-js-template.vercel.app",

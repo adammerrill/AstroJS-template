@@ -6,10 +6,10 @@
   "is_nestable": true,
   "schema": {
     "headline": { "type": "text", "pos": 0 },
-    "logos": { 
-      "type": "bloks", 
-      "component_whitelist": ["logo_item"], 
-      "pos": 1 
+    "logos": {
+      "type": "bloks",
+      "component_whitelist": ["logo_item"],
+      "pos": 1
     }
   }
 }

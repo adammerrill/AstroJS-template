@@ -7,10 +7,10 @@
   "schema": {
     "headline": { "type": "text", "pos": 0 },
     "description": { "type": "textarea", "pos": 1 },
-    "columns": { 
-      "type": "bloks", 
-      "component_whitelist": ["feature"], 
-      "pos": 2 
+    "columns": {
+      "type": "bloks",
+      "component_whitelist": ["feature"],
+      "pos": 2
     }
   }
 }

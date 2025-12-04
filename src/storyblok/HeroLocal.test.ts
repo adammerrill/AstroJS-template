@@ -16,7 +16,7 @@ const mockBlok: HeroLocalBlok = {
     "Fast, reliable, and affordable plumbing services for your home or business.",
   service_area: "Austin, TX",
   cta_primary_label: "Book Service Now",
-  background_image: { filename: "" }
+  background_image: { filename: "" },
 };
 
 describe("HeroLocal Component", () => {

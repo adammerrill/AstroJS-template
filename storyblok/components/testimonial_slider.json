@@ -6,10 +6,10 @@
   "is_nestable": true,
   "schema": {
     "headline": { "type": "text", "pos": 0 },
-    "testimonials": { 
-      "type": "bloks", 
-      "component_whitelist": ["testimonial"], 
-      "pos": 1 
+    "testimonials": {
+      "type": "bloks",
+      "component_whitelist": ["testimonial"],
+      "pos": 1
     }
   }
 }

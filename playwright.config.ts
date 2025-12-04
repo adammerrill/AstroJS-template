@@ -35,12 +35,19 @@ export default defineConfig({
     // Reuse local server if running, ensuring fast DX.
     // In CI (CI=true), this is ignored and a fresh server is always started.
     reuseExistingServer: !process.env.CI,
+    // CRITICAL: Do NOT leak real API tokens to the test environment
+    env: {
+      // ❌ DO NOT DO THIS:
+      // STORYBLOK_DELIVERY_API_TOKEN: process.env.STORYBLOK_DELIVERY_API_TOKEN
+      STORYBLOK_DELIVERY_API_TOKEN: "",
+    },
     // CRITICAL: Ensure the orchestrator accepts the self-signed cert during polling
     ignoreHTTPSErrors: true,
     // Give Astro 5 plenty of time to warm up (cold start can be slow)
     timeout: 120 * 1000,
     // Pipe output so we can see server errors in CI logs
     stdout: "pipe",
+    // Pipe error output as well
     stderr: "pipe",
   },
 

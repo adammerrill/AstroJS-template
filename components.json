@@ -54,10 +54,10 @@
     "schema": {
       "headline": { "type": "text", "pos": 0 },
       "subheadline": { "type": "textarea", "pos": 1 },
-      "items": { 
-        "type": "bloks", 
-        "component_whitelist": ["feature_alternating_item"], 
-        "pos": 2 
+      "items": {
+        "type": "bloks",
+        "component_whitelist": ["feature_alternating_item"],
+        "pos": 2
       }
     }
   },
@@ -84,10 +84,10 @@
     "schema": {
       "headline": { "type": "text", "pos": 0 },
       "description": { "type": "textarea", "pos": 1 },
-      "columns": { 
-        "type": "bloks", 
-        "component_whitelist": ["feature"], 
-        "pos": 2 
+      "columns": {
+        "type": "bloks",
+        "component_whitelist": ["feature"],
+        "pos": 2
       }
     }
   },
@@ -132,7 +132,11 @@
       "headline": { "type": "text", "pos": 0, "required": true },
       "subheadline": { "type": "textarea", "pos": 1 },
       "service_area": { "type": "text", "pos": 2 },
-      "background_image": { "type": "asset", "file_types": ["images"], "pos": 3 },
+      "background_image": {
+        "type": "asset",
+        "file_types": ["images"],
+        "pos": 3
+      },
       "cta_primary_label": { "type": "text", "pos": 4 },
       "form_placeholder_text": { "type": "text", "pos": 5 }
     }
@@ -145,10 +149,10 @@
     "is_nestable": true,
     "schema": {
       "headline": { "type": "text", "pos": 0 },
-      "logos": { 
-        "type": "bloks", 
-        "component_whitelist": ["logo_item"], 
-        "pos": 1 
+      "logos": {
+        "type": "bloks",
+        "component_whitelist": ["logo_item"],
+        "pos": 1
       }
     }
   },
@@ -173,10 +177,10 @@
     "schema": {
       "headline": { "type": "text", "pos": 0 },
       "subheadline": { "type": "textarea", "pos": 1 },
-      "tiers": { 
-        "type": "bloks", 
-        "component_whitelist": ["pricing_tier"], 
-        "pos": 2 
+      "tiers": {
+        "type": "bloks",
+        "component_whitelist": ["pricing_tier"],
+        "pos": 2
       }
     }
   },
@@ -194,10 +198,10 @@
       "highlight": { "type": "boolean", "pos": 4 },
       "cta_label": { "type": "text", "pos": 5 },
       "cta_url": { "type": "multilink", "pos": 6 },
-      "features": { 
-        "type": "bloks", 
-        "component_whitelist": ["pricing_feature"], 
-        "pos": 7 
+      "features": {
+        "type": "bloks",
+        "component_whitelist": ["pricing_feature"],
+        "pos": 7
       }
     }
   },
@@ -219,10 +223,10 @@
     "is_nestable": true,
     "schema": {
       "headline": { "type": "text", "pos": 0 },
-      "testimonials": { 
-        "type": "bloks", 
-        "component_whitelist": ["testimonial"], 
-        "pos": 1 
+      "testimonials": {
+        "type": "bloks",
+        "component_whitelist": ["testimonial"],
+        "pos": 1
       }
     }
   },

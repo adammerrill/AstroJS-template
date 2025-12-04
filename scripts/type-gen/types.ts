@@ -93,123 +93,122 @@
  * @see {@link https://www.storyblok.com/docs/api/management/components/the-component-schema-field-object}
  */
 export interface SchemaField {
-    type: string;
-    pos?: number;
-    translatable?: boolean;
-    required?: boolean;
-    display_name?: string;
-    description?: string;
-    default_value?: string;
-    component_whitelist?: string | string[]; // ← Comma-separated string, NOT an array!
-    restrict_type?: string;
-    restrict_components?: string;
-    component_group_whitelist?: string;
-    maximum?: string;
-    minimum?: string;
-    regex?: string;
-    asset_folder_id?: string;
-    filetypes?: string[];
-    source?: string;
-    datasource_slug?: string;
-    folder_slug?: string;
-    filter_content_type?: string[];
-    display_type?: string;
-    allow_target_blank?: boolean;
-    force_link_scope?: boolean;
-    toolbar?: string;
-    rtl?: string;
-    options?: Array<{ name: string; value: string }>;
-    // Allow additional properties for extensibility
-    [key: string]: unknown;
-  }
-  
-  /**
-   * Represents a complete Storyblok component schema as returned by the Management API.
-   *
-   * @interface ComponentSchema
-   * @property {string} name - The unique component identifier (e.g., 'hero', 'button', 'call_to_action')
-   * @property {string} [display_name] - Human-readable component name shown in the Storyblok UI
-   * @property {Record<string, SchemaField>} schema - Dictionary of field definitions keyed by field name
-   * @property {string} [image] - URL to preview image shown in the component library
-   * @property {string} [preview_field] - Field name to use for generating component preview text
-   * @property {boolean} [is_root] - Whether this component can be used as a root/top-level component
-   * @property {boolean} [is_nestable] - Whether this component can be nested within other components
-   * @property {string | null} [preview_tmpl] - Custom preview template
-   * @property {Array<unknown>} [all_presets] - Array of preset configurations for this component
-   * @property {number | null} [preset_id] - ID of the active preset
-   * @property {string} [real_name] - Internal component name (usually matches 'name')
-   * @property {string} [component_group_uuid] - UUID of the component group this belongs to
-   * @property {string} [color] - Hex color code for component identification in UI
-   * @property {string} [icon] - Icon identifier for component representation
-   * @property {Array<{id: number; name: string}>} [internal_tags_list] - Array of internal tag objects
-   * @property {string[]} [internal_tag_ids] - Array of internal tag ID strings
-   * @property {string | null} [content_type_asset_preview] - Field to use for asset preview in content type
-   * @property {number} [id] - Numeric component ID
-   * @property {string} [created_at] - ISO 8601 timestamp of creation
-   * @property {string} [updated_at] - ISO 8601 timestamp of last update
-   *
-   * @remarks
-   * This interface matches the component object structure returned by the
-   * Storyblok Management API GET /spaces/{space_id}/components endpoint.
-   * The schema property is the most important field, containing the field definitions.
-   *
-   * @example
-   * const heroComponent: ComponentSchema = {
-   *   name: "hero",
-   *   display_name: "Hero Section",
-   *   is_root: true,
-   *   is_nestable: false,
-   *   schema: {
-   *     headline: {
-   *       type: "text",
-   *       required: true,
-   *       translatable: true
-   *     },
-   *     image: {
-   *       type: "asset",
-   *       filetypes: ["images"]
-   *     },
-   *     cta_buttons: {
-   *       type: "bloks",
-   *       component_whitelist: "button,link_button" // ← String, not array
-   *     }
-   *   }
-   * };
-   *
-   * @see {@link https://www.storyblok.com/docs/api/management/core-resources/components/the-component-object}
-   */
-  export interface ComponentSchema {
-    name: string;
-    display_name?: string;
-    schema: Record<string, SchemaField>;
-    image?: string;
-    preview_field?: string;
-    is_root?: boolean;
-    is_nestable?: boolean;
-    preview_tmpl?: string | null;
-    all_presets?: Array<unknown>;
-    preset_id?: number | null;
-    real_name?: string;
-    component_group_uuid?: string;
-    color?: string;
-    icon?: string;
-    internal_tags_list?: Array<{ id: number; name: string }>;
-    internal_tag_ids?: string[];
-    content_type_asset_preview?: string | null;
-    id?: number;
-    created_at?: string;
-    updated_at?: string;
-    // Allow additional properties for future API additions
-    [key: string]: unknown;
-  }
-  
-  /**
-   * Type alias for consistency across the codebase.
-   * Some parts of the code refer to this as ComponentField.
-   *
-   * @remarks
-   * Use SchemaField instead for consistency. This alias is provided for
-   * backwards compatibility only.
-   */
-  export type ComponentField = SchemaField;
-  
+  type: string;
+  pos?: number;
+  translatable?: boolean;
+  required?: boolean;
+  display_name?: string;
+  description?: string;
+  default_value?: string;
+  component_whitelist?: string | string[]; // ← Comma-separated string, NOT an array!
+  restrict_type?: string;
+  restrict_components?: string;
+  component_group_whitelist?: string;
+  maximum?: string;
+  minimum?: string;
+  regex?: string;
+  asset_folder_id?: string;
+  filetypes?: string[];
+  source?: string;
+  datasource_slug?: string;
+  folder_slug?: string;
+  filter_content_type?: string[];
+  display_type?: string;
+  allow_target_blank?: boolean;
+  force_link_scope?: boolean;
+  toolbar?: string;
+  rtl?: string;
+  options?: Array<{ name: string; value: string }>;
+  // Allow additional properties for extensibility
+  [key: string]: unknown;
+}
+
+/**
+ * Represents a complete Storyblok component schema as returned by the Management API.
+ *
+ * @interface ComponentSchema
+ * @property {string} name - The unique component identifier (e.g., 'hero', 'button', 'call_to_action')
+ * @property {string} [display_name] - Human-readable component name shown in the Storyblok UI
+ * @property {Record<string, SchemaField>} schema - Dictionary of field definitions keyed by field name
+ * @property {string} [image] - URL to preview image shown in the component library
+ * @property {string} [preview_field] - Field name to use for generating component preview text
+ * @property {boolean} [is_root] - Whether this component can be used as a root/top-level component
+ * @property {boolean} [is_nestable] - Whether this component can be nested within other components
+ * @property {string | null} [preview_tmpl] - Custom preview template
+ * @property {Array<unknown>} [all_presets] - Array of preset configurations for this component
+ * @property {number | null} [preset_id] - ID of the active preset
+ * @property {string} [real_name] - Internal component name (usually matches 'name')
+ * @property {string} [component_group_uuid] - UUID of the component group this belongs to
+ * @property {string} [color] - Hex color code for component identification in UI
+ * @property {string} [icon] - Icon identifier for component representation
+ * @property {Array<{id: number; name: string}>} [internal_tags_list] - Array of internal tag objects
+ * @property {string[]} [internal_tag_ids] - Array of internal tag ID strings
+ * @property {string | null} [content_type_asset_preview] - Field to use for asset preview in content type
+ * @property {number} [id] - Numeric component ID
+ * @property {string} [created_at] - ISO 8601 timestamp of creation
+ * @property {string} [updated_at] - ISO 8601 timestamp of last update
+ *
+ * @remarks
+ * This interface matches the component object structure returned by the
+ * Storyblok Management API GET /spaces/{space_id}/components endpoint.
+ * The schema property is the most important field, containing the field definitions.
+ *
+ * @example
+ * const heroComponent: ComponentSchema = {
+ *   name: "hero",
+ *   display_name: "Hero Section",
+ *   is_root: true,
+ *   is_nestable: false,
+ *   schema: {
+ *     headline: {
+ *       type: "text",
+ *       required: true,
+ *       translatable: true
+ *     },
+ *     image: {
+ *       type: "asset",
+ *       filetypes: ["images"]
+ *     },
+ *     cta_buttons: {
+ *       type: "bloks",
+ *       component_whitelist: "button,link_button" // ← String, not array
+ *     }
+ *   }
+ * };
+ *
+ * @see {@link https://www.storyblok.com/docs/api/management/core-resources/components/the-component-object}
+ */
+export interface ComponentSchema {
+  name: string;
+  display_name?: string;
+  schema: Record<string, SchemaField>;
+  image?: string;
+  preview_field?: string;
+  is_root?: boolean;
+  is_nestable?: boolean;
+  preview_tmpl?: string | null;
+  all_presets?: Array<unknown>;
+  preset_id?: number | null;
+  real_name?: string;
+  component_group_uuid?: string;
+  color?: string;
+  icon?: string;
+  internal_tags_list?: Array<{ id: number; name: string }>;
+  internal_tag_ids?: string[];
+  content_type_asset_preview?: string | null;
+  id?: number;
+  created_at?: string;
+  updated_at?: string;
+  // Allow additional properties for future API additions
+  [key: string]: unknown;
+}
+
+/**
+ * Type alias for consistency across the codebase.
+ * Some parts of the code refer to this as ComponentField.
+ *
+ * @remarks
+ * Use SchemaField instead for consistency. This alias is provided for
+ * backwards compatibility only.
+ */
+export type ComponentField = SchemaField;

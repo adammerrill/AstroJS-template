@@ -49,7 +49,7 @@ describe("Storyblok Resilience Layer (Generics & Safety)", () => {
     const mockPageData = {
       _uid: "123",
       component: "page",
-      body: []
+      body: [],
     };
 
     mockGet.mockResolvedValueOnce({
@@ -104,7 +104,7 @@ describe("Storyblok Resilience Layer (Generics & Safety)", () => {
     const result = await getSafeStory("home");
 
     expect(mockGet).toHaveBeenCalledTimes(1);
-    expect(result.status).toBe(200); 
+    expect(result.status).toBe(200);
     // Should return the Home fixture defined in src/lib/storyblok.ts
     expect(result.story?.name).toBe("Home");
   });
