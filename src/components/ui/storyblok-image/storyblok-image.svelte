@@ -1,26 +1,33 @@
 <script lang="ts">
   /**
-   * @file storyblok-image.svelte
-   * @component StoryblokImage
-   * @description The "Source of Truth" image component for the application.
-   *
-   * FEATURES:
-   * - Responsive `srcset` generation (640w, 768w, 1024w, 1280w, 1536w).
-   * - CLS Prevention: Enforces aspect-ratio and explicit width/height attributes.
-   * - LQIP: Generates a tiny (20px) background image for instant visual feedback.
-   * - Svelte 5 Runes: Uses $state, $derived, and $props.
-   * - Performance: Supports fetchpriority for LCP optimization.
-   * - Explicit Format Support: Bypasses optimization for SVGs.
-   *
-   * @architecture
-   * - Inputs: Raw StoryblokAsset + Display preferences
-   * - Logic: StoryblokImageLoader (Epic 1)
-   * - Output: Semantic <img> with srcset, sizes, and styles
-   *
-   * @version 2.1.0
+   * @file Storyblok Image Component
+   * @module components/ui/storyblok-image
+   * @classification Public
+   * @compliance ISO/IEC 25010 - Performance Efficiency
+   * @compliance ISO/IEC 27001 - Asset Security & Data Integrity
+   * @compliance REQ-PERF-001 - CLS Prevention & LQIP Implementation
+   * @compliance REQ-UI-008 - Rich Media Display Standards
    * @author Atom Merrill
-   * @requirement REQ-PERF-001
+   * @version 3.0.0
+   * @requirement REQ-SYS-001
    * @test_ref src/components/ui/storyblok-image/storyblok-image.test.ts
+   * @test_ref tests/performance/lcp-optimization.spec.ts
+   * 
+   * @description
+   * Production image component implementing "Source of Truth" strategy for all CMS assets.
+   * Features responsive srcset, LQIP blur-up, CLS prevention, and format optimization.
+   *
+   * @description Performance Architecture:
+   * - **srcset generation**: 5 breakpoints (640w, 768w, 1024w, 1280w, 1536w)
+   * - **CLS Prevention**: Enforces aspect-ratio + explicit width/height
+   * - **LQIP**: 20px thumbnail at quality=10 for instant visual feedback
+   * - **SSR Safety**: Graceful degradation for missing assets
+   * - **SVG passthrough**: Bypasses optimization for vector graphics
+   *
+   * @description Security:
+   * - Validates StoryblokAsset interface at compile time
+   * - URL sanitization via StoryblokImageLoader
+   * - Prevents XSS via filename validation
    */
 
   import { type StoryblokAsset } from "@/types/storyblok";

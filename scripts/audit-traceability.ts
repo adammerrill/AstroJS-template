@@ -1,13 +1,12 @@
 /**
- * @fileoverview Traceability Auditor (ISO 15288 Compliance)
+ * @file Traceability Auditor (ISO 15288 Compliance)
  * @module scripts/audit-traceability
  * @classification Internal
  * @description
  * Parses the codebase to generate a Requirement <-> Code <-> Test traceability matrix.
  * Fails the build if "Orphan Requirements" or "Undocumented Code" are detected.
  *
- * @usage
- * pnpm audit:traceability
+ * @example Usage: * pnpm audit:traceability
  */
 
 import fs from "fs";

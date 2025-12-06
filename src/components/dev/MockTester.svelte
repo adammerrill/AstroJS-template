@@ -1,36 +1,33 @@
 <script lang="ts">
   /**
-   * @component MockTester
-   * @description E2E testing utility component for validating Playwright mock interception.
+   * @file MockTester Component
+   * @module components/dev/mock-tester
+   * @classification Internal - Development & Testing Only
+   * @compliance ISO/IEC 25010 - Testability & Maintainability
+   * @compliance ISO/IEC 29119-4 - Test Techniques (State-based testing)
+   * @author Atom Merrill
+   * @version 1.0.0
+   * @requirement REQ-TEST-001 - E2E Test Infrastructure
+   * @requirement REQ-SYS-002 - Mock Data Handling
+   * @test_ref tests/e2e/mock-tester.spec.ts
    * 
    * @description
-   * Performs client-side fetch to validate:
-   * - Playwright route interception pipeline
-   * - Svelte 5 hydration with runes
-   * - Type-safe mock data consumption
-   * 
-   * @architecture
-   * - Uses Svelte 5 runes ($state) for reactive state management
-   * - Implements deterministic status tracking via data attributes
-   * - Exposes fetch lifecycle states for Playwright synchronization
-   * 
-   * @testing_contract
-   * - Exposes `data-fetch-status` attribute: 'idle' | 'loading' | 'success' | 'error'
-   * - Exposes `data-testid` attributes for Playwright locators
-   * - Logs detailed console output for debugging CI/CD failures
-   * 
-   * @iso_compliance
-   * - ISO/IEC 25010:2011 - Software Quality Requirements (Testability)
-   * - ISO/IEC 29119-4:2015 - Test Techniques (State-based testing)
-   * 
-   * @see {@link https://playwright.dev/docs/api/class-route | Playwright Route API}
-   * @see {@link https://svelte.dev/docs/svelte/$state | Svelte 5 Runes}
-   * 
-   * @module components/dev/MockTester
-   * @requires svelte
-   * @version 1.0.0
-   * @since 2025-12-04
+   * E2E testing utility for validating Playwright mock interception and Svelte 5 hydration.
+   * Exposes deterministic test hooks and state attributes for reliable automation.
+   *
+   * @description Testing Contract:
+   * - **Endpoint**: `/_testing/api/story` (Playwright intercepts this route)
+   * - **State attribute**: `data-fetch-status` transitions: idle → loading → success|error
+   * - **Content extraction**: Validates navigation to `story.content.body[0]`
+   * - **Error logging**: Console logs prefixed with "🧪 MockTester:" for debugging
+   *
+   * @description State Machine:
+   * - `idle`: Initial state before fetch
+   * - `loading`: Fetch in progress
+   * - `success`: Data extracted and validated
+   * - `error`: Network failure or invalid structure
    */
+
   import { onMount } from "svelte";
 
   /**
@@ -51,11 +48,10 @@
    * @typedef {'idle' | 'loading' | 'success' | 'error'} FetchStatus
    * @description Represents the current state of the async fetch operation
    * 
-   * @state_transitions
+   * @description State Transitions:
    * idle → loading → (success | error)
    * 
-   * @critical
-   * Playwright tests depend on this state to synchronize assertions.
+   * @description ⚠️ CRITICAL: * Playwright tests depend on this state to synchronize assertions.
    * The test waits for data-fetch-status="success" before validating content.
    */
   type FetchStatus = "idle" | "loading" | "success" | "error";
@@ -65,9 +61,8 @@
   // ============================================================================
 
   /**
-   * @reactive
-   * @description Stores the successfully fetched and parsed content
-   * 
+   * @description Reactive: * @description Stores the successfully fetched and parsed content
+   *
    * @default null - Indicates no data has been loaded yet
    * @description Mutates: Set once after successful fetch and parsing
    * @description Accessed By: Template for conditional rendering
@@ -75,9 +70,8 @@
   let content = $state<MockContent | null>(null);
 
   /**
-   * @reactive
-   * @description Stores error message if fetch or parsing fails
-   * 
+   * @description Reactive: * @description Stores error message if fetch or parsing fails
+   *
    * @default null - Indicates no error has occurred
    * @description Mutates: Set if fetch fails or data structure is invalid
    * @description Accessed By: Template for error display
@@ -85,20 +79,17 @@
   let error = $state<string | null>(null);
 
   /**
-   * @reactive
-   * @description Tracks the lifecycle state of the fetch operation
-   * 
+   * @description Reactive: * @description Tracks the lifecycle state of the fetch operation
+   *
    * @default 'idle' - Initial state before fetch begins
-   * @exposed_as data-fetch-status attribute for Playwright synchronization
-   * 
-   * @states
-   * - 'idle': Component mounted, fetch not started
+   * @alias data-fetch-status attribute for Playwright synchronization
+   *
+   * @typedef * - 'idle': Component mounted, fetch not started
    * - 'loading': Fetch in progress
    * - 'success': Data successfully fetched and parsed
    * - 'error': Fetch or parsing failed
-   * 
-   * @critical
-   * This state is the synchronization primitive for E2E tests.
+   *
+   * @description ⚠️ CRITICAL: * This state is the synchronization primitive for E2E tests.
    * Tests MUST wait for 'success' before making assertions.
    */
   let fetchStatus = $state<FetchStatus>("idle");
@@ -114,8 +105,7 @@
    * @async
    * @throws {Error} Network failures, invalid response status, malformed data
    * 
-   * @flow
-   * 1. Set status to 'loading'
+   * @description Flow: * 1. Set status to 'loading'
    * 2. Fetch from test endpoint (intercepted by Playwright)
    * 3. Validate response status
    * 4. Parse JSON response
@@ -123,9 +113,8 @@
    * 6. Validate required fields exist
    * 7. Set content state
    * 8. Set status to 'success'
-   * 
-   * @error_handling
-   * - Network errors: Set error message and status to 'error'
+   *
+   * @throws * - Network errors: Set error message and status to 'error'
    * - Invalid structure: Set descriptive error message
    * - Logs all errors to console for debugging
    */
@@ -142,8 +131,7 @@
        * @description Intercepted By: tests/e2e/home-mock.spec.ts
        * @returns {Object} Storyblok story structure with nested components
        * 
-       * @response_structure
-       * {
+       * @typedef * {
        *   story: {
        *     name: string,
        *     content: PageBlok,
@@ -151,11 +139,10 @@
        *     full_slug: string
        *   }
        * }
-       * 
-       * @production_note
-       * This endpoint does NOT exist in production environments.
+       *
+       * @description Production Note: * This endpoint does NOT exist in production environments.
        * It exists solely for E2E testing and is intercepted by Playwright.
-       * 
+       *
        * @see {@link https://www.storyblok.com/docs/api/content-delivery/v2 | Storyblok API Docs}
        */
       const response = await fetch("/_testing/api/story");
@@ -172,11 +159,9 @@
       console.log("🧪 MockTester: Data parsed successfully", data);
 
       /**
-       * @data_structure_navigation
-       * @description Extracts content from Storyblok story structure
-       * 
-       * @expected_structure
-       * {
+       * @description Data Structure: * @description Extracts content from Storyblok story structure
+       *
+       * @typedef * {
        *   story: {
        *     content: {
        *       component: "page",              // PageBlok
@@ -197,19 +182,16 @@
        *     }
        *   }
        * }
-       * 
-       * @navigation_path
-       * data → .story → .content → .body[0] → (.headline, .description)
-       * 
-       * @critical_fix
-       * Previous implementation incorrectly navigated to:
+       *
+       * @description Navigation: * data → .story → .content → .body[0] → (.headline, .description)
+       *
+       * @todo * Previous implementation incorrectly navigated to:
        * data.story.content.body[0].columns[0] (Feature's headline)
        * 
        * Correct implementation navigates to:
        * data.story.content.body[0] (Grid's headline)
-       * 
-       * @type_reference
-       * See FeatureGridBlok in types/generated/storyblok.d.ts
+       *
+       * @see * See FeatureGridBlok in types/generated/storyblok.d.ts
        * See PageBlok in types/generated/storyblok.d.ts
        */
       const story = data.story.content;
@@ -241,20 +223,17 @@
       };
       
       /**
-       * @critical_timing
-       * @description Status MUST be updated AFTER content assignment
-       * 
-       * @rationale
-       * Playwright's test waits for data-fetch-status="success" before
+       * @description Critical Timing: * @description Status MUST be updated AFTER content assignment
+       *
+       * @description Rationale: * Playwright's test waits for data-fetch-status="success" before
        * asserting content. If status is set before content, there's a race
        * condition where the test could read null content.
-       * 
-       * @sequence
+       *
+       * @description Sequence:
        * 1. content = {...}     // Content ready
        * 2. fetchStatus = "success"  // Signal test to proceed
        * 
-       * @antipattern
-       * fetchStatus = "success";
+       * @description ⚠️ Anti-pattern: * fetchStatus = "success";
        * content = {...};  // ❌ Race condition!
        */
       fetchStatus = "success";
@@ -288,8 +267,7 @@
   - Visual feedback for all states (loading, success, error)
   - Consistent spacing and typography
   
-  @iso_compliance
-  - WCAG 2.1 Level AA compliance for accessibility
+  @description ISO Compliance: - WCAG 2.1 Level AA compliance for accessibility
   - WAI-ARIA 1.2 for dynamic content announcements
 -->
 <div 
@@ -347,8 +325,7 @@
   COMPONENT DOCUMENTATION
   ============================================================================
   
-  @usage
-  ```astro
+  @example Usage: ```astro
   // In mock-viewer.astro
   import MockTester from "@/components/dev/MockTester.svelte";
   
@@ -401,4 +378,3 @@
   - v1.0.0 (2025-12-04): Initial implementation
   - v1.0.1 (2025-12-04): Fixed data navigation (grid vs feature)
 -->
-  

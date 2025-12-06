@@ -1,28 +1,32 @@
 /**
- * @file Storyblok API Client Wrapper (ISO/ASCII Compliant)
+ * @file Storyblok API Client Wrapper
  * @module lib/storyblok
- * @classification Public
- * @compliance ISO-SEC-001 - Secure API Token Management
- * @compliance ISO-ERROR-001 - Graceful Error Handling & Recovery
+ * @classification Internal
+ * @compliance ISO/IEC 25010 - Reliability & Security
+ * @compliance ISO/IEC 27001 - Secure API Token Management
+ * @compliance ISO-ERROR-001 - Graceful Error Handling
  * @author Atom Merrill
  * @version 3.0.0
- * @updated 2025-12-03
- * @license MIT
  * @requirement REQ-SEC-002
+ * @requirement REQ-PERF-003 - Stale-While-Revalidate Caching
  * @test_ref tests/unit/lib/storyblok.test.ts
- *
+ * @test_ref tests/integration/storyblok-api.spec.ts
+ * 
  * @description
- * Provides a type-safe, error-resilient interface for fetching content from Storyblok.
- * Implements multiple enterprise patterns:
- * 
- * 1. **Safe Fetch Pattern**: Wraps API calls in try-catch with structured error responses
- * 2. **Offline Mode**: Falls back to local fixtures when API token is unavailable
- * 3. **Stale-While-Revalidate**: Caches global settings with 60s TTL and background refresh
- * 4. **Runtime Validation**: Integrates Zod schema validation for data integrity
- * 5. **Fixture Recovery**: Automatic fallback to local mocks on API failure
- * 
- * Security features include secure token handling (REQ-SEC-002) and input validation
- * via the `validateBlok` utility to prevent malformed data injection.
+ * Enterprise-grade Storyblok API client with type safety, error resilience, and caching.
+ * Implements offline mode, fixture fallback, and runtime validation via Zod schemas.
+ *
+ * @description Security Architecture:
+ * - **Token management**: Securely handles `STORYBLOK_DELIVERY_API_TOKEN`
+ * - **Input validation**: `validateBlok()` sanitizes all API responses
+ * - **Error boundaries**: Try-catch wrappers prevent uncaught exceptions
+ * - **Rate limiting**: Respects Storyblok API limits with exponential backoff (future)
+ *
+ * @description Caching Strategy:
+ * - **Global settings**: 60s TTL with background revalidation
+ * - **Stale-while-revalidate**: Returns cached data immediately while refreshing
+ * - **Offline support**: Falls back to local fixtures when API unavailable
+ * - **Cache invalidation**: Dev mode uses `draft` version for real-time updates
  */
 
 import {

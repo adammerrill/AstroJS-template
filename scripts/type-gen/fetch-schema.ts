@@ -19,8 +19,7 @@
  * - Comprehensive error handling with typed error responses
  * - Full TypeScript strict mode compliance
  *
- * @changelog
- * - v1.2.0: Migrated to shared types module, fixed unused variable lint error
+ * @version * - v1.2.0: Migrated to shared types module, fixed unused variable lint error
  * - v1.1.0: Added ComponentSchema interface, fixed TypeScript strict errors
  * - v1.0.0: Initial implementation with caching support
  */

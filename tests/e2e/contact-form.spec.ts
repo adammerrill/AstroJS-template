@@ -3,17 +3,14 @@
  * @description E2E tests for ContactForm component.
  * Verifies validation, successful submission flow, and submission error handling.
  *
- * @architecture
- * - Uses DOM-based hydration detection (data-hydrated attribute)
+ * @description Architecture: * - Uses DOM-based hydration detection (data-hydrated attribute)
  * - Tests both synchronous (simulated) and asynchronous (API) submission paths
  * - Handles fast state transitions with soft assertions
  *
- * @modernization
- * Uses DOM-based hydration detection (data-hydrated attribute)
+ * @description Modernization: * Uses DOM-based hydration detection (data-hydrated attribute)
  * instead of window property polling for improved reliability and decoupling.
  *
- * @iso_compliance
- * - ISO/IEC 29119-4:2015 - Test Techniques (Component Testing)
+ * @description ISO Compliance: * - ISO/IEC 29119-4:2015 - Test Techniques (Component Testing)
  * - ISO/IEC 25010:2011 - Software Quality (Functional Suitability)
  *
  * @module tests/e2e/contact-form.spec
@@ -44,7 +41,7 @@ import { mockGlobalSettings } from "./global-mock-setup";
  * - data-status="idle|submitting|success|error" - Current form state
  * - data-testid="success-message" - Success message container
  *
- * @state_transitions
+ * @description State Transitions:
  * idle → submitting → (success | error) → idle
  */
 test.describe("Contact Form Component", () => {
@@ -69,8 +66,7 @@ test.describe("Contact Form Component", () => {
        * @logging Browser_Console_Forwarding
        * @description Forwards browser console messages to test output
        *
-       * @rationale
-       * Helps debug component behavior and state transitions.
+       * @description Rationale: * Helps debug component behavior and state transitions.
        * All browser logs are prefixed with [BROWSER type]:
        */
       page.on("console", (msg) => {
@@ -147,8 +143,7 @@ test.describe("Contact Form Component", () => {
      * @step Wait_For_Hydration
      * @description Wait for Svelte component to hydrate
      *
-     * @critical
-     * The component sets data-hydrated="true" when ready.
+     * @description ⚠️ CRITICAL: * The component sets data-hydrated="true" when ready.
      * All interactions MUST wait for this signal to avoid flaky tests.
      *
      * @timeout 15000ms - Generous timeout for hydration
@@ -213,8 +208,7 @@ test.describe("Contact Form Component", () => {
      * @critical_insight
      * This check uses a SHORT timeout (1000ms) and doesn't fail the test.
      *
-     * @rationale
-     * If the form has NO api_endpoint configured, it instantly simulates
+     * @description Rationale: * If the form has NO api_endpoint configured, it instantly simulates
      * success without going through the "submitting" state. This is valid
      * behavior for the dev environment, so we make this a "soft check".
      *
@@ -324,8 +318,7 @@ test.describe("Contact Form Component", () => {
    * 2. Click "Send another message"
    * 3. Verify all fields are cleared
    *
-   * @critical
-   * This ensures users can submit multiple inquiries without
+   * @description ⚠️ CRITICAL: * This ensures users can submit multiple inquiries without
    * manually clearing the form.
    */
   test("clears form after successful submission", async ({

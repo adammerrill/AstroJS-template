@@ -1,9 +1,26 @@
 /* eslint-disable no-console */
 /**
- * @file validation.ts
- * @description Runtime validation utility for Storyblok content.
- * Disables no-console rule as this module's purpose is to log validation errors.
+ * @file Runtime Validation Utility
+ * @module lib/validation
+ * @classification Internal
+ * @compliance ISO/IEC 25010 - Reliability & Data Integrity
+ * @compliance ISO/IEC 27001 - Input Validation & Sanitization
+ * @author Atom Merrill
+ * @version 1.0.0
+ * @requirement REQ-SEC-001
+ * @test_ref tests/unit/lib/validation.test.ts
+ * 
+ * @description
+ * Zod-based runtime validation for Storyblok content. Prevents malformed data
+ * from breaking UI and ensures type safety at runtime.
+ *
+ * @description Validation Flow:
+ * 1. **Schema parsing**: Uses generated `StoryblokComponentSchema`
+ * 2. **Error logging**: Dev mode shows detailed errors; prod mode warns only
+ * 3. **Fallback behavior**: Returns original data if validation fails (fail-safe)
+ * 4. **Type erasure**: Output matches expected TypeScript types
  */
+
 import { StoryblokComponentSchema } from "@/types/generated/schemas";
 import type { StoryblokComponent } from "@/types/generated/storyblok";
 

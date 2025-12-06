@@ -1,4 +1,18 @@
 <script lang="ts">
+	/**
+	 * @file Card Footer Component
+	 * @module components/ui/card
+	 * @classification Public
+	 * @author Atom Merrill
+	 * @version 2.0.0
+	 * @requirement REQ-SYS-001 - Card Component Standardization
+	 * @test_ref src/components/ui/card/card.test.ts
+	 * 
+	 * @description
+	 * Footer container for Card. Provides top border styling and flex layout for action buttons.
+	 * Typically contains primary/secondary action pairs.
+	 */  
+
 	import { cn } from "@/lib/utils.js";
 	import type { HTMLAttributes } from "svelte/elements";
 

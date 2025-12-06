@@ -1,9 +1,34 @@
 ---
-// src/components/logic/StoryblokBridge.astro
 /**
- * @file Reactive Storyblok Bridge
- * @description Handles bi-directional communication with the Visual Editor.
- * Re-initializes on View Transition navigation to maintain connection.
+ * @file Storyblok Bridge Manager
+ * @module components/logic/storyblok-bridge
+ * @classification Internal
+ * @compliance ISO/IEC 25010 - Security & Reliability
+ * @compliance REQ-SEC-002 - Secure API Communication & Content Security Policy
+ * @compliance WCAG 2.2 AA - Progressive Enhancement
+ * @author Atom Merrill
+ * @version 2.1.0
+ * @requirement REQ-SEC-002
+ * @requirement REQ-PERF-003
+ * @test_ref tests/integration/storyblok-bridge.test.ts
+ * @test_ref tests/e2e/visual-editor.spec.ts
+ * 
+ * @description
+ * Manages secure bi-directional communication between Astro application and Storyblok Visual Editor.
+ * Implements defense-in-depth for script injection, secure event handling, and failsafe initialization.
+ * Critical for CI/CD pipeline content preview and editor experience.
+ *
+ * @description Security Architecture:
+ * - Validates window.StoryblokBridge existence before instantiation to prevent prototype pollution
+ * - Uses is:inline directive to bypass bundling while maintaining CSP nonces
+ * - Implements polling fallback for async script injection scenarios
+ * - Re-initializes on Astro view transitions without memory leaks
+ *
+ * @description Performance & Reliability:
+ * - 200ms polling interval with immediate cleanup on navigation
+ * - astro:page-load event listener ensures SPA lifecycle compatibility
+ * - Graceful degradation when bridge is unavailable (production builds)
+ * - Zero dependencies beyond Storyblok's global script
  */
 ---
 <div id="storyblok-bridge-indicator" aria-hidden="true"></div>

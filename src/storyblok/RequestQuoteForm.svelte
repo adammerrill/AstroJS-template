@@ -1,9 +1,60 @@
 <script lang="ts">
   /**
-   * @file RequestQuoteForm.svelte
-   * @description A multi-step wizard for requesting quotes.
-   * Features step-based validation, progress tracking, and final submission.
+   * @file Request Quote Form Wizard
+   * @module components/storyblok/request-quote-form
+   * @classification Public
+   * @compliance ISO/IEC 25010 - Usability & Security
+   * @compliance WCAG 2.2 AAA - Multi-step Form Accessibility
+   * @compliance REQ-SEC-001 - Input Validation & Data Sanitization
+   * @compliance ISO-27001 - PII Handling in Quote Requests
+   * @author Atom Merrill
+   * @version 2.1.0
+   * @requirement REQ-UI-005
+   * @requirement REQ-SEC-001
+   * @requirement REQ-UX-002 - Friction Reduction Patterns
+   * @test_ref src/storyblok/RequestQuoteForm.test.ts
+   * @test_ref tests/e2e/request-quote-form.spec.ts
+   * 
+   * @description
+   * Multi-step quote request wizard with step-based validation, progress tracking, and final submission.
+   * Optimized for conversion rate optimization (CRO) with progressive disclosure and minimal fields per step.
+   * Designed for service industry verticals (HVAC, plumbing, electrical).
+   *
+   * @description State Management (Svelte 5 Runes):
+   * - `currentStep`: Wizard progression tracker (1-3) with circular navigation support
+   * - `formData`: Aggregated multi-step data model (service, location, contact)
+   * - `errors`: Step-aware validation errors cleared on navigation
+   * - `status`: Submission state with loading skeleton for async operations
+   *
+   * @description E2E Test Instrumentation:
+   * - **Window interface**: `TestWindow` extension exposes test hooks
+   * - **`__quoteFormStep`**: Real-time step indicator for visual regression testing
+   * - **`__quoteFormStatus`**: Submission state for network stub validation
+   * - **`__quoteFormReady`**: Component mount confirmation for test synchronization
+   * - **`data-testid`**: Granular locators for each step and field
+   *
+   * @description Accessibility Features:
+   * - **Progress indicator**: Visual step counter with text fallback for screen readers
+   * - **Error prevention**: Validation occurs per-step to reduce cognitive load
+   * - **Focus restoration**: Returns focus to first invalid field on validation failure
+   * - **ARIA labels**: Step buttons include `aria-label` for context
+   *
+   * @description UX Optimization:
+   * - **Progressive disclosure**: 3 fields per step vs 8 fields in single form
+   * - **Visual feedback**: Animated transitions between steps (`animate-in fade-in`)
+   * - **Error tolerance**: "Back" button allows correction without data loss
+   * - **Success state**: Clear confirmation with next steps
+   *
+   * @description Security:
+   * - **PII collection**: Name, email, phone, address handled per `ISO-27001` guidelines
+   * - **Validation**: Each step validates required fields before progression
+   * - **Data retention**: Form data cleared after successful submission
+   * - **API endpoint**: Optional `api_endpoint` for secure submission
+   *
+   * @see {@link ContactForm.svelte} - Single-step contact variant
+   * @see {@link PricingTable.svelte} - Pricing selection prior to quote
    */
+
   import { storyblokEditable } from "@storyblok/svelte";
   import { cn } from "@/lib/utils";
   import { Button } from "@/components/ui/button";

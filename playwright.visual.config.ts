@@ -25,7 +25,7 @@ export default defineConfig({
 
   /**
    * @configuration Execution Strategy
-   * @rationale Visual tests are resource-intensive (GPU/CPU for rendering).
+   * @description Rationale: Visual tests are resource-intensive (GPU/CPU for rendering).
    * Running sequentially (workers: 1) prevents "flaky" snapshots caused by 
    * resource contention affecting rendering timing.
    */

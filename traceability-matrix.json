@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-12-06T02:35:46.318Z",
+  "generatedAt": "2025-12-06T04:12:31.722Z",
   "requirements": [
     {
       "id": "REQ-UI-001",
@@ -18,6 +18,42 @@
       "category": "Functional",
       "title": "Contact Form",
       "description": "The system shall validate user input (Name, Email, Message) before submission."
+    },
+    {
+      "id": "REQ-UI-004",
+      "category": "Functional",
+      "title": "Social Proof",
+      "description": "The system shall display trust signals including logo clouds and testimonial sliders."
+    },
+    {
+      "id": "REQ-UI-005",
+      "category": "Functional",
+      "title": "Complex Forms",
+      "description": "The system shall support multi-step wizards for complex data entry (e.g., Quotes)."
+    },
+    {
+      "id": "REQ-UI-006",
+      "category": "Functional",
+      "title": "Content Layouts",
+      "description": "The system shall provide flexible grid and alternating layouts for content features."
+    },
+    {
+      "id": "REQ-UI-007",
+      "category": "Functional",
+      "title": "Hero Sections",
+      "description": "The system shall provide high-impact hero sections optimized for LCP."
+    },
+    {
+      "id": "REQ-SYS-001",
+      "category": "System",
+      "title": "Design System",
+      "description": "A shared library of atomic UI primitives (Buttons, Cards) ensuring visual consistency."
+    },
+    {
+      "id": "REQ-SYS-002",
+      "category": "System",
+      "title": "QA Tooling",
+      "description": "Internal tools for verifying system behavior in isolation."
     },
     {
       "id": "REQ-SEC-001",
@@ -42,6 +78,66 @@
       "category": "Performance",
       "title": "Deferred Rendering",
       "description": "Expensive computational components must be deferred via Server Islands to prevent main-thread blocking."
+    },
+    {
+      "id": "REQ-PERF-003",
+      "category": "Performance",
+      "title": "Bridge Logic",
+      "description": "The Storyblok Bridge must be loaded efficiently and only in relevant contexts to support visual editing without degrading production performance."
+    },
+    {
+      "id": "REQ-CONTENT-001",
+      "category": "Content",
+      "title": "Modular Content Blocks",
+      "description": "The system shall support flexible, reusable content blocks (Teasers, Grids) manageable via CMS."
+    },
+    {
+      "id": "REQ-UX-001",
+      "category": "UX",
+      "title": "Alternating Layouts",
+      "description": "Content shall support alternating (zigzag) visual patterns to improve readability."
+    },
+    {
+      "id": "REQ-UX-002",
+      "category": "UX",
+      "title": "Quote Wizard",
+      "description": "Users shall be guided through a multi-step wizard for complex service requests."
+    },
+    {
+      "id": "REQ-BRAND-001",
+      "category": "Brand",
+      "title": "Personal Branding",
+      "description": "Hero components shall support high-resolution personal imagery for consultant branding."
+    },
+    {
+      "id": "REQ-BRAND-002",
+      "category": "Brand",
+      "title": "Social Proof",
+      "description": "The system shall display client logos and testimonials to build trust."
+    },
+    {
+      "id": "REQ-LAYOUT-001",
+      "category": "Layout",
+      "title": "Grid System",
+      "description": "A responsive grid system shall be available for organizing arbitrary content blocks."
+    },
+    {
+      "id": "REQ-SEO-001",
+      "category": "SEO",
+      "title": "Local SEO",
+      "description": "Hero components shall support location-specific metadata and visual cues (Service Area)."
+    },
+    {
+      "id": "REQ-ARCH-003",
+      "category": "Architecture",
+      "title": "Component Indexing",
+      "description": "Public component libraries must provide a barrel file (index.ts) for cleaner imports."
+    },
+    {
+      "id": "REQ-TEST-001",
+      "category": "Testing",
+      "title": "Mock Infrastructure",
+      "description": "Internal tools shall exist to verify the integrity of the mock data pipeline."
     }
   ],
   "coverage": {
@@ -49,32 +145,162 @@
       "src/components/ui/Header.astro"
     ],
     "REQ-UI-002": [
-      "src/storyblok/PricingTable.svelte"
+      "src/storyblok/PricingTable.svelte",
+      "src/components/ui/button/button.svelte",
+      "src/components/ui/button/button-variants.ts"
     ],
     "REQ-UI-003": [
       "src/storyblok/ContactForm.svelte"
     ],
+    "REQ-UI-004": [
+      "src/storyblok/TestimonialSlider.svelte",
+      "src/storyblok/TestimonialSlider.svelte",
+      "src/storyblok/LogoCloud.svelte",
+      "src/components/ui/card/card.svelte"
+    ],
+    "REQ-UI-005": [
+      "src/storyblok/RequestQuoteForm.svelte"
+    ],
+    "REQ-UI-006": [
+      "src/storyblok/Teaser.svelte",
+      "src/storyblok/Grid.svelte",
+      "src/storyblok/FeatureGrid.svelte",
+      "src/storyblok/FeatureAlternating.svelte",
+      "src/storyblok/Feature.svelte"
+    ],
+    "REQ-UI-007": [
+      "src/storyblok/HeroSaas.svelte",
+      "src/storyblok/HeroLocal.svelte",
+      "src/storyblok/HeroConsultant.svelte"
+    ],
+    "REQ-SYS-001": [
+      "src/storyblok/HeroSaas.svelte",
+      "src/storyblok/FeatureGrid.svelte",
+      "src/storyblok/Feature.svelte",
+      "src/storyblok/ContactForm.svelte",
+      "src/components/ui/Header.astro",
+      "src/components/ui/storyblok-image/storyblok-image.svelte",
+      "src/components/ui/storyblok-image/index.ts",
+      "src/components/ui/storyblok-image/image-variants.ts",
+      "src/components/ui/card/index.ts",
+      "src/components/ui/card/card.svelte",
+      "src/components/ui/card/card-title.svelte",
+      "src/components/ui/card/card-header.svelte",
+      "src/components/ui/card/card-footer.svelte",
+      "src/components/ui/card/card-description.svelte",
+      "src/components/ui/card/card-content.svelte",
+      "src/components/ui/card/card-action.svelte",
+      "src/components/ui/button/index.ts",
+      "src/components/ui/button/button.svelte",
+      "src/components/ui/button/button-variants.ts"
+    ],
+    "REQ-SYS-002": [
+      "src/components/dev/MockTester.svelte"
+    ],
     "REQ-SEC-001": [
-      "src/storyblok/ContactForm.svelte"
+      "src/storyblok/RequestQuoteForm.svelte",
+      "src/storyblok/ContactForm.svelte",
+      "src/lib/validation.ts"
     ],
     "REQ-SEC-002": [
-      "src/lib/storyblok.ts"
+      "src/lib/storyblok.ts",
+      "src/components/logic/StoryblokBridge.astro"
     ],
     "REQ-PERF-001": [
-      "src/components/ui/storyblok-image/storyblok-image.svelte"
+      "src/storyblok/LogoCloud.svelte",
+      "src/storyblok/HeroSaas.svelte",
+      "src/storyblok/HeroLocal.svelte",
+      "src/storyblok/HeroConsultant.svelte",
+      "src/storyblok/FeatureAlternating.svelte",
+      "src/components/ui/storyblok-image/index.ts",
+      "src/components/ui/storyblok-image/image-variants.ts"
     ],
     "REQ-PERF-002": [
+      "src/storyblok/TestimonialSlider.svelte",
+      "src/storyblok/PricingTable.svelte",
       "src/storyblok/PricingTable.astro"
+    ],
+    "REQ-PERF-003": [
+      "src/lib/storyblok.ts",
+      "src/components/logic/StoryblokBridge.astro"
+    ],
+    "REQ-CONTENT-001": [
+      "src/storyblok/Teaser.svelte"
+    ],
+    "REQ-UX-001": [
+      "src/storyblok/FeatureAlternating.svelte"
+    ],
+    "REQ-UX-002": [
+      "src/storyblok/RequestQuoteForm.svelte"
+    ],
+    "REQ-BRAND-001": [
+      "src/storyblok/HeroConsultant.svelte"
+    ],
+    "REQ-BRAND-002": [
+      "src/storyblok/LogoCloud.svelte"
+    ],
+    "REQ-LAYOUT-001": [
+      "src/storyblok/Grid.svelte"
+    ],
+    "REQ-SEO-001": [
+      "src/storyblok/HeroLocal.svelte"
+    ],
+    "REQ-ARCH-003": [
+      "src/components/ui/card/index.ts",
+      "src/components/ui/button/index.ts"
+    ],
+    "REQ-TEST-001": [
+      "src/components/dev/MockTester.svelte"
     ]
   },
   "sourceMap": {
+    "src/storyblok/TestimonialSlider.svelte": {
+      "file": "src/storyblok/TestimonialSlider.svelte",
+      "requirements": [
+        "REQ-UI-004",
+        "REQ-PERF-002",
+        "REQ-UI-004"
+      ],
+      "tests": [
+        "src/storyblok/TestimonialSlider.test.ts",
+        "tests/e2e/testimonial-slider.spec.ts",
+        "tests/a11y/carousel-a11y.spec.ts"
+      ]
+    },
+    "src/storyblok/Teaser.svelte": {
+      "file": "src/storyblok/Teaser.svelte",
+      "requirements": [
+        "REQ-UI-006",
+        "REQ-CONTENT-001"
+      ],
+      "tests": [
+        "src/storyblok/Teaser.test.ts",
+        "tests/e2e/teaser-content.spec.ts",
+        "tests/a11y/teaser-heading.spec.ts"
+      ]
+    },
+    "src/storyblok/RequestQuoteForm.svelte": {
+      "file": "src/storyblok/RequestQuoteForm.svelte",
+      "requirements": [
+        "REQ-UI-005",
+        "REQ-SEC-001",
+        "REQ-UX-002"
+      ],
+      "tests": [
+        "src/storyblok/RequestQuoteForm.test.ts",
+        "tests/e2e/request-quote-form.spec.ts"
+      ]
+    },
     "src/storyblok/PricingTable.svelte": {
       "file": "src/storyblok/PricingTable.svelte",
       "requirements": [
-        "REQ-UI-002"
+        "REQ-UI-002",
+        "REQ-PERF-002"
       ],
       "tests": [
-        "src/storyblok/PricingTable.test.ts"
+        "src/storyblok/PricingTable.test.ts",
+        "tests/e2e/pricing-table.spec.ts",
+        "tests/a11y/pricing-toggle.spec.ts"
       ]
     },
     "src/storyblok/PricingTable.astro": {
@@ -86,41 +312,306 @@
         "tests/visual/components.spec.ts"
       ]
     },
+    "src/storyblok/LogoCloud.svelte": {
+      "file": "src/storyblok/LogoCloud.svelte",
+      "requirements": [
+        "REQ-UI-004",
+        "REQ-PERF-001",
+        "REQ-BRAND-002"
+      ],
+      "tests": [
+        "src/storyblok/LogoCloud.test.ts",
+        "tests/e2e/logo-cloud.spec.ts",
+        "tests/performance/logo-optimization.spec.ts"
+      ]
+    },
+    "src/storyblok/HeroSaas.svelte": {
+      "file": "src/storyblok/HeroSaas.svelte",
+      "requirements": [
+        "REQ-UI-007",
+        "REQ-PERF-001",
+        "REQ-SYS-001"
+      ],
+      "tests": [
+        "src/storyblok/HeroSaas.test.ts",
+        "tests/e2e/hero-saas.spec.ts",
+        "tests/performance/lcp-hero-saas.spec.ts"
+      ]
+    },
+    "src/storyblok/HeroLocal.svelte": {
+      "file": "src/storyblok/HeroLocal.svelte",
+      "requirements": [
+        "REQ-UI-007",
+        "REQ-PERF-001",
+        "REQ-SEO-001"
+      ],
+      "tests": [
+        "src/storyblok/HeroLocal.test.ts",
+        "tests/e2e/hero-local.spec.ts",
+        "tests/a11y/hero-local-contrast.spec.ts"
+      ]
+    },
+    "src/storyblok/HeroConsultant.svelte": {
+      "file": "src/storyblok/HeroConsultant.svelte",
+      "requirements": [
+        "REQ-UI-007",
+        "REQ-PERF-001",
+        "REQ-BRAND-001"
+      ],
+      "tests": [
+        "src/storyblok/HeroConsultant.test.ts",
+        "tests/e2e/hero-consultant.spec.ts",
+        "tests/visual-regression/hero-consultant.spec.ts"
+      ]
+    },
+    "src/storyblok/Grid.svelte": {
+      "file": "src/storyblok/Grid.svelte",
+      "requirements": [
+        "REQ-UI-006",
+        "REQ-LAYOUT-001"
+      ],
+      "tests": [
+        "src/storyblok/Grid.test.ts",
+        "tests/e2e/grid-layout.spec.ts",
+        "tests/responsive/grid-breakpoints.spec.ts"
+      ]
+    },
+    "src/storyblok/FeatureGrid.svelte": {
+      "file": "src/storyblok/FeatureGrid.svelte",
+      "requirements": [
+        "REQ-UI-006",
+        "REQ-SYS-001"
+      ],
+      "tests": [
+        "src/storyblok/FeatureGrid.test.ts",
+        "tests/e2e/feature-grid.spec.ts",
+        "tests/unit/feature-grid-layout.spec.ts"
+      ]
+    },
+    "src/storyblok/FeatureAlternating.svelte": {
+      "file": "src/storyblok/FeatureAlternating.svelte",
+      "requirements": [
+        "REQ-UI-006",
+        "REQ-PERF-001",
+        "REQ-UX-001"
+      ],
+      "tests": [
+        "src/storyblok/FeatureAlternating.test.ts",
+        "tests/e2e/feature-alternating.spec.ts",
+        "tests/visual-regression/feature-alternating.spec.ts"
+      ]
+    },
+    "src/storyblok/Feature.svelte": {
+      "file": "src/storyblok/Feature.svelte",
+      "requirements": [
+        "REQ-UI-006",
+        "REQ-SYS-001"
+      ],
+      "tests": [
+        "src/storyblok/Feature.test.ts",
+        "tests/unit/feature-component.spec.ts",
+        "tests/a11y/feature-contrast.spec.ts"
+      ]
+    },
     "src/storyblok/ContactForm.svelte": {
       "file": "src/storyblok/ContactForm.svelte",
       "requirements": [
         "REQ-UI-003",
+        "REQ-SEC-001",
+        "REQ-SYS-001"
+      ],
+      "tests": [
+        "src/storyblok/ContactForm.test.ts",
+        "tests/e2e/contact-form.spec.ts"
+      ]
+    },
+    "src/lib/validation.ts": {
+      "file": "src/lib/validation.ts",
+      "requirements": [
         "REQ-SEC-001"
       ],
       "tests": [
-        "src/storyblok/ContactForm.test.ts"
+        "tests/unit/lib/validation.test.ts"
       ]
     },
     "src/lib/storyblok.ts": {
       "file": "src/lib/storyblok.ts",
       "requirements": [
-        "REQ-SEC-002"
+        "REQ-SEC-002",
+        "REQ-PERF-003"
       ],
       "tests": [
-        "tests/unit/lib/storyblok.test.ts"
+        "tests/unit/lib/storyblok.test.ts",
+        "tests/integration/storyblok-api.spec.ts"
       ]
     },
     "src/components/ui/Header.astro": {
       "file": "src/components/ui/Header.astro",
       "requirements": [
+        "REQ-SYS-001",
         "REQ-UI-001"
       ],
       "tests": [
-        "tests/e2e/navigation.spec.ts"
+        "tests/e2e/navigation.spec.ts",
+        "tests/unit/header.test.ts"
       ]
     },
     "src/components/ui/storyblok-image/storyblok-image.svelte": {
       "file": "src/components/ui/storyblok-image/storyblok-image.svelte",
       "requirements": [
-        "REQ-PERF-001"
+        "REQ-SYS-001"
+      ],
+      "tests": [
+        "src/components/ui/storyblok-image/storyblok-image.test.ts",
+        "tests/performance/lcp-optimization.spec.ts"
+      ]
+    },
+    "src/components/ui/storyblok-image/index.ts": {
+      "file": "src/components/ui/storyblok-image/index.ts",
+      "requirements": [
+        "REQ-PERF-001",
+        "REQ-SYS-001"
       ],
       "tests": [
         "src/components/ui/storyblok-image/storyblok-image.test.ts"
+      ]
+    },
+    "src/components/ui/storyblok-image/image-variants.ts": {
+      "file": "src/components/ui/storyblok-image/image-variants.ts",
+      "requirements": [
+        "REQ-PERF-001",
+        "REQ-SYS-001"
+      ],
+      "tests": [
+        "src/components/ui/storyblok-image/storyblok-image.test.ts"
+      ]
+    },
+    "src/components/ui/card/index.ts": {
+      "file": "src/components/ui/card/index.ts",
+      "requirements": [
+        "REQ-SYS-001",
+        "REQ-ARCH-003"
+      ],
+      "tests": [
+        "src/components/ui/card/card.test.ts"
+      ]
+    },
+    "src/components/ui/card/card.svelte": {
+      "file": "src/components/ui/card/card.svelte",
+      "requirements": [
+        "REQ-SYS-001",
+        "REQ-UI-004"
+      ],
+      "tests": [
+        "src/components/ui/card/card.test.ts",
+        "tests/e2e/card-a11y.spec.ts"
+      ]
+    },
+    "src/components/ui/card/card-title.svelte": {
+      "file": "src/components/ui/card/card-title.svelte",
+      "requirements": [
+        "REQ-SYS-001"
+      ],
+      "tests": [
+        "src/components/ui/card/card.test.ts"
+      ]
+    },
+    "src/components/ui/card/card-header.svelte": {
+      "file": "src/components/ui/card/card-header.svelte",
+      "requirements": [
+        "REQ-SYS-001"
+      ],
+      "tests": [
+        "src/components/ui/card/card.test.ts"
+      ]
+    },
+    "src/components/ui/card/card-footer.svelte": {
+      "file": "src/components/ui/card/card-footer.svelte",
+      "requirements": [
+        "REQ-SYS-001"
+      ],
+      "tests": [
+        "src/components/ui/card/card.test.ts"
+      ]
+    },
+    "src/components/ui/card/card-description.svelte": {
+      "file": "src/components/ui/card/card-description.svelte",
+      "requirements": [
+        "REQ-SYS-001"
+      ],
+      "tests": [
+        "src/components/ui/card/card.test.ts"
+      ]
+    },
+    "src/components/ui/card/card-content.svelte": {
+      "file": "src/components/ui/card/card-content.svelte",
+      "requirements": [
+        "REQ-SYS-001"
+      ],
+      "tests": [
+        "src/components/ui/card/card.test.ts"
+      ]
+    },
+    "src/components/ui/card/card-action.svelte": {
+      "file": "src/components/ui/card/card-action.svelte",
+      "requirements": [
+        "REQ-SYS-001"
+      ],
+      "tests": [
+        "src/components/ui/card/card.test.ts"
+      ]
+    },
+    "src/components/ui/button/index.ts": {
+      "file": "src/components/ui/button/index.ts",
+      "requirements": [
+        "REQ-SYS-001",
+        "REQ-ARCH-003"
+      ],
+      "tests": [
+        "src/components/ui/button/button.test.ts"
+      ]
+    },
+    "src/components/ui/button/button.svelte": {
+      "file": "src/components/ui/button/button.svelte",
+      "requirements": [
+        "REQ-SYS-001",
+        "REQ-UI-002"
+      ],
+      "tests": [
+        "src/components/ui/button/button.test.ts",
+        "tests/e2e/button-interactions.spec.ts"
+      ]
+    },
+    "src/components/ui/button/button-variants.ts": {
+      "file": "src/components/ui/button/button-variants.ts",
+      "requirements": [
+        "REQ-SYS-001",
+        "REQ-UI-002"
+      ],
+      "tests": [
+        "src/components/ui/button/button.test.ts",
+        "tests/visual-regression/button.spec.ts"
+      ]
+    },
+    "src/components/logic/StoryblokBridge.astro": {
+      "file": "src/components/logic/StoryblokBridge.astro",
+      "requirements": [
+        "REQ-SEC-002",
+        "REQ-PERF-003"
+      ],
+      "tests": [
+        "tests/integration/storyblok-bridge.test.ts",
+        "tests/e2e/visual-editor.spec.ts"
+      ]
+    },
+    "src/components/dev/MockTester.svelte": {
+      "file": "src/components/dev/MockTester.svelte",
+      "requirements": [
+        "REQ-TEST-001",
+        "REQ-SYS-002"
+      ],
+      "tests": [
+        "tests/e2e/mock-tester.spec.ts"
       ]
     }
   }

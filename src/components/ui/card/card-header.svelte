@@ -1,6 +1,20 @@
 <script lang="ts">
-	import { cn } from "@/lib/utils.js";
-	import type { HTMLAttributes } from "svelte/elements";
+	/**
+	 * @file Card Header Component
+	 * @module components/ui/card
+	 * @classification Public
+	 * @author Atom Merrill
+	 * @version 2.0.0
+	 * @requirement REQ-SYS-001 - Card Component Standardization
+	 * @test_ref src/components/ui/card/card.test.ts
+	 * 
+	 * @description
+	 * Header container for Card using CSS Grid to support action slot positioning.
+	 * Provides visual separation with optional bottom border (`.border-b` utility).
+	 */
+  
+	import { cn } from "@/lib/utils";
+	import type { HTMLAttributes } from "svelte/elements";  
 
 	let {
 		ref = $bindable(null),

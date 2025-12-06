@@ -3,8 +3,7 @@
  * @description E2E tests for LogoCloud component.
  * @version 2.0.0
  *
- * @iso_compliance
- * - ISO/IEC 29119-4:2015 - Test Techniques (Component Testing)
+ * @description ISO Compliance: * - ISO/IEC 29119-4:2015 - Test Techniques (Component Testing)
  *
  * @changes
  * - Updated assertions to verify `<img>` rendering instead of text fallbacks.

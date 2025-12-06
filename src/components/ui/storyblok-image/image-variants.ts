@@ -1,10 +1,23 @@
 /**
- * @file image-variants.ts
- * @description Tailwind CSS v4 styling configuration for StoryblokImage.
- * Defines standard visual variants to ensure UI consistency.
- *
+ * @file Storyblok Image Variants Configuration
  * @module components/ui/storyblok-image/variants
- * @version 1.0.0
+ * @classification Public
+ * @compliance ISO/IEC 25010 - Performance Efficiency
+ * @compliance REQ-PERF-001 - Image Optimization Standards
+ * @author Atom Merrill
+ * @version 2.0.0
+ * @requirement REQ-PERF-001 - Image Optimization Standards
+ * @requirement REQ-SYS-001 - Component Styling Conventions
+ * @test_ref src/components/ui/storyblok-image/storyblok-image.test.ts
+ * 
+ * @description
+ * Tailwind CSS v4 styling configuration for StoryblokImage component.
+ * Defines responsive behavior and visual variants for CMS-managed assets.
+ *
+ * @description Performance Implications:
+ * - **Base layer**: `max-w-full h-auto` prevents layout shift
+ * - **Transition**: 500ms ease-out for blur-up effect
+ * - **Shadow variants**: Soft shadows for elevated image cards
  */
 
 import { tv, type VariantProps } from "tailwind-variants";

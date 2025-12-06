@@ -3,26 +3,34 @@
  * @file Global Header Component
  * @module components/ui/Header
  * @classification Public
- * @compliance ISO 9241-11 (Usability) - Navigation Accessibility
- * @compliance WCAG 2.1 Level AA - Focus Management & Contrast
+ * @compliance ISO/IEC 25010 - Usability & Reliability
+ * @compliance ISO 9241-110 - Dialogue Principles (Suitability for Task)
+ * @compliance WCAG 2.2 AA - Navigation Patterns & Focus Management
+ * @compliance REQ-UI-001 - Primary Navigation System
+ * @compliance REQ-SYS-001 - Core Design System Primitive
  * @author Atom Merrill
- * @version 1.2.0
+ * @version 2.0.0
+ * @requirement REQ-SYS-001
  * @requirement REQ-UI-001
  * @test_ref tests/e2e/navigation.spec.ts
- *
+ * @test_ref tests/unit/header.test.ts
+ * 
  * @description
- * The primary navigation controller for the application.
- * Implements a responsive "Drawer" pattern for mobile viewports using
- * Tailwind v4 state modifiers (`group-data`) instead of custom CSS.
+ * The primary navigation controller and brand anchor for the entire application.
+ * Implements a responsive "Drawer" pattern for mobile viewports using Tailwind v4 state modifiers
+ * and progressive enhancement for JavaScript-disabled environments.
  *
- * @accessibility
- * - Implements ARIA `dialog` pattern for mobile menu
- * - Manages focus trapping via `initDrawer` script
- * - locks body scroll to prevent background scrolling
+ * @description Accessibility Architecture:
+ * - **ARIA dialog pattern**: Mobile menu implements role="dialog" with aria-modal="true"
+ * - **Focus trapping**: Script manages focus within drawer using roving tabindex
+ * - **Body scroll lock**: Prevents background scrolling when mobile menu is active
+ * - **Keyboard navigation**: Escape key closes menu; Tab cycles within modal
+ * - **SSR-safe**: Renders functional navigation links even when JS fails to load
  *
- * @dependencies
- * - Storyblok Global Settings (Navigation Links)
- * - Tailwind v4 (State Modifiers)
+ * @description Resilience Strategy:
+ * - Graceful degradation to anchor tags if CMS data is unavailable
+ * - Default navigation links ensure 100% uptime for core user journeys
+ * - StoryblokGlobalSettings type provides compile-time API contract validation
  */
 
 import type { GlobalSettings, NavigationItem } from "@/types/storyblok";

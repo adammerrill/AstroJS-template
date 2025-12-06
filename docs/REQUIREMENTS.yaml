@@ -19,6 +19,37 @@ requirements:
     title: Contact Form
     description: The system shall validate user input (Name, Email, Message) before submission.
 
+  - id: REQ-UI-004
+    category: Functional
+    title: Social Proof
+    description: The system shall display trust signals including logo clouds and testimonial sliders.
+
+  - id: REQ-UI-005
+    category: Functional
+    title: Complex Forms
+    description: The system shall support multi-step wizards for complex data entry (e.g., Quotes).
+
+  - id: REQ-UI-006
+    category: Functional
+    title: Content Layouts
+    description: The system shall provide flexible grid and alternating layouts for content features.
+
+  - id: REQ-UI-007
+    category: Functional
+    title: Hero Sections
+    description: The system shall provide high-impact hero sections optimized for LCP.
+
+  # --- System Requirements ---
+  - id: REQ-SYS-001
+    category: System
+    title: Design System
+    description: A shared library of atomic UI primitives (Buttons, Cards) ensuring visual consistency.
+
+  - id: REQ-SYS-002
+    category: System
+    title: QA Tooling
+    description: Internal tools for verifying system behavior in isolation.
+
   # --- Security Requirements ---
   - id: REQ-SEC-001
     category: Security
@@ -40,4 +71,60 @@ requirements:
     category: Performance
     title: Deferred Rendering
     description: Expensive computational components must be deferred via Server Islands to prevent main-thread blocking.
+  
+  - id: REQ-PERF-003
+    category: Performance
+    title: Bridge Logic
+    description: The Storyblok Bridge must be loaded efficiently and only in relevant contexts to support visual editing without degrading production performance.
     
+  # --- Content Strategy Requirements ---
+  - id: REQ-CONTENT-001
+    category: Content
+    title: Modular Content Blocks
+    description: The system shall support flexible, reusable content blocks (Teasers, Grids) manageable via CMS.
+
+  # --- UX Requirements ---
+  - id: REQ-UX-001
+    category: UX
+    title: Alternating Layouts
+    description: Content shall support alternating (zigzag) visual patterns to improve readability.
+
+  - id: REQ-UX-002
+    category: UX
+    title: Quote Wizard
+    description: Users shall be guided through a multi-step wizard for complex service requests.
+
+  # --- Brand Requirements ---
+  - id: REQ-BRAND-001
+    category: Brand
+    title: Personal Branding
+    description: Hero components shall support high-resolution personal imagery for consultant branding.
+
+  - id: REQ-BRAND-002
+    category: Brand
+    title: Social Proof
+    description: The system shall display client logos and testimonials to build trust.
+
+  # --- Layout Requirements ---
+  - id: REQ-LAYOUT-001
+    category: Layout
+    title: Grid System
+    description: A responsive grid system shall be available for organizing arbitrary content blocks.
+
+  # --- SEO Requirements ---
+  - id: REQ-SEO-001
+    category: SEO
+    title: Local SEO
+    description: Hero components shall support location-specific metadata and visual cues (Service Area).
+
+  # --- Architecture Requirements ---
+  - id: REQ-ARCH-003
+    category: Architecture
+    title: Component Indexing
+    description: Public component libraries must provide a barrel file (index.ts) for cleaner imports.
+
+  # --- Testing Requirements ---
+  - id: REQ-TEST-001
+    category: Testing
+    title: Mock Infrastructure
+    description: Internal tools shall exist to verify the integrity of the mock data pipeline.

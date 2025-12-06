@@ -9,8 +9,7 @@
  * - Ensure type-safe mock data flows through the component tree
  * - Test E2E pipeline resilience without external dependencies
  *
- * @iso_compliance
- * - ISO/IEC 29119-1:2013 - Software Testing Standards (Test Process)
+ * @description ISO Compliance: * - ISO/IEC 29119-1:2013 - Software Testing Standards (Test Process)
  * - ISO/IEC 25010:2011 - Software Quality Requirements (Functional Suitability)
  *
  * @module tests/e2e/home-mock.spec
@@ -33,8 +32,7 @@ import type { FeatureGridBlok, FeatureBlok } from "@/types/generated/storyblok";
  * @constant DYNAMIC_HEADLINE
  * @description Expected headline value for test assertion validation
  *
- * @usage
- * This constant serves as the single source of truth for the expected
+ * @example Usage: * This constant serves as the single source of truth for the expected
  * headline value. It's used both in fixture generation and test assertions.
  *
  * @description ⚠️ CRITICAL: * This value MUST match the headline property of the mockGrid object.
@@ -87,8 +85,7 @@ const mockFeature2: FeatureBlok = MockFactory.feature({
  *   columns: FeatureBlok[]  // ← Nested features (NOT extracted by MockTester)
  * }
  *
- * @critical
- * The test validates grid.headline, NOT columns[0].headline.
+ * @description ⚠️ CRITICAL: * The test validates grid.headline, NOT columns[0].headline.
  * MockTester.svelte navigates to story.content.body[0] (the grid),
  * not to story.content.body[0].columns[0] (nested features).
  */
@@ -127,8 +124,7 @@ const mockGrid: FeatureGridBlok = MockFactory.feature_grid({
  *   full_slug: string
  * }
  *
- * @api_contract
- * This structure matches the Storyblok Content Delivery API v2 response format.
+ * @description API Contract: * This structure matches the Storyblok Content Delivery API v2 response format.
  *
  * @see {@link https://www.storyblok.com/docs/api/content-delivery/v2 | Storyblok API}
  */
@@ -200,8 +196,7 @@ test.describe("QA Pipeline Resilience (Dynamic Mocks)", () => {
    * 1. Mock global settings (prevents 404 from layout)
    * 2. Mock test API endpoint (provides fixture data)
    *
-   * @critical
-   * Both mocks MUST be in place before navigation.
+   * @description ⚠️ CRITICAL: * Both mocks MUST be in place before navigation.
    * Order matters: global settings first, then page-specific mocks.
    */
   test.beforeEach(async ({ page }: { page: Page }) => {
@@ -223,8 +218,7 @@ test.describe("QA Pipeline Resilience (Dynamic Mocks)", () => {
      * @intercepts /_testing/api/story
      * @returns homeFixture with FeatureGridBlok structure
      *
-     * @critical
-     * This is the PRIMARY mock that validates the test's assertion.
+     * @description ⚠️ CRITICAL: * This is the PRIMARY mock that validates the test's assertion.
      * The route pattern must match exactly what MockTester fetches.
      *
      * @route_pattern
@@ -290,20 +284,17 @@ test.describe("QA Pipeline Resilience (Dynamic Mocks)", () => {
      * @step Wait_For_Fetch_Completion
      * @description Wait for async fetch to complete successfully
      *
-     * @critical
-     * This is the key synchronization point. The test MUST wait for
+     * @description ⚠️ CRITICAL: * This is the key synchronization point. The test MUST wait for
      * data-fetch-status="success" before asserting content.
      *
-     * @states
-     * - "idle": Component just mounted
+     * @typedef * - "idle": Component just mounted
      * - "loading": Fetch in progress
      * - "success": Data fetched and parsed ← WAIT FOR THIS
      * - "error": Fetch failed
      *
      * @timeout 15000ms - Generous timeout for CI/CD environments
      *
-     * @rationale
-     * Client-side fetch is asynchronous. Without this wait, the test
+     * @description Rationale: * Client-side fetch is asynchronous. Without this wait, the test
      * could attempt to read content before it's populated, causing
      * intermittent failures.
      */
@@ -327,8 +318,7 @@ test.describe("QA Pipeline Resilience (Dynamic Mocks)", () => {
      * @expected DYNAMIC_HEADLINE ("Dynamic QA Success!")
      * @not_expected "Feature 1 (Mock)" (would indicate wrong data extraction)
      *
-     * @critical_fix
-     * This assertion validates that MockTester extracts data from:
+     * @todo * This assertion validates that MockTester extracts data from:
      * story.content.body[0].headline (grid's headline) ✅
      *
      * NOT from:

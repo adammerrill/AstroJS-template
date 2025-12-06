@@ -4,7 +4,7 @@ import { mockStoryblokAPI } from '../fixtures/network-mocks';
 /**
  * @file Enterprise Test Base (System Under Test Isolation)
  * @description Extends Playwright to enforce network isolation via auto-fixture
- * @usage import { test, expect } from './lib/base';
+ * @example Usage: import { test, expect } from './lib/base';
  */
 
 // 1. Define your custom fixture type

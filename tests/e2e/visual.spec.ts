@@ -8,8 +8,7 @@
  * - **Regression Testing**: Detect unintended UI regressions in layout, typography, and color.
  * - **Cross-Browser Parity**: Ensure rendering consistency between Chromium and Mobile Viewports.
  *
- * @architecture
- * - Uses **OFFLINE MODE** to force fixture usage at the server level (Astro SSR).
+ * @description Architecture: * - Uses **OFFLINE MODE** to force fixture usage at the server level (Astro SSR).
  * - Blocks external network calls (Storyblok editor, dev tools) to reduce noise.
  * - Disables animations and transitions to ensure temporal stability.
  * - Implements strict "Wait for Ready" states (Fonts, Network Idle) before capturing.
@@ -19,8 +18,7 @@
  * network interception (mocking) does not apply. We must rely on the application's
  * internal `getSafeStory` logic to serve `tests/fixtures/storyblok-home.json`.
  *
- * @iso_compliance
- * - **ISO/IEC 29119-4**: Test Techniques (Structure-based & Experience-based).
+ * @description ISO Compliance: * - **ISO/IEC 29119-4**: Test Techniques (Structure-based & Experience-based).
  * - **ISO/IEC 25010**: System and software quality models (Operability, Stability).
  *
  * @module tests/e2e/visual.spec

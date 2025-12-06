@@ -1,7 +1,7 @@
 /**
  * @file pricing-table.spec.ts
  * @description E2E tests for PricingTable component.
- * @modernization Uses DOM-based hydration detection (data-hydrated, data-billing-mode)
+ * @description Modernization: Uses DOM-based hydration detection (data-hydrated, data-billing-mode)
  * instead of window property polling for improved reliability and decoupling.
  *
  * @module tests/e2e/pricing-table.spec

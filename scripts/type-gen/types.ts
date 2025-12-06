@@ -18,8 +18,7 @@
  * @see {@link https://www.storyblok.com/docs/api/management/components/the-component-object}
  * @see {@link https://www.storyblok.com/docs/api/management/components/the-component-schema-field-object}
  *
- * @changelog
- * - v1.1.0: Fixed component_whitelist type - it's a comma-separated string, not an array
+ * @version * - v1.1.0: Fixed component_whitelist type - it's a comma-separated string, not an array
  * - v1.0.0: Initial implementation with comprehensive field definitions
  */
 

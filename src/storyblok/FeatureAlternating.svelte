@@ -1,11 +1,44 @@
 <script lang="ts">
   /**
-   * @file FeatureAlternating.svelte
-   * @component FeatureAlternating
-   * @description Zig-Zag layout component.
+   * @file FeatureAlternating Component
+   * @module components/storyblok/feature-alternating
+   * @classification Public
+   * @compliance ISO/IEC 25010 - Usability & Performance Efficiency
+   * @compliance WCAG 2.2 AA - Image Alt Text & Responsive Layout
+   * @author Atom Merrill
+   * @version 2.0.0
+   * @requirement REQ-UI-006
+   * @requirement REQ-PERF-001 - Responsive Image Optimization
+   * @requirement REQ-UX-001 - Scannable Content Patterns
+   * @test_ref src/storyblok/FeatureAlternating.test.ts
+   * @test_ref tests/e2e/feature-alternating.spec.ts
+   * @test_ref tests/visual-regression/feature-alternating.spec.ts
+   * 
+   * @description
+   * Zig-zag layout component for detailed feature walkthroughs. Alternates image/text
+   * positions per row to create visual rhythm and improve content scannability.
+   * Designed for product tours, capability deep-dives, and technical explanations.
    *
-   * @description Migration: [Epic 4] Implemented strict `sizes` for bp1020 logic and lazy loading.
+   * @description Layout Architecture:
+   * - **Flexbox grid**: Uses `lg:flex-row-reverse` for alternating pattern
+   * - **Responsive breakpoints**: Stacks vertically on mobile (< 1024px)
+   * - **Image constraints**: 800x450 base size with `object-cover` crop
+   * - **Content parity**: Text and image maintain 1:1 flex ratio
+   *
+   * @description Performance Optimization:
+   * - **Lazy loading**: All images use `loading="lazy"` below fold
+   * - **Sizes attribute**: `sizes="(max-width: 1020px) 100vw, 50vw"` for bandwidth savings
+   * - **Format optimization**: WebP via Storyblok Image Service (automatic)
+   * - **CSS containment**: `content-visibility: auto` eligible for long lists
+   *
+   * @description Migration Notes:
+   * - **[Epic 4]**: Implemented strict `sizes` attribute with `bp1020` breakpoint logic
+   * - **[Epic 5]**: Added `FeatureItem` interface for runtime type safety
+   *
+   * @see {@link FeatureGrid.svelte} - Standard grid layout for feature cards
+   * @see {@link Feature.svelte} - Individual feature component used within items
    */
+
   import { storyblokEditable } from "@storyblok/svelte";
   import { cn } from "@/lib/utils";
   import { StoryblokImage } from "@/components/ui/storyblok-image";

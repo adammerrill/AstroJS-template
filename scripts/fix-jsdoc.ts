@@ -3,11 +3,10 @@ import { readFileSync, writeFileSync } from 'fs';
 import { glob } from 'glob';
 
 /**
- * Tag replacement map based on ISO Compliance Migration Guide.
+ * Enhanced Tag replacement map based on Lint Report.
  */
 const TAG_REPLACEMENTS: Record<string, string> = {
-  '@changelog': '@version',
-  '@fil': '@file',
+  // ISO/Architecture Tags -> Description
   '@architecture': '@description Architecture:',
   '@testing_contract': '@description Testing Contract:',
   '@iso_compliance': '@description ISO Compliance:',
@@ -35,29 +34,41 @@ const TAG_REPLACEMENTS: Record<string, string> = {
   '@antipattern': '@description ⚠️ Anti-pattern:',
   '@critical_timing': '@description Critical Timing:',
   '@production_note': '@description Production Note:',
-  '@critical_fix': '@fixme',
+  '@critical_fix': '@todo',
   '@type_reference': '@see',
   '@response_structure': '@typedef',
   '@intercepted_by': '@description Intercepted By:',
   '@expected_structure': '@typedef',
   '@navigation_path': '@description Navigation:',
-  '@data_structure_navigation': '@description Data Structure:'
+  '@data_structure_navigation': '@description Data Structure:',
+  
+  // New additions based on Lint Report
+  '@usage': '@example Usage:',
+  '@changelog': '@version',
+  '@file': '@file', // Preference error fix
+  '@fil': '@file'
 };
 
 function fixJSDocTags(content: string): string {
   let fixed = content;
 
   for (const [oldTag, newTag] of Object.entries(TAG_REPLACEMENTS)) {
-    // Regex matches "@tag" followed by content, up to the next tag or end of comment
-    // Handles the slash in @fil vs @file correctly
+    // Regex matches "@tag" followed by content
+    // Improved regex to handle newlines better
     const regex = new RegExp(
-      `${oldTag.replace('/', '\\/')}\\s+(.+?)(?=\\n\\s*\\*\\s*@|\\n\\s*\\*\\/|$)`,
+      `${oldTag.replace('/', '\\/')}\\s+([\\s\\S]+?)(?=\\n\\s*\\*\\s*@|\\n\\s*\\*\\/|$)`,
       'g'
     );
     
     fixed = fixed.replace(regex, (match, content) => {
-      return `${newTag} ${content}`;
+      // Ensure content is trimmed but preserves necessary structure
+      return `${newTag} ${content.trim()}`;
     });
+    
+    // Handle bare tags (without content) if necessary (e.g. @file)
+    if (oldTag === '@file') {
+       fixed = fixed.replace(/@file/g, '@file');
+    }
   }
 
   return fixed;
