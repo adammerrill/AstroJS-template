@@ -1,5 +1,5 @@
 /**
- * @fileoverview Epic 6 Verification Script (Corrected)
+ * @file Epic 6 Verification Script
  * @description Validates the Automated QA Pipeline infrastructure.
  * Checks for test fixtures, mock implementations, and visual regression tests.
  * * CHANGES:

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Vitest Configuration (ISO/ASCII Compliant)
+ * @file Vitest Configuration (ISO/ASCII Compliant)
  * @description
  * This config uses Astro's getViteConfig to merge with the project's Vite settings,
  * enabling Vitest for an Astro + Svelte (v5) project with jsdom test environment,

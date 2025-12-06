@@ -3,7 +3,7 @@
  * @description Deterministic Mock Testing Strategy using the Automated Mock Factory.
  * Validates that the client-side code correctly handles strictly typed, dynamic content.
  *
- * @purpose
+ * @description
  * - Verify Playwright route interception works correctly
  * - Validate Svelte 5 client-side hydration with reactive state
  * - Ensure type-safe mock data flows through the component tree
@@ -37,8 +37,7 @@ import type { FeatureGridBlok, FeatureBlok } from "@/types/generated/storyblok";
  * This constant serves as the single source of truth for the expected
  * headline value. It's used both in fixture generation and test assertions.
  *
- * @critical
- * This value MUST match the headline property of the mockGrid object.
+ * @description ⚠️ CRITICAL: * This value MUST match the headline property of the mockGrid object.
  */
 const DYNAMIC_HEADLINE = "Dynamic QA Success!";
 

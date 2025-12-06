@@ -1,95 +1,110 @@
-// playwright.visual.config.ts
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * Playwright configuration for visual regression testing.
- *
- * This configuration runs visual snapshot tests in OFFLINE MODE to ensure
- * deterministic content rendering via local fixtures.
- *
- * CRITICAL: Tests MUST run with STORYBLOK_DELIVERY_API_TOKEN unset to force
- * getSafeStory() to use LOCAL_FIXTURES during SSR.
- *
- * Usage:
- * npm run test:e2e:visual
- *
- * First time setup (generate baselines):
- * npx playwright test --config=playwright.visual.config.ts --update-snapshots
- *
- * @see https://playwright.dev/docs/test-snapshots
+ * @file Visual Regression Testing Configuration
+ * @module config/playwright-visual
+ * @classification Internal
+ * @compliance ISO/IEC 25010 (Product Quality) - Portability & Usability
+ * @compliance SOC 2 (Availability) - Change Management & Testing
+ * @author Atom Merrill
+ * @version 1.0.0
+ * * @description
+ * Defines the execution environment for automated visual comparison (snapshot) testing.
+ * Strictly adheres to the "Offline Mode" architecture to ensure deterministic rendering
+ * necessary for pixel-perfect baselines.
+ * * @security_control
+ * Forces `STORYBLOK_DELIVERY_API_TOKEN` to an empty string to prevent
+ * accidental exposure of live content during snapshot generation.
  */
 export default defineConfig({
-  testDir: "./tests/e2e",
+  // Directory containing visual spec files
+  testDir: "./tests/visual",
 
-  // Only run visual regression tests
-  testMatch: "**/visual.spec.ts",
+  // Regex to strictly match visual test files
+  testMatch: "**/*.spec.ts",
 
-  fullyParallel: false, // Run visual tests sequentially for stability
+  /**
+   * @configuration Execution Strategy
+   * @rationale Visual tests are resource-intensive (GPU/CPU for rendering).
+   * Running sequentially (workers: 1) prevents "flaky" snapshots caused by 
+   * resource contention affecting rendering timing.
+   */
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: 1, // Single worker for visual tests to avoid resource contention
+  workers: 1, 
 
   reporter: [
     ["html"],
     ["list"],
-    // Add JSON reporter for CI/CD integration
+    // JSON artifact for CI/CD audit trails (SOC 2 requirement)
     ["json", { outputFile: "test-results/visual-results.json" }],
   ],
 
   use: {
-    // Use the offline dev server port
+    // Targets the dedicated offline server port defined in scripts/start-offline-server.ts
     baseURL: "https://127.0.0.1:4322",
+    
+    // Diagnostic artifacts for failure root cause analysis
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
     ignoreHTTPSErrors: true,
 
-    // Visual test specific settings
-    locale: "en-US", // Ensure consistent text rendering
-    timezoneId: "America/Chicago", // Consistent timezone for date formatting
+    /**
+     * @configuration Determinism Settings
+     * Critical for minimizing "false positives" in visual diffs.
+     */
+    locale: "en-US", 
+    timezoneId: "America/Chicago",
+    colorScheme: 'light', // Force light mode for consistency
   },
 
-  // Expect timeout for visual assertions
   expect: {
-    // Longer timeout for screenshot comparisons
     timeout: 30000,
     toHaveScreenshot: {
-      // Animation settling time
+      // Disable CSS animations to ensure static capture
       animations: "disabled",
-      // Maximum difference threshold
+      // ISO 9241-11: Allow minor anti-aliasing differences (human imperceptible)
       maxDiffPixels: 100,
+      threshold: 0.1,
     },
   },
 
+  /**
+   * @configuration Browser Projects
+   * Covers standard desktop and mobile viewports.
+   */
   projects: [
     {
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
-        viewport: { width: 1280, height: 800 }, // Standard desktop
+        viewport: { width: 1280, height: 800 }, 
       },
     },
     {
       name: "mobile-chrome",
       use: {
         ...devices["Pixel 5"],
-        // Pixel 5 dimensions are already in the device preset
       },
     },
   ],
 
-  // Web server configuration - OFFLINE MODE (no API token)
+  /**
+   * @configuration Server Orchestration
+   * Automatically spins up the application in "Offline Mode" before testing.
+   */
   webServer: {
-    command: "npm run dev:offline",
+    command: "pnpm run dev:offline",
     url: "https://127.0.0.1:4322",
-    reuseExistingServer: false, // Always restart for clean state
+    reuseExistingServer: false,
     ignoreHTTPSErrors: true,
     timeout: 120000,
     stdout: "pipe",
     stderr: "pipe",
     env: {
-      // CRITICAL: Ensure API token is NOT set
-      // This forces getSafeStory() to use LOCAL_FIXTURES
+      // SECURITY: Explicitly revoke API access
       STORYBLOK_DELIVERY_API_TOKEN: "",
     },
   },

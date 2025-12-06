@@ -1,12 +1,23 @@
 ---
+/**
+ * @file FeatureGrid.astro
+ * @description Astro container for the FeatureGrid UI component.
+ * @description Architecture: Handles data passing and renders nested Storyblok blocks as children.
+ */
 import FeatureGridSvelte from './FeatureGrid.svelte';
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+import type { FeatureGridBlok } from '@/types/generated/storyblok';
 import type { SbBlokData } from '@storyblok/astro';
 
 interface Props {
-  blok: SbBlokData;
+  blok: FeatureGridBlok;
 }
 
 const { blok } = Astro.props;
 ---
 
-<FeatureGridSvelte blok={blok} client:idle />
+<FeatureGridSvelte blok={blok} client:load>
+  {blok.columns?.map((nestedBlok) => (
+    <StoryblokComponent blok={nestedBlok as SbBlokData} />
+  ))}
+</FeatureGridSvelte>

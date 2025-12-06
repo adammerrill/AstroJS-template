@@ -1,5 +1,5 @@
 /**
- * @fileoverview Epic 4 Verification Script
+ * @file Epic 4 Verification Script
  * @description Validates the existence and structure of Core Architecture components.
  * Checks for SEO integration, Layout structure, and Svelte 5 Runes syntax.
  */

@@ -1,0 +1,127 @@
+{
+  "generatedAt": "2025-12-06T02:35:46.318Z",
+  "requirements": [
+    {
+      "id": "REQ-UI-001",
+      "category": "Functional",
+      "title": "Global Navigation",
+      "description": "The system shall provide a responsive navigation bar accessible on all viewports."
+    },
+    {
+      "id": "REQ-UI-002",
+      "category": "Functional",
+      "title": "Pricing Display",
+      "description": "The system shall allow users to toggle between Monthly and Yearly pricing intervals."
+    },
+    {
+      "id": "REQ-UI-003",
+      "category": "Functional",
+      "title": "Contact Form",
+      "description": "The system shall validate user input (Name, Email, Message) before submission."
+    },
+    {
+      "id": "REQ-SEC-001",
+      "category": "Security",
+      "title": "Input Sanitization",
+      "description": "All user inputs must be sanitized to prevent XSS attacks."
+    },
+    {
+      "id": "REQ-SEC-002",
+      "category": "Security",
+      "title": "API Authentication",
+      "description": "All Storyblok API calls must use the correct token (Draft/Public) based on environment."
+    },
+    {
+      "id": "REQ-PERF-001",
+      "category": "Performance",
+      "title": "Image Optimization",
+      "description": "All images above the fold must utilize eager loading and appropriate fetch priority."
+    },
+    {
+      "id": "REQ-PERF-002",
+      "category": "Performance",
+      "title": "Deferred Rendering",
+      "description": "Expensive computational components must be deferred via Server Islands to prevent main-thread blocking."
+    }
+  ],
+  "coverage": {
+    "REQ-UI-001": [
+      "src/components/ui/Header.astro"
+    ],
+    "REQ-UI-002": [
+      "src/storyblok/PricingTable.svelte"
+    ],
+    "REQ-UI-003": [
+      "src/storyblok/ContactForm.svelte"
+    ],
+    "REQ-SEC-001": [
+      "src/storyblok/ContactForm.svelte"
+    ],
+    "REQ-SEC-002": [
+      "src/lib/storyblok.ts"
+    ],
+    "REQ-PERF-001": [
+      "src/components/ui/storyblok-image/storyblok-image.svelte"
+    ],
+    "REQ-PERF-002": [
+      "src/storyblok/PricingTable.astro"
+    ]
+  },
+  "sourceMap": {
+    "src/storyblok/PricingTable.svelte": {
+      "file": "src/storyblok/PricingTable.svelte",
+      "requirements": [
+        "REQ-UI-002"
+      ],
+      "tests": [
+        "src/storyblok/PricingTable.test.ts"
+      ]
+    },
+    "src/storyblok/PricingTable.astro": {
+      "file": "src/storyblok/PricingTable.astro",
+      "requirements": [
+        "REQ-PERF-002"
+      ],
+      "tests": [
+        "tests/visual/components.spec.ts"
+      ]
+    },
+    "src/storyblok/ContactForm.svelte": {
+      "file": "src/storyblok/ContactForm.svelte",
+      "requirements": [
+        "REQ-UI-003",
+        "REQ-SEC-001"
+      ],
+      "tests": [
+        "src/storyblok/ContactForm.test.ts"
+      ]
+    },
+    "src/lib/storyblok.ts": {
+      "file": "src/lib/storyblok.ts",
+      "requirements": [
+        "REQ-SEC-002"
+      ],
+      "tests": [
+        "tests/unit/lib/storyblok.test.ts"
+      ]
+    },
+    "src/components/ui/Header.astro": {
+      "file": "src/components/ui/Header.astro",
+      "requirements": [
+        "REQ-UI-001"
+      ],
+      "tests": [
+        "tests/e2e/navigation.spec.ts"
+      ]
+    },
+    "src/components/ui/storyblok-image/storyblok-image.svelte": {
+      "file": "src/components/ui/storyblok-image/storyblok-image.svelte",
+      "requirements": [
+        "REQ-PERF-001"
+      ],
+      "tests": [
+        "src/components/ui/storyblok-image/storyblok-image.test.ts"
+      ]
+    }
+  }
+}

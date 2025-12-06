@@ -1,3 +1,4 @@
+// tests/unit/schema-parity.test.ts
 /**
  * @file schema-parity.test.ts
  * @description QA Verification Suite ("The Golden Test")

@@ -36,3 +36,11 @@ playwright-results.json
 knowledge_base.txt
 *.copy
 scripts/*.copy
+
+# pnpm store and internal files
+.pnpm/
+.pnpm-store/
+.pnpm-debug.log*
+.pnp.*      # just in case
+.pnpm-state.json
+

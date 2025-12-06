@@ -44,6 +44,10 @@ function mapMockValue(field: SchemaField, fieldName: string): string {
   }
 }
 
+/**
+ * Generates a mock factory function string for a Storyblok component.
+ * Creates a factory that produces mock data with Faker.js values.
+ */
 export function generateMockFactory(component: ComponentSchema): string {
   const interfaceName = toPascalCase(component.name) + "Blok";
 

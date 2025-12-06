@@ -1,40 +1,37 @@
 /**
  * @file logo-cloud.spec.ts
  * @description E2E tests for LogoCloud component.
- * * ISO 8601:2004 - Includes global mock setup to ensure deterministic content loading.
+ * @version 2.0.0
  *
- * @module tests/e2e/logo-cloud.spec
- * @requires Playwright Page
+ * @iso_compliance
+ * - ISO/IEC 29119-4:2015 - Test Techniques (Component Testing)
+ *
+ * @changes
+ * - Updated assertions to verify `<img>` rendering instead of text fallbacks.
+ * - Added attribute verification for lazy loading compliance.
  */
 import { test, expect, type Page } from "@playwright/test";
 import { mockGlobalSettings } from "./global-mock-setup";
 
 test.describe("Logo Cloud Component", () => {
   /**
-   * Blocks third-party Storyblok/Vite development scripts and applies a global content mock.
-   *
-   * @param {object} fixtures - Playwright test fixtures.
-   * @param {BrowserContext} fixtures.context - The Playwright BrowserContext object.
+   * Setup: Block third-party scripts and mock global settings.
    */
   test.beforeEach(async ({ page, context }) => {
-    // 1. Toolbars and Dev Deps Blocking (Original Logic)
+    // Block toolbars and dev tools to ensure clean snapshots
     await context.route("**/@storyblok/**", (route) => route.abort());
     await context.route("**/node_modules/.vite/deps/@storyblok**", (route) =>
       route.abort(),
     );
     await context.route("**/__astro_dev_toolbar__**", (route) => route.abort());
 
-    // 2. Mock the global settings endpoint.
-    // This intercepts the Layout.astro fetch, preventing the 404 console noise.
+    // Mock Global Settings to prevent 404s in Layout
     await mockGlobalSettings(page);
   });
 
   /**
-   * Tests that the Logo Cloud component renders correctly on a desktop viewport.
-   * Checks for visibility of the component, headline, and a logo.
-   * Includes a visual snapshot for regression testing.
-   *
-   * @param {object} fixtures - Playwright test fixtures.
+   * @test Desktop Rendering
+   * Verifies the component renders images correctly on large screens.
    */
   test("renders correctly on desktop", async ({
     page,
@@ -52,8 +49,13 @@ test.describe("Logo Cloud Component", () => {
     // Check headline text visibility
     await expect(page.getByText("Powering Next-Gen Companies")).toBeVisible();
 
-    // Check grid logic (at least one logo fallback visible)
-    await expect(page.getByText("Logo").first()).toBeVisible();
+    // FIX: Assert that an image is rendered, NOT the text "Logo"
+    // The dev page now provides valid dummy image URLs
+    const firstLogo = cloud.locator("img").first();
+    await expect(firstLogo).toBeVisible();
+    
+    // Verify performance attribute
+    await expect(firstLogo).toHaveAttribute("loading", "lazy");
 
     // Visual Snapshot
     await page.waitForLoadState("networkidle");
@@ -64,18 +66,15 @@ test.describe("Logo Cloud Component", () => {
   });
 
   /**
-   * Tests the responsiveness of the Logo Cloud component on a mobile viewport.
-   * Sets the viewport size to a common mobile dimension (375x812).
-   * Includes a visual snapshot for regression testing.
-   *
-   * @param {object} fixtures - Playwright test fixtures.
+   * @test Mobile Responsiveness
+   * Verifies the grid adjusts layout on small screens.
    */
   test("responsiveness: grid adjusts on mobile", async ({
     page,
   }: {
     page: Page;
   }): Promise<void> => {
-    // Set a standard mobile viewport size
+    // Standard mobile viewport
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/dev/logo-cloud", {
       timeout: 30000,
@@ -84,6 +83,10 @@ test.describe("Logo Cloud Component", () => {
 
     const cloud = page.getByTestId("logo-cloud");
     await expect(cloud).toBeVisible();
+
+    // Verify images are still visible on mobile
+    const firstLogo = cloud.locator("img").first();
+    await expect(firstLogo).toBeVisible();
 
     // Visual Snapshot Mobile
     await page.waitForLoadState("networkidle");

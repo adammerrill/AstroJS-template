@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * @fileoverview Playwright Configuration (Modernized)
+ * @file Playwright Configuration (Modernized)
  * @description Native orchestration for Astro 5 + Svelte 5 stack.
  * Replaces custom wrapper scripts with declarative configuration.
  * @see https://playwright.dev/docs/test-webserver

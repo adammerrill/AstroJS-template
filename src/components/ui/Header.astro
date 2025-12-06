@@ -1,27 +1,35 @@
 ---
 /**
- * @file Header.astro
- * @description Global Header component with responsive navigation.
- * Implements accessible mobile drawer with focus management,
- * keyboard navigation, and proper ARIA attributes. [cite: 2]
- * * Features:
- * - Responsive breakpoint at 1020px (bp1020 Tailwind variant)
- * - Mobile drawer with backdrop blur and focus trap
- * - Dynamic navigation from Storyblok Global Settings
- * - Keyboard accessibility (Escape to close, Tab cycling)
- * - Body scroll lock when drawer is open
- * * @requires @storyblok/astro
- * @requires GlobalSettings type definition
- * * @module components/ui/Header
- * @version 1.1.0
- * * @imports
- * - GlobalSettings, NavigationItem: For type-safe content injection.
- * - resolveLink: ISO-compliant, type-safe utility for URL resolution.
+ * @file Global Header Component
+ * @module components/ui/Header
+ * @classification Public
+ * @compliance ISO 9241-11 (Usability) - Navigation Accessibility
+ * @compliance WCAG 2.1 Level AA - Focus Management & Contrast
+ * @author Atom Merrill
+ * @version 1.2.0
+ * @requirement REQ-UI-001
+ * @test_ref tests/e2e/navigation.spec.ts
+ *
+ * @description
+ * The primary navigation controller for the application.
+ * Implements a responsive "Drawer" pattern for mobile viewports using
+ * Tailwind v4 state modifiers (`group-data`) instead of custom CSS.
+ *
+ * @accessibility
+ * - Implements ARIA `dialog` pattern for mobile menu
+ * - Manages focus trapping via `initDrawer` script
+ * - locks body scroll to prevent background scrolling
+ *
+ * @dependencies
+ * - Storyblok Global Settings (Navigation Links)
+ * - Tailwind v4 (State Modifiers)
  */
- import type { GlobalSettings, NavigationItem } from "@/types/storyblok"; 
- import { resolveLink } from "@/types/storyblok";
+
+import type { GlobalSettings, NavigationItem } from "@/types/storyblok";
+import { resolveLink } from "@/types/storyblok";
 
 interface Props {
+  /** Global settings fetched from Storyblok */
   settings?: GlobalSettings | null;
 }
 
@@ -29,99 +37,104 @@ const { settings } = Astro.props;
 const currentPath = Astro.url.pathname;
 
 /**
- * Default navigation links used as fallback when Storyblok settings
- * are unavailable or empty.
- * @constant
+ * Fallback navigation links if CMS data is unavailable.
+ * Ensures the header remains functional during API outages.
  */
 const defaultLinks: NavigationItem[] = [
-  { _uid: "d1", name: "Home", link: { cached_url: "/" } }, 
+  { _uid: "d1", name: "Home", link: { cached_url: "/" } },
   { _uid: "d2", name: "Services", link: { cached_url: "services" } },
   { _uid: "d3", name: "About", link: { cached_url: "about" } },
   { _uid: "d4", name: "Blog", link: { cached_url: "blog" } },
 ];
 
 const navLinks = settings?.header_nav || defaultLinks;
-
 ---
 
-<header 
+<header
   id="main-header"
-  class="sticky top-0 z-50 w-full header-glass transition-all duration-300 ease-in-out"
+  class="header-glass sticky top-0 z-50 w-full transition-all duration-300 ease-in-out"
 >
-  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 bp1020:px-6 py-4">
-    <!-- LEFT GROUP: Logo + Navigation -->
+  <div
+    class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 py-4 bp1020:px-6"
+  >
     <div class="flex flex-1 items-center gap-4">
-      <!-- Logo Mark -->
-      <a 
-        href="/" 
-        class="flex items-center space-x-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg shrink-0"
+      <a
+        href="/"
+        class="focus-visible:ring-ring focus-visible:ring-offset-2 group flex shrink-0 items-center space-x-2 rounded-lg focus-visible:outline-none focus-visible:ring-2"
+        aria-label="Go to Homepage"
       >
-        <svg 
-          width="28" 
-          height="28" 
-          viewBox="0 0 24 24" 
-          fill="none" 
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
           xmlns="http://www.w3.org/2000/svg"
           class="text-primary transition-transform group-hover:scale-110"
         >
-          <path 
-            d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" 
-            stroke="currentColor" 
-            stroke-width="2" 
-            stroke-linecap="round" 
-            stroke-linejoin="round"
-          />
+          <path
+            d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
         </svg>
-        <span class="hidden bp1020:inline-block font-bold text-lg text-foreground group-hover:text-foreground/80 transition-colors">
+        <span
+          class="text-foreground hidden text-lg font-bold transition-colors group-hover:text-foreground/80 bp1020:inline-block"
+        >
           {settings?.site_title || "Astro Template"}
         </span>
       </a>
-      
-      <!-- Desktop Navigation -->
-      <nav class="hidden bp1020:flex items-center gap-6 ml-8" data-testid="desktop-nav">
-        {navLinks.map((item) => {
-          const href = resolveLink(item.link);
-          const isActive = currentPath === href || (href !== '/' && currentPath.startsWith(href));
-          return (
-            <a
-              href={href}
-              class={`text-sm font-medium transition-colors hover:text-foreground/80 ${
-                isActive ? 'text-foreground' : 'text-foreground/60'
-              }`}
-            >
-              {item.name}
-            </a>
-          );
-        })}
+
+      <nav
+        class="hidden items-center gap-6 ml-8 bp1020:flex"
+        data-testid="desktop-nav"
+      >
+        {
+          navLinks.map((item) => {
+            const href = resolveLink(item.link);
+            const isActive =
+              currentPath === href ||
+              (href !== "/" && currentPath.startsWith(href));
+            return (
+              <a
+                href={href}
+                class={`text-sm font-medium transition-colors hover:text-foreground/80 ${
+                  isActive ? "text-foreground" : "text-foreground/60"
+                }`}
+              >
+                {item.name}
+              </a>
+            );
+          })
+        }
       </nav>
     </div>
-    
-    <!-- RIGHT GROUP: CTA + Hamburger -->
-    <div class="flex items-center gap-6 shrink-0">
-      <a 
-        href="/get-started" 
+
+    <div class="flex shrink-0 items-center gap-6">
+      <a
+        href="/get-started"
         class="btn-primary inline-flex items-center justify-center whitespace-nowrap"
         data-testid="header-cta"
       >
         Get Started
       </a>
-      
-      <button 
+
+      <button
         id="mobile-menu-button"
-        class="flex items-center justify-center w-10 h-10 p-0 shrink-0 bp1020:hidden"
+        class="flex h-10 w-10 shrink-0 items-center justify-center p-0 bp1020:hidden"
         aria-label="Open navigation menu"
         aria-expanded="false"
         aria-controls="mobile-drawer"
       >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="24" 
-          height="24" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          stroke-width="2" 
-          stroke-linecap="round" 
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
           stroke-linejoin="round"
           class="pointer-events-none"
         >
@@ -134,10 +147,9 @@ const navLinks = settings?.header_nav || defaultLinks;
   </div>
 </header>
 
-<!-- Mobile Drawer -->
-<div 
+<div
   id="mobile-drawer"
-  class="fixed inset-0 z-60 bp1020:hidden pointer-events-none"
+  class="group/drawer fixed inset-0 z-60 pointer-events-none bp1020:hidden"
   role="dialog"
   aria-modal="true"
   aria-labelledby="drawer-title"
@@ -145,50 +157,68 @@ const navLinks = settings?.header_nav || defaultLinks;
   data-state="closed"
   data-testid="mobile-drawer"
 >
-  <!-- Backdrop with blur effect -->
-  <div 
+  <div
     id="drawer-backdrop"
-    class="absolute inset-0 bg-background/80 backdrop-blur-lg transition-opacity duration-300 opacity-0"
+    class="bg-background/80 absolute inset-0 opacity-0 backdrop-blur-lg transition-opacity duration-300 group-data-[state=open]/drawer:pointer-events-auto group-data-[state=open]/drawer:opacity-100"
     aria-hidden="true"
-  ></div>
-  
-  <!-- Drawer Panel -->
-  <div 
-    class="absolute right-0 top-0 h-full w-full max-w-md bg-background/95 backdrop-blur-lg border-l border-border/40 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col pointer-events-auto"
+  >
+  </div>
+
+  <div
+    class="bg-background/95 border-border/40 absolute top-0 right-0 flex h-full w-full max-w-md translate-x-full transform flex-col border-l backdrop-blur-lg transition-transform duration-300 ease-in-out group-data-[state=open]/drawer:pointer-events-auto group-data-[state=open]/drawer:translate-x-0"
     id="drawer-panel"
   >
-    <div class="flex items-center justify-between p-4 border-b border-border/40">
-      <h2 id="drawer-title" class="text-lg font-semibold text-foreground">Menu</h2>
-      <button 
+    <div
+      class="border-border/40 flex items-center justify-between border-b p-4"
+    >
+      <h2 id="drawer-title" class="text-foreground text-lg font-semibold">
+        Menu
+      </h2>
+      <button
         id="drawer-close-button"
-        class="btn-ghost w-10 h-10 p-0"
+        class="btn-ghost h-10 w-10 p-0"
         aria-label="Close navigation menu"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          ><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg
+        >
       </button>
     </div>
-    
-    <div class="flex-1 flex flex-col justify-between p-4">
+
+    <div class="flex flex-1 flex-col justify-between p-4">
       <nav class="flex flex-col space-y-2">
-        {navLinks.map((item) => {
-          const href = resolveLink(item.link);
-          const isActive = currentPath === href;
-          return (
-            <a
-              href={href}
-              class={`px-4 py-3 text-base font-medium rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground ${
-                isActive ? 'bg-accent text-accent-foreground' : 'text-foreground/70'
-              }`}
-            >
-              {item.name}
-            </a>
-          );
-        })}
+        {
+          navLinks.map((item) => {
+            const href = resolveLink(item.link);
+            const isActive = currentPath === href;
+            return (
+              <a
+                href={href}
+                class={`rounded-lg px-4 py-3 text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
+                  isActive
+                    ? "bg-accent text-accent-foreground"
+                    : "text-foreground/70"
+                }`}
+              >
+                {item.name}
+              </a>
+            );
+          })
+        }
       </nav>
-      
-      <div class="mt-auto space-y-4 pt-4 border-t border-border/40">
-        <a 
-          href="/get-started" 
+
+      <div class="border-border/40 mt-auto space-y-4 border-t pt-4">
+        <a
+          href="/get-started"
           class="btn-primary w-full justify-center"
           data-testid="drawer-cta"
         >
@@ -201,111 +231,65 @@ const navLinks = settings?.header_nav || defaultLinks;
 
 <script>
   /**
-   * Mobile drawer initialization and interaction logic.
-   * Handles open/close, focus management, keyboard navigation, and scroll locking.
-   * 
-   * @module HeaderDrawer
+   * Mobile drawer initialization logic.
+   * Handles state toggling and focus management compliant with WCAG 2.1.
    */
-  
   const initDrawer = () => {
-    const button = document.getElementById('mobile-menu-button');
-    const drawer = document.getElementById('mobile-drawer');
-    const panel = document.getElementById('drawer-panel');
-    const backdrop = document.getElementById('drawer-backdrop');
-    const closeBtn = document.getElementById('drawer-close-button');
-    
+    const button = document.getElementById("mobile-menu-button");
+    const drawer = document.getElementById("mobile-drawer");
+    const panel = document.getElementById("drawer-panel");
+    const backdrop = document.getElementById("drawer-backdrop");
+    const closeBtn = document.getElementById("drawer-close-button");
+
     if (!button || !drawer || !panel || !backdrop || !closeBtn) return;
 
-    /**
-     * Gets all focusable elements within the drawer for focus trap.
-     * @returns {HTMLElement[]} Array of focusable elements
-     */
     const getFocusableElements = (): HTMLElement[] => {
-      const selector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+      const selector =
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
       return Array.from(panel.querySelectorAll(selector));
     };
 
-    /**
-     * Stores the element that had focus before drawer opened.
-     * Used to restore focus when drawer closes.
-     */
     let previousFocusedElement: HTMLElement | null = null;
 
-    /**
-     * Opens the mobile drawer with proper state management and focus handling.
-     */
     const open = () => {
-      // Store current focus to restore later
       previousFocusedElement = document.activeElement as HTMLElement;
-      
-      // Update drawer state
-      drawer.setAttribute('data-state', 'open');
-      drawer.setAttribute('aria-hidden', 'false');
-      drawer.classList.remove('pointer-events-none');
-      button.setAttribute('aria-expanded', 'true');
-      
-      // Lock body scroll
-      document.body.style.overflow = 'hidden';
-      
-      // Animate in
+      drawer.setAttribute("data-state", "open");
+      drawer.setAttribute("aria-hidden", "false");
+      // Note: pointer-events are now handled by CSS classes via data-state
+      button.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+
       requestAnimationFrame(() => {
-        backdrop.classList.remove('opacity-0');
-        panel.classList.remove('translate-x-full');
-        
-        // Set focus to close button after animation starts
+        // Focus management
         requestAnimationFrame(() => {
           closeBtn.focus();
         });
       });
     };
 
-    /**
-     * Closes the mobile drawer and restores previous state.
-     */
     const close = () => {
-      // Update drawer state
-      drawer.setAttribute('data-state', 'closed');
-      drawer.setAttribute('aria-hidden', 'true');
-      button.setAttribute('aria-expanded', 'false');
-      
-      // Animate out
-      backdrop.classList.add('opacity-0');
-      panel.classList.add('translate-x-full');
-      
-      // Restore body scroll
-      document.body.style.overflow = '';
-      
-      // Wait for animation to complete before removing pointer events
-      setTimeout(() => {
-        drawer.classList.add('pointer-events-none');
-      }, 300);
-      
-      // Restore focus to hamburger button
+      drawer.setAttribute("data-state", "closed");
+      drawer.setAttribute("aria-hidden", "true");
+      button.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+
       if (previousFocusedElement) {
         previousFocusedElement.focus();
         previousFocusedElement = null;
       }
     };
 
-    /**
-     * Handles keyboard navigation within the drawer.
-     * Implements focus trap and Escape key to close.
-     * 
-     * @param {KeyboardEvent} e - The keyboard event
-     */
     const handleKeyDown = (e: KeyboardEvent) => {
-      const isOpen = drawer.getAttribute('data-state') === 'open';
+      const isOpen = drawer.getAttribute("data-state") === "open";
       if (!isOpen) return;
 
-      // Close on Escape
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         e.preventDefault();
         close();
         return;
       }
 
-      // Focus trap on Tab
-      if (e.key === 'Tab') {
+      if (e.key === "Tab") {
         const focusableElements = getFocusableElements();
         if (focusableElements.length === 0) return;
 
@@ -313,13 +297,11 @@ const navLinks = settings?.header_nav || defaultLinks;
         const lastElement = focusableElements[focusableElements.length - 1];
 
         if (e.shiftKey) {
-          // Shift+Tab: cycle backwards
           if (document.activeElement === firstElement) {
             e.preventDefault();
             lastElement.focus();
           }
         } else {
-          // Tab: cycle forwards
           if (document.activeElement === lastElement) {
             e.preventDefault();
             firstElement.focus();
@@ -328,45 +310,12 @@ const navLinks = settings?.header_nav || defaultLinks;
       }
     };
 
-    // Event listeners
     button.onclick = open;
     closeBtn.onclick = close;
     backdrop.onclick = close;
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
   };
 
-  // Initialize on page load and after Astro view transitions
-  document.addEventListener('astro:page-load', initDrawer);
+  document.addEventListener("astro:page-load", initDrawer);
   initDrawer();
 </script>
-
-<style>
-  /**
-   * Drawer state-based visibility controls.
-   * Uses pointer-events and opacity for smooth transitions.
-   */
-  
-  /* Base state: invisible and unclickable */
-  #drawer-backdrop {
-    @apply opacity-0 pointer-events-none;
-  }
-  
-  /* Closed state: ensure backdrop is hidden */
-  #mobile-drawer[data-state="closed"] #drawer-backdrop {
-    @apply opacity-0 pointer-events-none;
-  }
-  
-  /* Open state: backdrop visible and clickable to close */
-  #mobile-drawer[data-state="open"] #drawer-backdrop {
-    @apply opacity-100 pointer-events-auto;
-  }
-
-  /* Panel pointer events based on drawer state */
-  #mobile-drawer[data-state="closed"] #drawer-panel {
-    @apply pointer-events-none;
-  }
-
-  #mobile-drawer[data-state="open"] #drawer-panel {
-    @apply pointer-events-auto;
-  }
-</style>

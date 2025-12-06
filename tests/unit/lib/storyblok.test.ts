@@ -1,5 +1,5 @@
 /**
- * @fileoverview Unit Tests for Storyblok Resilience Layer (Phase 2 Validation)
+ * @file Unit Tests for Storyblok Resilience Layer (Phase 2 Validation)
  * @description
  * Verifies fallback logic, caching, and the new GENERIC TYPING implemented in Epic 2.3.
  */

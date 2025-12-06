@@ -7,7 +7,7 @@
  *
  * @module types/storyblok
  * @version 1.0.0
- * @date 2025-11-30
+ * @since 2025-11-30
  *
  * @see {@link https://www.storyblok.com/docs/guide/essentials/content-structures}
  */
@@ -97,7 +97,7 @@ export interface SocialLink {
  * Contains site-wide configuration including navigation, footer, and metadata.
  *
  * @interface GlobalSettings
- * @extends {SbBlokData}
+ * @augments {SbBlokData}
  *
  * @property {string} [site_title] - Site name displayed in header (e.g., "Astro Template")
  * @property {string} [site_description] - Default meta description for SEO
@@ -262,4 +262,26 @@ export interface StoryblokComponentBase {
   _uid: string;
   component: string;
   _editable?: string;
+}
+
+/**
+ * Configuration options for Storyblok's Image Service (Img2).
+ *
+ * @interface ImageTransformOptions
+ * @property {number} [width] - Target width in pixels.
+ * @property {number} [height] - Target height in pixels.
+ * @property {('webp' | 'avif' | 'jpeg' | 'png')} [format] - Output format.
+ * @property {number} [quality] - Compression quality (1-100).
+ * @property {string} [focus] - Focal point string (e.g., "500x300:600x400") from Storyblok asset data.
+ * @property {boolean} [smart] - Enable smart cropping (face detection).
+ * @property {boolean} [fitIn] - Use 'fit-in' resizing mode (maintain aspect ratio without cropping).
+ */
+export interface ImageTransformOptions {
+  width?: number;
+  height?: number;
+  format?: "webp" | "avif" | "jpeg" | "png";
+  quality?: number;
+  focus?: string;
+  smart?: boolean;
+  fitIn?: boolean;
 }

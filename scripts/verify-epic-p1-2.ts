@@ -1,5 +1,5 @@
 /**
- * @fileoverview Epic 2 Verification Script (v1.1.0)
+ * @file Epic 2 Verification Script
  * @description Validates the existence and content patterns of the CMS Resilience Layer.
  * Updated to support strict TypeScript patterns (unknown type, generics).
  */

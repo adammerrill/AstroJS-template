@@ -1,5 +1,5 @@
 /**
- * @fileoverview Unit tests for type generation functions
+ * @file Unit tests for type generation functions
  */
 import { describe, it, expect } from "vitest";
 import { generateInterface } from "../../scripts/type-gen/mapper";

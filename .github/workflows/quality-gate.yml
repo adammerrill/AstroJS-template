@@ -1,0 +1,122 @@
+name: 🛡️ Quality Gate
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+# ISO 27001: Ensure integrity of the build environment
+permissions:
+  contents: read
+
+# Cancel redundant runs to optimize resource usage (ISO 25010 Efficiency)
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ------------------------------------------------------------------
+  # JOB 1: Static Analysis (Linting & Governance)
+  # ------------------------------------------------------------------
+  static-analysis:
+    name: 🔍 Static Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+        
+        # This fails the build immediately if types are stale
+      - name: Verify CMS Schema Parity
+        env:
+          STORYBLOK_PERSONAL_TOKEN: ${{ secrets.STORYBLOK_PERSONAL_TOKEN }}
+          STORYBLOK_SPACE_ID: ${{ secrets.STORYBLOK_SPACE_ID }}
+        run: pnpm verify:schema 
+
+      - name: ISO Documentation Check
+        # Enforces JSDoc/TSDoc standards defined in Knowledge Base
+        run: pnpm lint
+
+      - name: Formatting Check
+        run: pnpm format:check
+
+      - name: Style Governance Audit
+        # Enforces Tailwind v4 utility-first constraints
+        run: pnpm audit:styles
+
+  # ------------------------------------------------------------------
+  # JOB 2: Type Safety (Strict TypeScript)
+  # ------------------------------------------------------------------
+  type-safety:
+    name: 📐 Type Safety
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Sync Content Types
+        env:
+          STORYBLOK_PERSONAL_TOKEN: ${{ secrets.STORYBLOK_PERSONAL_TOKEN }}
+          STORYBLOK_SPACE_ID: ${{ secrets.STORYBLOK_SPACE_ID }}
+        run: pnpm astro sync
+
+      - name: TypeScript Compilation
+        run: pnpm typecheck
+
+      - name: Astro Template Check
+        run: pnpm check
+
+  # ------------------------------------------------------------------
+  # JOB 3: Unit Testing (Business Logic)
+  # ------------------------------------------------------------------
+  unit-tests:
+    name: 🧪 Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Vitest
+        run: pnpm test:unit

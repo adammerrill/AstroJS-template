@@ -1,5 +1,5 @@
 /**
- * @fileoverview TypeScript Configuration - Astro Project
+ * @file TypeScript Configuration - Astro Project
  * @description
  * Configures TypeScript compiler for an Astro-based web application with strict type checking.
  * Extends Astro's recommended strict configuration and customizes for multi-framework support.

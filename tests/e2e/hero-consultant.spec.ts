@@ -6,7 +6,7 @@
  *
  * @module tests/e2e/hero-consultant.spec
  * @version 1.0.1
- * @date 2025-12-01
+ * @since 2025-12-01
  *
  * ISO 8601:2004 - Implements global settings mocking for test determinism.
  */

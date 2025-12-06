@@ -1,5 +1,5 @@
 /**
- * @fileoverview Epic 5 Verification Script
+ * @file Epic 5 Verification Script
  * @description Validates the SEO and GEO infrastructure.
  * Checks for Sitemap integration in Astro config and the existence of a valid robots.txt.
  */

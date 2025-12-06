@@ -1,5 +1,5 @@
 /**
- * @fileoverview Type, Schema, and Mock Generation Pipeline for Storyblok Components
+ * @file Type, Schema, and Mock Generation Pipeline for Storyblok Components
  *
  * @module generate-types
  * @version 1.2.1
@@ -17,9 +17,9 @@
  * The pipeline is designed for CI/CD integration and development workflows,
  * providing type safety across the entire Astro/Svelte application stack.
  *
- * @changelog
- * - v1.2.1: Fixed Zod schema imports to include all component types
- * - v1.2.0: Fixed type conflicts by using shared types module
+ * @changelog Component History:
+ * - 2025-12-05 v1.2.1: Fixed Zod schema imports to include all component types
+ * - 2025-12-04 v1.2.0: Fixed type conflicts by using shared types module
  */
 
 import { loadSchema } from "./type-gen/fetch-schema";

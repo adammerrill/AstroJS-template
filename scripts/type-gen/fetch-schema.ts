@@ -1,5 +1,5 @@
 /**
- * @fileoverview Script to fetch the Storyblok component schema and cache it.
+ * @file Script to fetch the Storyblok component schema and cache it.
  * This script is a critical part of the CI/CD pipeline, ensuring types and
  * validation schemas are up-to-date before building the Astro/Svelte application.
  *
@@ -75,12 +75,12 @@ const TEMP_SCHEMA_PATH: string = path.resolve(
  * The Storyblok client wraps HTTP response errors in this structure.
  *
  * @interface StoryblokApiError
- * @extends {Error}
+ * @augments {Error}
  * @property {Object} [response] - HTTP response object (may be undefined)
  * @property {number} [response.status] - HTTP status code (may be undefined)
  * @property {unknown} [response.data] - Response body data
  *
- * @remarks
+ * @description
  * This interface is used for type-safe error handling in the catch blocks.
  * Both `response` and `response.status` are optional to handle cases where
  * the error occurs before a response is received (e.g., network failures).

@@ -1,0 +1,98 @@
+name: 🎭 E2E & Visual Verification
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ------------------------------------------------------------------
+  # JOB 1: Functional E2E Tests (Logic & Flows)
+  # ------------------------------------------------------------------
+  functional-e2e:
+    name: 🤖 Functional E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: mcr.microsoft.com/playwright:v1.50.0-jammy # Pinned version for determinism
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run E2E Tests (Isolated)
+        # Uses the offline mock infrastructure from Epic 1
+        run: pnpm test:e2e
+        env:
+          CI: true
+
+      # ISO 27001: Forensic Artifact Retention
+      - name: Upload Test Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-artifacts-functional
+          path: test-results/
+          retention-days: 30
+
+  # ------------------------------------------------------------------
+  # JOB 2: Visual Regression (Pixel Perfection)
+  # ------------------------------------------------------------------
+  visual-regression:
+    name: 📸 Visual Regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: mcr.microsoft.com/playwright:v1.50.0-jammy
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Visual Tests
+        # Uses the specific config from Epic 2
+        run: pnpm exec playwright test --config=playwright.visual.config.ts
+        env:
+          CI: true
+
+      # ISO 9241-11: Visual Consistency Evidence
+      - name: Upload Visual Diffs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-diffs
+          path: test-results/
+          retention-days: 30
+          

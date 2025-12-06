@@ -1,29 +1,64 @@
 <script lang="ts">
   /**
-   * @file PricingTable.svelte
-   * @description Interactive Pricing Table with strict typing.
+   * @file Interactive Pricing Table UI
+   * @module components/storyblok/pricing-table
+   * @classification Public
+   * @compliance WCAG 2.1 AA - Accessibility (Focus, ARIA)
+   * @author Atom Merrill
+   * @version 2.0.0
+   * @requirement REQ-UI-002
+   * @test_ref src/storyblok/PricingTable.test.ts
+   *
+   * @description
+   * The presentation layer for the pricing interface.
+   * Handles user interaction (billing toggle) and responsive layout.
+   *
+   * @state_management
+   * Uses Svelte 5 Runes ($state) for fine-grained reactivity.
+   * - `isYearly`: Toggles between monthly/annual pricing.
+   * - `isHydrated`: Tracks client-side activation for testing.
    */
+
   import { storyblokEditable } from "@storyblok/svelte";
   import { cn } from "@/lib/utils";
   import { Button } from "@/components/ui/button";
-  // 1. Import strictly typed interfaces
   import type { PricingTableBlok, PricingTierBlok, PricingFeatureBlok } from "@/types/generated/storyblok";
   import { resolveLink } from "@/types/storyblok";
   import type { SbBlokData } from "@storyblok/svelte";
 
   interface Props {
+    /** Validated Storyblok Content Schema */
     blok: PricingTableBlok;
   }
 
   let { blok }: Props = $props();
 
+  /**
+   * @type isYearly
+   * @default false (Monthly)
+   * Controls the pricing display mode.
+   */
   let isYearly = $state(false);
+
+  /**
+   * @type isHydrated
+   * @default false
+   * Used by E2E tests to verify JavaScript execution has completed.
+   */
   let isHydrated = $state(false);
 
+  /**
+   * Toggles the billing frequency state.
+   * @event click
+   */
   const toggleBilling = () => {
     isYearly = !isYearly;
   };
 
+  /**
+   * @effect Hydration Signal
+   * Sets `isHydrated` to true once the component mounts in the browser.
+   */
   $effect(() => {
     if (typeof window !== 'undefined') {
       isHydrated = true;
@@ -81,7 +116,6 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
       {#if blok.tiers && blok.tiers.length > 0}
         {#each blok.tiers as tierBlok (tierBlok._uid)}
-          <!-- Strict casting for nested blocks -->
           {@const tier = tierBlok as PricingTierBlok}
           <div
             class={cn(

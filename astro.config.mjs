@@ -1,6 +1,6 @@
 // astro.config.mjs
 /**
- * @fileoverview Astro Configuration File (ISO/ASCII Compliant)
+ * @file Astro Configuration File (ISO/ASCII Compliant)
  * @description Defines the core build and runtime settings for the Astro project.
  * Integrates Svelte 5, Tailwind v4 (via Vite), Storyblok CMS, Sitemap generation, and Vercel SSR/SSG.
  *

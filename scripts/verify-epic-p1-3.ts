@@ -1,5 +1,5 @@
 /**
- * @fileoverview Epic 3 Verification Script
+ * @file Epic 3 Verification Script
  * @description Validates the Design System implementation.
  */
 

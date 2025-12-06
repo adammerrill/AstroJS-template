@@ -1,5 +1,5 @@
 /**
- * @fileoverview Global Stylesheet for Astro Enterprise Platform (ISO/ASCII Compliant)
+ * @file Global Stylesheet for Astro Enterprise Platform (ISO/ASCII Compliant)
  * @description Serves as the authoritative styling source for the application.
  * Implements Tailwind CSS v4 configuration via CSS-native variables.
  *
@@ -289,6 +289,27 @@
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  }
+
+  /**
+   * Image Loading States (Epic 2)
+   * Handles the blur-up transition for the StoryblokImage component.
+   */
+   .img-loading {
+    filter: blur(10px);
+    transform: scale(1.05); /* Prevents white edges during blur */
+    opacity: 0.5;
+    will-change: filter, transform, opacity;
+  }
+
+  .img-loaded {
+    filter: blur(0);
+    transform: scale(1);
+    opacity: 1;
+    transition:
+      filter 0.5s ease-out,
+      transform 0.5s ease-out,
+      opacity 0.5s ease-out;
   }
 }
 

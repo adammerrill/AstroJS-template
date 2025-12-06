@@ -1,5 +1,5 @@
 /**
- * @fileoverview Shared type definitions for Storyblok component schema processing
+ * @file Shared type definitions for Storyblok component schema processing
  *
  * @module type-gen/types
  * @version 1.1.0
@@ -55,7 +55,7 @@
  * @property {string} [rtl] - Right-to-left text direction support
  * @property {Array<{name: string; value: string}>} [options] - Predefined options for select/multi-select fields
  *
- * @remarks
+ * @description
  * This interface uses string index signature to allow for additional properties
  * that may be added by Storyblok in the future or custom field type plugins.
  * The Storyblok API returns field definitions with various optional properties
@@ -148,7 +148,7 @@ export interface SchemaField {
  * @property {string} [created_at] - ISO 8601 timestamp of creation
  * @property {string} [updated_at] - ISO 8601 timestamp of last update
  *
- * @remarks
+ * @description
  * This interface matches the component object structure returned by the
  * Storyblok Management API GET /spaces/{space_id}/components endpoint.
  * The schema property is the most important field, containing the field definitions.
@@ -207,7 +207,7 @@ export interface ComponentSchema {
  * Type alias for consistency across the codebase.
  * Some parts of the code refer to this as ComponentField.
  *
- * @remarks
+ * @description
  * Use SchemaField instead for consistency. This alias is provided for
  * backwards compatibility only.
  */

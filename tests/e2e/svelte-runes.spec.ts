@@ -1,9 +1,9 @@
 /**
  * @file svelte-runes.spec.ts
  * @description E2E tests for Svelte 5 Runes hydration and state management.
- * @modernization Uses DOM-based hydration detection instead of window properties.
+ * @description Modernization: Uses DOM-based hydration detection instead of window properties.
  * @version 2.0.0
- * @date 2025-12-02
+ * @since 2025-12-02
  *
  * @module tests/e2e/svelte-runes.spec
  * @requires Playwright Page

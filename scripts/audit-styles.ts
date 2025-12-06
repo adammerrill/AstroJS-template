@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * @fileoverview Style Governance Auditor (ISO/ASCII Compliant)
+ * @file Style Governance Auditor (ISO/ASCII Compliant)
  * @description
  * A static analysis tool designed to enforce the "Utility-First" philosophy
  * of the Tailwind CSS v4 design system within an Astro + Svelte enterprise stack.

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Epic 1 Verification Script (v1.0.4)
+ * @file Epic 1 Verification Script
  * @description Validates dependencies, Astro config output, Tailwind CSS generation, and Storyblok presence.
  * Includes robust error handling for build process failures.
  */

@@ -1,23 +1,31 @@
 ---
 /**
  * @file logo-cloud.astro
- * @description Development playground for LogoCloud.
- * Uses placeholders to simulate loaded images.
+ * @description Development playground for LogoCloud component.
+ * @version 1.1.0
+ * @updated 2025-12-04
+ *
+ * @mock_data
+ * Uses valid Storyblok asset URLs to ensure the StoryblokImage component
+ * renders the <img> tag instead of the fallback div.
  */
  import Layout from "../../layouts/Layout.astro";
 import LogoCloudBlock from "../../storyblok/LogoCloud.astro";
 import type { LogoCloudBlok } from "@/types/generated/storyblok";
+
+// Valid dummy image URL structure that passes the StoryblokImageLoader regex
+const DUMMY_IMG = "https://a.storyblok.com/f/123456/500x500/a1b2c3d4/dummy.jpg";
 
 const mockBlok = {
   _uid: "dev-cloud",
   component: "logo_cloud",
   headline: "Powering Next-Gen Companies",
   logos: [
-    { _uid: "1", filename: { filename: "" }, name: "Stripe", component: "logo_item" },
-    { _uid: "2", filename: { filename: "" }, name: "Vercel", component: "logo_item" },
-    { _uid: "3", filename: { filename: "" }, name: "Storyblok", component: "logo_item" },
-    { _uid: "4", filename: { filename: "" }, name: "Tailwind", component: "logo_item" },
-    { _uid: "5", filename: { filename: "" }, name: "Svelte", component: "logo_item" }
+    { _uid: "1", filename: { filename: DUMMY_IMG }, name: "Stripe", component: "logo_item" },
+    { _uid: "2", filename: { filename: DUMMY_IMG }, name: "Vercel", component: "logo_item" },
+    { _uid: "3", filename: { filename: DUMMY_IMG }, name: "Storyblok", component: "logo_item" },
+    { _uid: "4", filename: { filename: DUMMY_IMG }, name: "Tailwind", component: "logo_item" },
+    { _uid: "5", filename: { filename: DUMMY_IMG }, name: "Svelte", component: "logo_item" }
   ]
 } as unknown as LogoCloudBlok;
 ---

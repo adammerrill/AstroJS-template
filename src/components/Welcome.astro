@@ -1,11 +1,23 @@
 ---
-// src/components/Welcome.astro
-import astroLogo from '../assets/astro.svg';
+/**
+ * @file Welcome Component (Landing Page)
+ * @module components/Welcome
+ * @classification Public
+ * @compliance ISO/IEC 25010 - Usability (User Guidance)
+ * @author Atom Merrill
+ * @version 1.1.0
+ *
+ * @description
+ * The default landing experience for the template.
+ * Refactored to use pure Tailwind CSS classes instead of inline styles
+ * to satisfy the Style Governance Audit (High Risk Mitigation).
+ */
+
+ import astroLogo from '../assets/astro.svg';
 import background from '../assets/background.svg';
 ---
 
 <div class="w-full">
-  <!-- Hero Background with Blur Effect -->
   <img 
     src={background.src} 
     alt="" 
@@ -13,14 +25,11 @@ import background from '../assets/background.svg';
     class="hero-background-blur" 
   />
   
-  <!-- Main Content -->
   <main class="flex-1 flex items-center justify-center px-4">
     <section class="flex flex-col items-start justify-center w-full max-w-4xl py-8 md:py-20 mx-auto" data-testid="welcome-content">
-      <!-- Logo with Theme-Aware Styling -->
       <a 
         href="https://astro.build" 
-        class="transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 rounded-lg"
-        style="--tw-ring-color: hsl(var(--ring)); --tw-ring-offset-width: 2px"
+        class="transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg"
         aria-label="Visit Astro Homepage"
       >
         <img 
@@ -32,8 +41,7 @@ import background from '../assets/background.svg';
         />
       </a>
       
-      <!-- Hero Text -->
-      <h1 class="text-hero-lead mt-6 leading-normal md:leading-relaxed max-w-3xl" style="color: hsl(var(--foreground))">
+      <h1 class="text-hero-lead mt-6 leading-normal md:leading-relaxed max-w-3xl text-foreground">
         To get started, open the 
         <span class="chip-secondary relative inline-flex mx-1">
           <span aria-hidden="true" class="border-tertiary"></span>
@@ -42,7 +50,6 @@ import background from '../assets/background.svg';
         directory in your project.
       </h1>
       
-      <!-- CTA Buttons -->
       <section class="flex gap-4 mt-8 flex-wrap">
         <a 
           class="btn-primary group"
@@ -85,7 +92,6 @@ import background from '../assets/background.svg';
         </a>
       </section>
       
-      <!-- Feature Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12 w-full">
         <div class="card-hover p-6">
           <svg 
@@ -98,13 +104,12 @@ import background from '../assets/background.svg';
             stroke-width="2" 
             stroke-linecap="round" 
             stroke-linejoin="round"
-            style="color: hsl(var(--primary))"
-            class="mb-4"
+            class="text-primary mb-4"
           >
             <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
           </svg>
-          <h3 class="font-semibold text-lg mb-2" style="color: hsl(var(--foreground))">Fast by Default</h3>
-          <p class="text-sm" style="color: hsl(var(--muted-foreground))">
+          <h3 class="font-semibold text-lg mb-2 text-foreground">Fast by Default</h3>
+          <p class="text-sm text-muted-foreground">
             Zero JavaScript runtime by default. Only ship what you need.
           </p>
         </div>
@@ -120,16 +125,15 @@ import background from '../assets/background.svg';
             stroke-width="2" 
             stroke-linecap="round" 
             stroke-linejoin="round"
-            style="color: hsl(var(--primary))"
-            class="mb-4"
+            class="text-primary mb-4"
           >
             <rect width="7" height="7" x="3" y="3" rx="1"></rect>
             <rect width="7" height="7" x="14" y="3" rx="1"></rect>
             <rect width="7" height="7" x="14" y="14" rx="1"></rect>
             <rect width="7" height="7" x="3" y="14" rx="1"></rect>
           </svg>
-          <h3 class="font-semibold text-lg mb-2" style="color: hsl(var(--foreground))">Bring Your Framework</h3>
-          <p class="text-sm" style="color: hsl(var(--muted-foreground))">
+          <h3 class="font-semibold text-lg mb-2 text-foreground">Bring Your Framework</h3>
+          <p class="text-sm text-muted-foreground">
             Use React, Vue, Svelte, or any framework you love.
           </p>
         </div>
@@ -145,13 +149,12 @@ import background from '../assets/background.svg';
             stroke-width="2" 
             stroke-linecap="round" 
             stroke-linejoin="round"
-            style="color: hsl(var(--primary))"
-            class="mb-4"
+            class="text-primary mb-4"
           >
             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
           </svg>
-          <h3 class="font-semibold text-lg mb-2" style="color: hsl(var(--foreground))">Content Focus</h3>
-          <p class="text-sm" style="color: hsl(var(--muted-foreground))">
+          <h3 class="font-semibold text-lg mb-2 text-foreground">Content Focus</h3>
+          <p class="text-sm text-muted-foreground">
             Built for content-rich websites with powerful data fetching.
           </p>
         </div>
@@ -159,7 +162,6 @@ import background from '../assets/background.svg';
     </section>
   </main>
 
-  <!-- Dismissible Announcement Card -->
   <div 
     id="announcement-card"
     class="card-interactive glass md:glass md:fixed md:bottom-6 md:right-6 md:max-w-sm p-4 md:p-6 gap-3 md:gap-4"
@@ -173,8 +175,7 @@ import background from '../assets/background.svg';
         height="40" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"
-        class="transition-transform group-hover:scale-110"
-        style="color: hsl(var(--primary))"
+        class="text-primary transition-transform group-hover:scale-110"
       >
         <path 
           d="M24.667 12c1.333 1.414 2 3.192 2 5.334 0 4.62-4.934 5.7-7.334 12C18.444 28.567 18 27.456 18 26c0-4.642 6.667-7.053 6.667-14Zm-5.334-5.333c1.6 1.65 2.4 3.43 2.4 5.333 0 6.602-8.06 7.59-6.4 17.334C13.111 27.787 12 25.564 12 22.666c0-4.434 7.333-8 7.333-16Zm-6-5.333C15.111 3.555 16 5.556 16 7.333c0 8.333-11.333 10.962-5.333 22-3.488-.774-6-4-6-8 0-8.667 8.666-10 8.666-20Z" 
@@ -185,17 +186,16 @@ import background from '../assets/background.svg';
     <div class="flex-1">
       <div class="flex items-center gap-2 mb-2">
         <span class="badge-default">New</span>
-        <h3 id="announcement-title" class="font-semibold text-base" style="color: hsl(var(--foreground))">
+        <h3 id="announcement-title" class="font-semibold text-base text-foreground">
           Astro 5.0 Released
         </h3>
       </div>
-      <p id="announcement-description" class="text-sm leading-relaxed mb-3" style="color: hsl(var(--muted-foreground))">
+      <p id="announcement-description" class="text-sm leading-relaxed mb-3 text-muted-foreground">
         From content layers to server islands, discover the new features and improvements.
       </p>
       <a 
         href="https://astro.build/blog/astro-5/" 
-        class="text-sm font-medium underline underline-offset-4 transition-colors"
-        style="color: hsl(var(--primary))"
+        class="text-sm font-medium underline underline-offset-4 transition-colors text-primary"
         target="_blank"
         rel="noopener noreferrer"
       >

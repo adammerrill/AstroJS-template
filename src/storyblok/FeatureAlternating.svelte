@@ -1,20 +1,22 @@
 <script lang="ts">
   /**
    * @file FeatureAlternating.svelte
-   * @description A "Zig-Zag" feature section component.
-   * Renders a list of feature items, alternating the layout direction (Text Left/Image Right vs Text Right/Image Left)
-   * based on the index. Uses Svelte 5 Runes for props and reactivity.
+   * @component FeatureAlternating
+   * @description Zig-Zag layout component.
+   *
+   * @description Migration: [Epic 4] Implemented strict `sizes` for bp1020 logic and lazy loading.
    */
   import { storyblokEditable } from "@storyblok/svelte";
   import { cn } from "@/lib/utils";
+  import { StoryblokImage } from "@/components/ui/storyblok-image";
   import type { SbBlokData } from "@storyblok/astro";
+  import type { StoryblokAsset } from "@/types/storyblok";
 
-  // Define the structure for individual feature items within the block
   interface FeatureItem {
     _uid: string;
     headline: string;
     description: string;
-    image?: { filename: string; alt?: string };
+    image?: StoryblokAsset;
     cta_label?: string;
     cta_url?: { url: string };
   }
@@ -36,7 +38,6 @@
   data-testid="feature-alternating"
 >
   <div class="container mx-auto px-4">
-    <!-- Section Header -->
     <div class="mx-auto max-w-3xl text-center mb-20">
       <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
         {blok.headline || "Deep Dive Features"}
@@ -48,19 +49,16 @@
       {/if}
     </div>
 
-    <!-- Alternating Features List -->
     <div class="space-y-24">
       {#if blok.items && blok.items.length > 0}
         {#each blok.items as item, i (item._uid)}
           <div 
             class={cn(
               "flex flex-col gap-12 lg:gap-24 items-center",
-              // Logic: Even indexes = Standard (Row), Odd indexes = Reversed (Row-Reverse)
               i % 2 === 1 ? "lg:flex-row-reverse" : "lg:flex-row"
             )}
             data-testid={`feature-row-${i}`}
           >
-            <!-- Content Side -->
             <div class="flex-1 space-y-6">
               <h3 class="text-2xl font-bold tracking-tight text-foreground">
                 {item.headline || "Feature Headline"}
@@ -78,15 +76,17 @@
               {/if}
             </div>
 
-            <!-- Image Side -->
             <div class="flex-1 w-full">
               <div class="relative rounded-2xl border bg-muted/30 p-2 ring-1 ring-inset ring-foreground/10 lg:rounded-3xl lg:p-4">
                 {#if item.image?.filename}
-                  <img
-                    src={item.image.filename}
+                  <StoryblokImage
+                    image={item.image}
                     alt={item.image.alt || item.headline}
-                    class="rounded-xl shadow-2xl ring-1 ring-foreground/10 w-full h-auto object-cover aspect-video"
+                    width={800}
+                    height={450}
+                    class="rounded-xl shadow-2xl ring-1 ring-foreground/10 w-full h-auto object-cover"
                     loading="lazy"
+                    sizes="(max-width: 1020px) 100vw, 50vw"
                   />
                 {:else}
                   <div class="aspect-video w-full rounded-xl bg-secondary/50 flex items-center justify-center border border-dashed border-border">
@@ -99,7 +99,7 @@
         {/each}
       {:else}
         <div class="text-center p-12 border-2 border-dashed rounded-lg text-muted-foreground">
-          No feature items added. Add items in Storyblok to see the alternating layout.
+          No feature items added.
         </div>
       {/if}
     </div>

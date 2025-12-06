@@ -19,7 +19,7 @@
  * @module tests/e2e/contact-form.spec
  * @requires @playwright/test
  * @requires ./global-mock-setup
- * @version 2.0.0
+ * @version 2.1.0
  * @author Atom Merrill
  * @since 2025-12-04
  */
@@ -154,6 +154,7 @@ test.describe("Contact Form Component", () => {
      * @timeout 15000ms - Generous timeout for hydration
      */
     const form = page.getByTestId("contact-form");
+    await expect(form).toBeVisible({ timeout: 5000 }); // CRITICAL FIX: Visibility check added
     await expect(form).toHaveAttribute("data-hydrated", "true", {
       timeout: 15000,
     });
@@ -281,6 +282,7 @@ test.describe("Contact Form Component", () => {
 
     // Wait for hydration via DOM attribute
     const form = page.getByTestId("contact-form");
+    await expect(form).toBeVisible({ timeout: 5000 }); // CRITICAL FIX: Visibility check added
     await expect(form).toHaveAttribute("data-hydrated", "true", {
       timeout: 15000,
     });
@@ -333,11 +335,12 @@ test.describe("Contact Form Component", () => {
   }) => {
     await page.goto(`${BASE_URL}/dev/contact-form`, {
       timeout: 30000,
-      waitUntil: "networkidle",
+      waitUntil: "domcontentloaded", // FIX 1: Changed from "networkidle" for stability
     });
 
     // Wait for hydration via DOM attribute
     const form = page.getByTestId("contact-form");
+    await expect(form).toBeVisible({ timeout: 5000 }); // CRITICAL FIX: Visibility check added
     await expect(form).toHaveAttribute("data-hydrated", "true", {
       timeout: 15000,
     });
@@ -406,7 +409,7 @@ test.describe("Contact Form Component", () => {
    * @configuration_requirement
    * In src/pages/dev/contact-form.astro, ensure the mockBlok has:
    * ```typescript
-   * api_endpoint: "https://api.example.com/contact"
+   * api_endpoint: "[https://api.example.com/contact](https://api.example.com/contact)"
    * ```
    */
   test("handles submission network failure and allows retry", async ({
@@ -421,6 +424,7 @@ test.describe("Contact Form Component", () => {
     });
 
     const form = page.getByTestId("contact-form");
+    await expect(form).toBeVisible({ timeout: 5000 }); // CRITICAL FIX: Visibility check added
     await expect(form).toHaveAttribute("data-hydrated", "true", {
       timeout: 15000,
     });
@@ -526,28 +530,28 @@ test.describe("Contact Form Component", () => {
  * The contact form component behavior depends on configuration:
  *
  * 1. **With API Endpoint** (Production-like):
- *    ```typescript
- *    // In contact-form.astro
- *    const mockBlok = {
- *      api_endpoint: "https://api.example.com/contact",
- *      // ...
- *    };
- *    ```
- *    - Form makes real POST request
- *    - "Sending..." state is visible
- *    - Network errors can be tested
+ * ```typescript
+ * // In contact-form.astro
+ * const mockBlok = {
+ * api_endpoint: "[https://api.example.com/contact](https://api.example.com/contact)",
+ * // ...
+ * };
+ * ```
+ * - Form makes real POST request
+ * - "Sending..." state is visible
+ * - Network errors can be tested
  *
  * 2. **Without API Endpoint** (Dev/Testing):
- *    ```typescript
- *    // In contact-form.astro
- *    const mockBlok = {
- *      api_endpoint: "", // or undefined
- *      // ...
- *    };
- *    ```
- *    - Form simulates instant success
- *    - "Sending..." state transitions too fast to catch
- *    - Network error test is skipped
+ * ```typescript
+ * // In contact-form.astro
+ * const mockBlok = {
+ * api_endpoint: "", // or undefined
+ * // ...
+ * };
+ * ```
+ * - Form simulates instant success
+ * - "Sending..." state transitions too fast to catch
+ * - Network error test is skipped
  *
  * @debugging_tips
  *
@@ -569,6 +573,7 @@ test.describe("Contact Form Component", () => {
  * - tests/e2e/global-mock-setup.ts - Global settings mock
  *
  * @version_history
+ * - v2.1.0 (2025-12-04): Added visibility check and replaced 'networkidle' to fix flakiness.
  * - v2.0.0 (2025-12-04): Made "Sending..." check soft/optional
  * - v1.0.0 (2025-12-03): Initial implementation
  */

@@ -1,8 +1,29 @@
 <script lang="ts">
   /**
-   * @file ContactForm.svelte
-   * @description Contact form with strict typing via generated ContactFormBlok.
+   * @file Contact Form Component
+   * @module components/storyblok/contact-form
+   * @classification Public
+   * @compliance WCAG 2.1 AA - Form Accessibility & Validation
+   * @compliance REQ-SEC-001 - Input Sanitization & XSS Prevention
+   * @author Atom Merrill
+   * @version 2.0.0
+   * @requirement REQ-UI-003
+   * @requirement REQ-SEC-001
+   * @test_ref src/storyblok/ContactForm.test.ts
+   *
+   * @description
+   * Contact form with strict typing via generated ContactFormBlok.
+   * Handles user input validation, error display, and form submission.
+   * Implements client-side validation and secure API communication.
+   *
+   * @state_management
+   * Uses Svelte 5 Runes ($state) for reactive form state:
+   * - `formData`: Stores form field values (name, email, subject, message)
+   * - `errors`: Stores validation error messages
+   * - `status`: Tracks form submission state (idle/submitting/success/error)
+   * - `isHydrated`: Signals client-side JavaScript activation
    */
+
   import { storyblokEditable } from "@storyblok/svelte";
   import { cn } from "@/lib/utils";
   import { Button } from "@/components/ui/button";

@@ -1,7 +1,6 @@
 #!/usr/bin/env node
-
 /**
- * @fileoverview Offline Server Entry Point (ISO/ASCII Compliant)
+ * @file Offline Server Entry Point (ISO/ASCII Compliant)
  * @description Starts the Astro development server in Offline Mode by sanitizing
  * the Storyblok API token from the environment. This approach eliminates the need
  * for file system mutations (no .env renaming) and ensures a clean, deterministic

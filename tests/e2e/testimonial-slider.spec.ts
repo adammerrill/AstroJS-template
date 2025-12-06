@@ -12,8 +12,8 @@
  * @module tests/e2e/testimonial-slider.spec
  * @requires Playwright Page
  * @version 2.1.0
- * @date 2025-12-02
- * @modernization Uses DOM-based attribute detection (`data-hydrated`) for deterministic testing.
+ * @since 2025-12-02
+ * @description Modernization: Uses DOM-based attribute detection (`data-hydrated`) for deterministic testing.
  */
 
 import { test, expect } from "@playwright/test";

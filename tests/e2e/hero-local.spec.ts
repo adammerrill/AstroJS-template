@@ -7,7 +7,7 @@
  * by mocking global settings data.
  *
  * @version 1.0.0
- * @date 2025-12-01
+ * @since 2025-12-01
  *
  * ISO 8601:2004 - Implements global setting mocking to prevent 404 console errors.
  */

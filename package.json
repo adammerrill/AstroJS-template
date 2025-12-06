@@ -18,7 +18,10 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "fix:jsdoc": "tsx scripts/fix-jsdoc.ts",
+    "prepare": "husky install",
     "audit:styles": "tsx scripts/audit-styles.ts",
+    "verify:schema": "tsx scripts/verify-schema-parity.ts",
     "// --- Cleanup ---": "",
     "clean": "rm -rf dist .astro node_modules .vercel",
     "clean:cache": "rm -rf .astro node_modules/.vite node_modules/.cache",
@@ -32,6 +35,8 @@
     "test:e2e:ui": "start-server-and-test dev tcp:4321 'playwright test --ui'",
     "test:e2e:specific": "start-server-and-test dev tcp:4321 'playwright test'",
     "test:e2e:visual": "playwright test --config=playwright.visual.config.ts",
+    "test:e2e:visual:update": "rm -rf tests/e2e/visual.spec.ts-snapshots && pnpm test:e2e:visual --update-snapshots",
+    "test:e2e:full": "pnpm test:e2e && pnpm test:e2e:visual",
     "test:report": "playwright show-report",
     "test:e2e:headed": "start-server-and-test dev tcp:4321 'playwright test --headed'",
     "test:e2e:debug": "start-server-and-test dev tcp:4321 'playwright test --debug'",
@@ -43,10 +48,11 @@
     "test:e2e:build": "astro build --adapter @astrojs/node",
     "test:e2e:serve": "node dist/server/entry.mjs",
     "// --- Utilities ---": "",
-    "kb:gen": "find . -type f -not -path '*/node_modules/*' -not -path '*/.git/*' -not -path '*/dist/*' -not -path '*/.astro/*' -not -path '*/.vercel/*' -not -path '*/playwright-report/*' -not -path '*/test-results/*' -not -path '*/src/assets/*' -not -name 'pnpm-lock.yaml' -not -name 'knowledge_base.txt' -not -name '.DS_Store' -not -name '.env*' \\( -name '*.astro' -o -name '*.svelte' -o -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.mjs' -o -name '*.cjs' -o -name '*.json' -o -name '*.css' -o -name '*.md' -o -name '*.yml' -o -name '*.yaml' \\) -print0 | sort -z | xargs -0 -I {} sh -c 'echo \"\\n\\n================================\\n  FILE: {} \\n================================\\n\" && cat \"{}\"' > knowledge_base.txt",
+    "kb:gen": "bash scripts/generate-kb.sh",
     "gen:types": "tsx scripts/generate-types.ts",
     "prebuild": "pnpm gen:types",
-    "test:parity": "vitest run tests/unit/schema-parity.test.ts"
+    "test:parity": "vitest run tests/unit/schema-parity.test.ts",
+    "audit:traceability": "tsx scripts/audit-traceability.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.5",
@@ -87,8 +93,12 @@
     "esbuild": "^0.27.0",
     "eslint": "^9.39.1",
     "eslint-plugin-astro": "^1.5.0",
+    "eslint-plugin-jsdoc": "^50.8.0",
     "eslint-plugin-svelte": "^2.46.0",
+    "glob": "^13.0.0",
+    "husky": "^8.0.0",
     "jsdom": "27.2.0",
+    "lint-staged": "^16.2.7",
     "path-to-regexp": "^8.3.0",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
@@ -104,5 +114,12 @@
     "vite-plugin-mkcert": "^1.17.9",
     "vitest": "^4.0.14",
     "wait-on": "^9.0.3"
+  },
+  "lint-staged": {
+    "*.{ts,js,astro,svelte}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
   }
 }

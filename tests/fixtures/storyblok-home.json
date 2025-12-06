@@ -18,20 +18,32 @@
             {
               "_uid": "feature-uid-101",
               "component": "feature",
-              "headline": "Deterministic QA",
-              "description": "This content comes from a JSON fixture, not the live API."
+              "headline": "Offline Resilience",
+              "description": "Deterministic test data.",
+              "image": {
+                "filename": "https://a.storyblok.com/f/123456/500x500/a1b2c3d4/test1.jpg",
+                "alt": "Test Image 1"
+              }
             },
             {
               "_uid": "feature-uid-102",
               "component": "feature",
-              "headline": "Offline Resilience",
-              "description": "The application gracefully falls back to local fixtures when the API is unavailable."
+              "headline": "Test Reliability",
+              "description": "Works without API connection.",
+              "image": {
+                "filename": "https://a.storyblok.com/f/123456/500x500/a1b2c3d4/test2.jpg",
+                "alt": "Test Image 2"
+              }
             },
             {
               "_uid": "feature-uid-103",
               "component": "feature",
-              "headline": "Test Reliability",
-              "description": "Deterministic test data ensures consistent E2E test results."
+              "headline": "Visual Regression",
+              "description": "Consistent snapshots.",
+              "image": {
+                "filename": "https://a.storyblok.com/f/123456/500x500/a1b2c3d4/test3.jpg",
+                "alt": "Test Image 3"
+              }
             }
           ]
         }

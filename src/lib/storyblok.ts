@@ -1,16 +1,28 @@
 /**
- * @fileoverview Storyblok API Client Wrapper (ISO/ASCII Compliant)
- * @description
- * Provides a type-safe, error-resilient interface for fetching content from Storyblok.
- * Implements the "Safe Fetch" pattern with "Offline Mode" to support development
- * without API credentials, and "Stale-While-Revalidate" caching for optimal performance.
- * * * INTEGRATES RUNTIME VALIDATION (Zod) via Epic 3.1
- *
+ * @file Storyblok API Client Wrapper (ISO/ASCII Compliant)
  * @module lib/storyblok
+ * @classification Public
+ * @compliance ISO-SEC-001 - Secure API Token Management
+ * @compliance ISO-ERROR-001 - Graceful Error Handling & Recovery
  * @author Atom Merrill
  * @version 3.0.0
  * @updated 2025-12-03
  * @license MIT
+ * @requirement REQ-SEC-002
+ * @test_ref tests/unit/lib/storyblok.test.ts
+ *
+ * @description
+ * Provides a type-safe, error-resilient interface for fetching content from Storyblok.
+ * Implements multiple enterprise patterns:
+ * 
+ * 1. **Safe Fetch Pattern**: Wraps API calls in try-catch with structured error responses
+ * 2. **Offline Mode**: Falls back to local fixtures when API token is unavailable
+ * 3. **Stale-While-Revalidate**: Caches global settings with 60s TTL and background refresh
+ * 4. **Runtime Validation**: Integrates Zod schema validation for data integrity
+ * 5. **Fixture Recovery**: Automatic fallback to local mocks on API failure
+ * 
+ * Security features include secure token handling (REQ-SEC-002) and input validation
+ * via the `validateBlok` utility to prevent malformed data injection.
  */
 
 import {
@@ -77,6 +89,20 @@ interface StoryblokError {
 /* Safe Fetch Implementation                                                  */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Safely fetches a single story from Storyblok with error handling and fixture fallback.
+ *
+ * Implements the "Safe Fetch" pattern with offline mode support and runtime validation.
+ * Automatically falls back to local fixtures if API is unavailable or fails.
+ *
+ * @template T - Expected Storyblok component type
+ * @param slug - Content slug to fetch (e.g., 'home', 'about')
+ * @param params - Optional query parameters for the API request
+ * @returns Promise resolving to SafeStoryResponse with story data or error
+ *
+ * @throws Will return error in response instead of throwing
+ * @see {@link getSafeStories} for fetching multiple stories
+ */
 export async function getSafeStory<T = StoryblokComponent>(
   slug: string,
   params?: ISbStoriesParams,
@@ -201,6 +227,15 @@ async function revalidateGlobalSettings(): Promise<void> {
   }
 }
 
+/**
+ * Retrieves global settings with stale-while-revalidate caching strategy.
+ *
+ * Fetches settings from cache if fresh (within 60s TTL), otherwise revalidates in background.
+ * Falls back to default settings if API fails or is unavailable.
+ *
+ * @returns Promise resolving to GlobalSettings configuration object
+ * @see {@link defaultGlobalSettings} for fallback values
+ */
 export async function getGlobalSettings(): Promise<GlobalSettings> {
   const now = Date.now();
 
@@ -226,6 +261,16 @@ export async function getGlobalSettings(): Promise<GlobalSettings> {
   return defaultGlobalSettings as unknown as GlobalSettings;
 }
 
+/**
+ * Safely fetches multiple stories from Storyblok with error handling.
+ *
+ * Supports filtering, sorting, and pagination via Storyblok API parameters.
+ * Returns empty array in offline mode or on error.
+ *
+ * @template T - Expected Storyblok component type
+ * @param params - Query parameters for filtering/sorting
+ * @returns Promise with stories array, error info, and total count
+ */
 export async function getSafeStories<T = StoryblokComponent>(
   params?: ISbStoriesParams,
 ): Promise<{

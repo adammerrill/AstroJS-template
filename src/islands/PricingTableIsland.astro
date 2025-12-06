@@ -1,32 +1,38 @@
-  ---
-  // src/islands/PricingTableIsland.astro
-  /**
-   * @fileoverview Deferred Pricing Server Island
-   * @description This component contains the interactive Svelte component and runs
-   * on the serverless Edge Function (or at build-time). It is rendered asynchronously 
-   * using Astro's `server:defer` strategy.
-   *
-   * @module islands/PricingTableIsland
-   * @version 1.0.0
-   * @author Atom Merrill
-   */
-  import PricingTableSvelte from '../storyblok/PricingTable.svelte';
-  import type { PricingTableBlok } from '@/types/generated/storyblok';
-  
-  interface Props {
-    /** The strictly typed data block for the pricing table. */
-    blok: PricingTableBlok;
-  }
-  const { blok } = Astro.props;
-  
-  // CRITICAL: Simulate server-side delay or heavy, synchronous price fetching here
-  // This demonstrates why deferring is necessary.
-  // This code runs on the server (Build time or Edge Function).
-  await new Promise(resolve => setTimeout(resolve, 500));
-  ---
-  <!-- 
-    The inner Svelte component is now client:load, running ONLY AFTER 
-    the deferred server-side rendering is complete, eliminating hydration 
-    delay from the main page load.
-  -->
-  <PricingTableSvelte blok={blok} client:load />
+---
+/**
+ * @file Pricing Table Server Island
+ * @module islands/pricing-table
+ * @classification Internal
+ * @description
+ * The isolated server rendering context for the Pricing Table.
+ *
+ * @description
+ * Simulates a "Heavy" server-side operation (e.g., real-time price fetching from Stripe)
+ * to demonstrate the benefits of the Island architecture.
+ *
+ * @performance
+ * - Execution: Runs on Edge/Server (not Client)
+ * - Blocking: Intentionally delays by 500ms to visualize skeleton state
+ *
+ * @security
+ * Runs in a secure server context. Safe to access sensitive environment variables here.
+ */
+
+ import PricingTableSvelte from '../storyblok/PricingTable.svelte';
+import type { PricingTableBlok } from '@/types/generated/storyblok';
+
+interface Props {
+  blok: PricingTableBlok;
+}
+
+const { blok } = Astro.props;
+
+/**
+ * @simulation
+ * Artificial delay to represent expensive backend logic (DB/API calls).
+ * This confirms that the main page load is NOT blocked by this component.
+ */
+await new Promise(resolve => setTimeout(resolve, 500));
+---
+
+<PricingTableSvelte blok={blok} client:load />

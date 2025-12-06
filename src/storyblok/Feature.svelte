@@ -1,34 +1,47 @@
 <script lang="ts">
   /**
    * @file Feature.svelte
-   * @description Component for rendering a Feature block.
-   * @version 2.0.0 (Strictly Typed)
+   * @component Feature
+   * @description Standard feature block used in grids and lists.
+   *
+   * @description Migration: [Epic 4] Replaced raw <img> with <StoryblokImage>.
+   * @description Performance: Lazy loads small icon/thumbnail images to save bandwidth.
    */
   import { storyblokEditable } from "@storyblok/svelte";
   import type { SbBlokData } from "@storyblok/svelte";
-  // 1. Import the generated interface
   import type { FeatureBlok } from "@/types/generated/storyblok";
+  import { StoryblokImage } from "@/components/ui/storyblok-image";
 
   interface Props {
-    // 2. Strict typing prevents accessing undefined fields
     blok: FeatureBlok;
   }
 
-  // 3. Svelte 5 Runes
   let { blok }: Props = $props();
 </script>
 
-<div 
-  use:storyblokEditable={blok as SbBlokData} 
-  class="p-6 bg-white shadow-lg rounded-lg text-center"
+<div
+  use:storyblokEditable={blok as SbBlokData}
+  class="card-hover p-6 bg-white shadow-lg rounded-lg text-center"
 >
-  <h3 class="text-xl font-bold text-gray-900">
-    {blok.name || 'Feature Name'}
+  {#if blok.image?.filename}
+    <div class="mb-4 flex justify-center">
+      <StoryblokImage
+        image={blok.image}
+        alt={blok.image.alt || blok.headline || "Feature Icon"}
+        width={64}
+        height={64}
+        variant="rounded"
+        class="object-contain"
+        loading="lazy"
+      />
+    </div>
+  {/if}
+
+  <h3 class="text-xl font-bold text-gray-900 mb-2">
+    {blok.headline || blok.name || "Feature Name"}
   </h3>
-  
-  <p class="mt-2 text-gray-600">
-    Feature description placeholder
+
+  <p class="text-gray-600 leading-relaxed">
+    {blok.description || "Feature description placeholder"}
   </p>
-  
-  </div>
-  
+</div>

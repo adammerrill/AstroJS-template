@@ -1,6 +1,6 @@
 // tests/e2e/global-mock-setup.ts
 /**
- * @fileoverview Global mock configuration for Playwright E2E tests.
+ * @file Global mock configuration for Playwright E2E tests.
  * @description Centralizes the routing logic for mocking Storyblok's global settings API
  * to ensure tests are deterministic and do not rely on external connectivity.
  *

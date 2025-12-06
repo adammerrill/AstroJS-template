@@ -1,33 +1,43 @@
 ---
 /**
-  * @file PricingTable.astro
-  * @description Astro wrapper for the PricingTable component.
-  * CRITICAL: Now wraps the component in a Server Island with \`server:defer\` to ensure
-  * the main static shell loads instantly while the slow pricing data loads asynchronously.
-  *
-  * @module storyblok/pricing
-  * @version 2.0.0
-  * @author Atom Merrill
-  */
-import PricingTableIsland from '../islands/PricingTableIsland.astro';
+ * @file Pricing Table Wrapper (Smart Component)
+ * @module storyblok/pricing-table
+ * @classification Public
+ * @compliance ISO/IEC 25010 (Performance Efficiency) - Resource Utilization
+ * @author Atom Merrill
+ * @version 2.1.0
+ * @requirement REQ-PERF-002
+ * @test_ref tests/visual/components.spec.ts
+ *
+ * @description
+ * Acts as the composition root for the Pricing Table feature.
+ * Implements the "Server Island" pattern to defer the rendering of expensive
+ * pricing logic (simulated delay) until after the initial HTML shell is painted.
+ *
+ * @architecture
+ * - Layer: Integration (Storyblok -> Astro)
+ * - Pattern: Server Island (Deferred Rendering)
+ * - Strategy: Shows <PricingSkeleton /> immediately, swaps with content later.
+ *
+ * @see {@link https://docs.astro.build/en/guides/server-islands/ } Astro Server Islands
+ */
+
+ import PricingTableIsland from '../islands/PricingTableIsland.astro';
 import PricingSkeleton from '../components/skeletons/PricingTable.skeleton.astro';
 import type { PricingTableBlok } from '@/types/generated/storyblok';
 
 interface Props {
+  /** Strongly typed Storyblok schema for Pricing Table */
   blok: PricingTableBlok;
 }
 
 const { blok } = Astro.props;
 
-// Ensure this wrapper is SSG friendly by enabling prerender
+// Prerendering must be enabled for the shell to be SSG,
+// while the island remains dynamic.
 export const prerender = true;
 ---
-  
-<!-- 
-  CRITICAL: server:defer attribute tells Astro to render this component 
-  via a dedicated serverless function call, injecting the HTML dynamically. 
-  The fallback slot is rendered instantly and prevents CLS.
--->
-<PricingTableIsland blok={blok} client:visible>
+
+<PricingTableIsland blok={blok} server:defer>
   <PricingSkeleton slot="fallback" />
 </PricingTableIsland>

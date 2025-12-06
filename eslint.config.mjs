@@ -1,6 +1,6 @@
 // eslint.config.mjs
 /**
- * @fileoverview ESLint Configuration Module (ISO/ASCII Compliant)
+ * @file ESLint Configuration Module (ISO/ASCII Compliant)
  * @description
  * Defines the static analysis rules for the Astro 5 + Svelte 5 Enterprise Stack.
  * Implements a "Flat Config" architecture (ESLint v9+) to support hybrid analysis across:
@@ -14,27 +14,33 @@
  * - Zero Configuration Drift: Centralized rules with explicit overrides
  * - CI/CD Ready: Strict linting enabled for production builds
  * - Context-Aware Linting: Different rules for scripts, tests, and production code
+ * - Documentation-First: JSDoc enforcement for all exported members (ISO Compliance)
  *
  * Key Features:
  * - TypeScript ESLint: Type-aware linting with recommended rules
  * - Astro Plugin: Component syntax validation for .astro files
  * - Svelte Plugin: Runes API support ($state, $props, $derived) for Svelte 5
+ * - JSDoc Plugin: Enforces documentation standards across public APIs
+ * - Custom Tags: Supports @requirement, @test_ref, @component, @classification, @compliance, etc.
+ * - Traceability Enforcement: Warns when @requirement tag is missing on public APIs
  * - Cross-Platform: Works with pnpm, npm, yarn package managers
  * - Granular Overrides: Different rules for scripts, tests, and application code
  *
  * @module config/eslint
  * @author Atom Merrill
- * @version 2.1.0
- * @updated 2025-12-02
+ * @version 2.3.0
+ * @updated 2025-12-04
  * @license MIT
  *
  * @requires eslint-plugin-astro@^1.0.0 - Astro component syntax validation
  * @requires eslint-plugin-svelte@^2.46.0 - Svelte 5 Runes and template validation
  * @requires typescript-eslint@^8.0.0 - Type-aware linting for TypeScript/JavaScript
+ * @requires eslint-plugin-jsdoc@^50.0.0 - JSDoc documentation enforcement
  *
- * @see {@link https://eslint.org/docs/latest/use/configure/configuration-files-new|ESLint Flat Config}
- * @see {@link https://docs.astro.build/en/guides/integrations-guide/|Astro ESLint Integration}
- * @see {@link https://svelte.dev/docs/svelte/v5-migration-guide|Svelte 5 Migration Guide}
+ * @see {@link https://eslint.org/docs/latest/use/configure/configuration-files-new |ESLint Flat Config}
+ * @see {@link https://docs.astro.build/en/guides/integrations-guide/ |Astro ESLint Integration}
+ * @see {@link https://svelte.dev/docs/svelte/v5-migration-guide |Svelte 5 Migration Guide}
+ * @see {@link https://github.com/gajus/eslint-plugin-jsdoc |JSDoc Plugin Documentation}
  */
 
 /* -------------------------------------------------------------------------- */
@@ -44,6 +50,7 @@
 import eslintPluginAstro from "eslint-plugin-astro";
 import eslintPluginSvelte from "eslint-plugin-svelte";
 import tseslint from "typescript-eslint";
+import jsdoc from "eslint-plugin-jsdoc";
 
 /* -------------------------------------------------------------------------- */
 /*                         Flat Configuration Array                           */
@@ -59,8 +66,9 @@ import tseslint from "typescript-eslint";
  * 2. Base TypeScript rules (foundation)
  * 3. Framework plugin rules (Astro, Svelte)
  * 4. Parser overrides (framework-specific)
- * 5. Context-specific overrides (scripts, tests, dev components)
+ * 5. Documentation enforcement (ISO Compliance)
  * 6. Global rule customizations (project-wide)
+ * 7. Context-specific overrides (scripts, tests, dev components)
  *
  * @type {Array<import('eslint').Linter.FlatConfig>}
  */
@@ -96,6 +104,7 @@ export default [
       "node_modules", // Node.js dependencies
       "src/env.d.ts", // TypeScript environment definitions (auto-generated)
       "pnpm-lock.yaml", // Package lock file
+      ".pnpm-store", // Explicitly ignore pnpm store cache
       ".DS_Store", // macOS metadata
       "*.log", // Log files
     ],
@@ -116,7 +125,7 @@ export default [
    *
    * These rules will be selectively overridden for specific contexts (scripts, tests).
    *
-   * @see {@link https://typescript-eslint.io/rules/|TypeScript ESLint Rules}
+   * @see {@link https://typescript-eslint.io/rules/  |TypeScript ESLint Rules}
    */
   ...tseslint.configs.recommended,
 
@@ -137,7 +146,7 @@ export default [
    * - Prevents hydration mismatches between server and client
    * - Enforces proper data flow from server to client components
    *
-   * @see {@link https://github.com/ota-meshi/eslint-plugin-astro|Astro ESLint Plugin}
+   * @see {@link https://github.com/ota-meshi/eslint-plugin-astro  |Astro ESLint Plugin}
    */
   ...eslintPluginAstro.configs.recommended,
 
@@ -164,7 +173,7 @@ export default [
    * - Component props must use $props() instead of export let
    * - Effects must use $effect() instead of onMount/afterUpdate
    *
-   * @see {@link https://svelte.dev/docs/svelte/v5-migration-guide|Svelte 5 Migration}
+   * @see {@link https://svelte.dev/docs/svelte/v5-migration-guide  |Svelte 5 Migration}
    */
   ...eslintPluginSvelte.configs["flat/recommended"],
 
@@ -237,6 +246,89 @@ export default [
         parser: tseslint.parser, // Parse <script lang="ts"> with TypeScript
         extraFileExtensions: [".svelte"], // Register .svelte as parseable extension
       },
+    },
+  },
+
+  /* ----------------------- JSDoc Documentation Enforcement ------------------- */
+
+  /**
+   * ISO Compliance: JSDoc Documentation Standards with Traceability
+   * @description
+   * Enforces comprehensive JSDoc documentation for all exported members.
+   * Transforms documentation from "nice-to-have" to "system requirement" for:
+   * - Public API surface visibility
+   * - Automated documentation generation
+   * - Onboarding and knowledge transfer
+   * - Code review efficiency
+   * - **ISO Traceability**: Links code to requirements via @requirement tags
+   *
+   * Enforcement Strategy:
+   * - Starts as warnings during adoption phase
+   * - Promote to errors after 2-3 sprints for full compliance
+   * - Applies to all public-facing code (src/, scripts/)
+   * - Excludes test files and internal dev components
+   *
+   * Custom Tags:
+   * - @requirement: Links code to specific requirement ID
+   * - @test_ref: Links code to test case reference
+   * - @classification: Security/classification level
+   * - @compliance: Compliance standard reference
+   *
+   * @property {string[]} files - Target production code patterns
+   * @property {Object} plugins - JSDoc plugin registration
+   * @property {Object} rules - JSDoc enforcement rules
+   */
+  {
+    files: ["src/**/*.ts", "src/**/*.svelte", "scripts/**/*.ts"],
+    plugins: {
+      jsdoc,
+    },
+    // Define the custom tags so JSDoc plugin recognizes them
+    settings: {
+      jsdoc: {
+        tagNamePreference: {
+          requirement: "requirement",
+          test_ref: "test_ref",
+        },
+      },
+    },
+    rules: {
+      // 1. Allow our custom tags
+      "jsdoc/check-tag-names": [
+        "error",
+        {
+          definedTags: ["requirement", "test_ref", "component", "fileoverview", "module", "classification", "compliance", "author", "version", "description", "updated", "license", "requires", "see"],
+        },
+      ],
+
+      // 2. Base JSDoc Rules
+      "jsdoc/require-jsdoc": [
+        "warn", 
+        {
+          publicOnly: true,
+          require: {
+            FunctionDeclaration: true,
+            MethodDefinition: true,
+            ClassDeclaration: true,
+            ArrowFunctionExpression: true,
+            FunctionExpression: true,
+          },
+        },
+      ],
+      "jsdoc/require-description": "warn",
+      "jsdoc/require-param-description": "warn",
+
+      // 3. CUSTOM RULE: Traceability Enforcement
+      // This uses the generic 'no-restricted-syntax' rule to scan comments
+      // Checks that any file exporting a 'class' or 'function' (components) has a @requirement tag
+      // Note: This is a lightweight check; the heavy validation happens in the Auditor script.
+      "no-restricted-syntax": [
+        "warn", // Promote to "error" after initial compliance pass
+        {
+          selector: "Program:not(:has(Comment[value=/.*@requirement.*/]))",
+          message: "ISO Compliance: File must document a specific '@requirement ID' in its file header.",
+        },
+      ],
     },
   },
 
@@ -366,6 +458,7 @@ export default [
     files: ["scripts/**/*.{js,ts}"],
     rules: {
       "no-console": "off", // Allow console.log, console.error, etc.
+      // Note: JSDoc requirements remain active for scripts to maintain API documentation
     },
   },
 
@@ -400,6 +493,7 @@ export default [
    * Relaxed Rules:
    * - no-console: off (allow debugging output)
    * - @typescript-eslint/no-explicit-any: warn (allow flexible test mocks)
+   * - jsdoc/require-jsdoc: off (test functions are self-documenting)
    *
    * @property {string[]} files - Target pattern: all .ts files in tests/
    * @property {Object} rules - Rule overrides for this context
@@ -409,6 +503,9 @@ export default [
     rules: {
       "no-console": "off", // Allow console for test debugging
       "@typescript-eslint/no-explicit-any": "warn", // Relax 'any' usage in test fixtures
+      "jsdoc/require-jsdoc": "off", // Tests are self-documenting via behavior descriptions
+      "jsdoc/require-description": "off",
+      "jsdoc/require-param-description": "off",
     },
   },
 
@@ -448,6 +545,30 @@ export default [
     files: ["src/components/dev/**/*.svelte"],
     rules: {
       "no-console": "off", // Console output is the feature, not a bug
+      // JSDoc remains enforced even for dev components to maintain documentation hygiene
+    },
+  },
+
+  /* ------------------- ISO Traceability Scoping --------------------- */
+  /**
+   * Scoping Rule:
+   * Disable requirement tagging for non-architectural code.
+   * ISO 15288 focus is on System Architecture (src/components, src/lib, src/pages).
+   * * Excludes:
+   * - Build Scripts (scripts/)
+   * - Generated Types (src/types/generated)
+   * - Config Files (*.config.*)
+   */
+  {
+    files: [
+      "scripts/**/*.ts", 
+      "src/types/**/*.ts", 
+      "src/env.d.ts", 
+      "**/*.config.*",
+      "**/*.test.ts"
+    ],
+    rules: {
+      "no-restricted-syntax": "off",
     },
   },
 ];
@@ -503,6 +624,7 @@ export default [
  *   - eslint-plugin-astro: v1.0.0+ (flat config support)
  *   - eslint-plugin-svelte: v2.46.0+ (Svelte 5 + flat config)
  *   - typescript-eslint: v8.0.0+ (recommended for flat config)
+ *   - eslint-plugin-jsdoc: v50.0.0+ (flat config support)
  *
  * TROUBLESHOOTING
  * ===============
@@ -528,6 +650,18 @@ export default [
  *   - Ensure .astro is in extraFileExtensions
  *   - Verify eslint-plugin-astro is installed
  *
+ * Issue: JSDoc warnings too aggressive
+ * Solution: Adjust severity levels
+ *   - Change "warn" to "off" during initial adoption
+ *   - Gradually promote to "warn" then "error"
+ *   - Exclude test files (already handled in overrides)
+ *
+ * Issue: @requirement tag error on non-API files
+ * Solution: The traceability check is intentionally broad
+ *   - Add @requirement to all production files, even utilities
+ *   - Use "N/A" or "Internal" for files without specific requirements
+ *   - Heavy validation happens in the Auditor script
+ *
  * PERFORMANCE OPTIMIZATION
  * ========================
  *
@@ -552,7 +686,7 @@ export default [
  *
  * Adding File-Specific Overrides:
  *   {
- *     files: ["path/to/files/--/-.ts"],
+ *     files: ["path/to/files/*.ts"],
  *     rules: {
  *       "rule-name": "off"
  *     }
@@ -563,6 +697,18 @@ export default [
  *   2. Import at top: import pluginName from "eslint-plugin-name";
  *   3. Spread configs: ...pluginName.configs.recommended
  *   4. Add parser overrides if needed
+ *
+ * Adding Custom Tags:
+ *   1. Add tag to `definedTags` in jsdoc/check-tag-names rule
+ *   2. Add to `tagNamePreference` in settings.jsdoc
+ *   3. Document tag usage in project documentation
+ *
+ * Promoting Warnings to Errors:
+ *   After 2-3 sprints of adoption:
+ *   - Update jsdoc/require-jsdoc: ["error", ...]
+ *   - Update no-restricted-syntax: ["error", ...]
+ *   - Update other "warn" rules to "error"
+ *   - Enforce zero warnings in CI/CD
  *
  * MAINTENANCE SCHEDULE
  * ====================

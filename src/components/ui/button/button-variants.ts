@@ -71,8 +71,8 @@ export type ButtonSize = VariantProps<typeof buttonVariants>["size"];
  * It explicitly omits and re-defines 'type' and 'href' to avoid TypeScript union conflicts
  * between the two underlying HTML element types.
  * * @interface ButtonProps
- * @extends {Omit<HTMLButtonAttributes, "type" | "href" | "class">}
- * @extends {Omit<HTMLAnchorAttributes, "type" | "href" | "class">}
+ * @augments {Omit<HTMLButtonAttributes, "type" | "href" | "class">}
+ * @augments {Omit<HTMLAnchorAttributes, "type" | "href" | "class">}
  */
 export type ButtonProps = {
   /**

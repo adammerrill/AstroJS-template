@@ -3,7 +3,7 @@
    * @component MockTester
    * @description E2E testing utility component for validating Playwright mock interception.
    * 
-   * @purpose
+   * @description
    * Performs client-side fetch to validate:
    * - Playwright route interception pipeline
    * - Svelte 5 hydration with runes
@@ -69,8 +69,8 @@
    * @description Stores the successfully fetched and parsed content
    * 
    * @default null - Indicates no data has been loaded yet
-   * @mutates Set once after successful fetch and parsing
-   * @accessed_by Template for conditional rendering
+   * @description Mutates: Set once after successful fetch and parsing
+   * @description Accessed By: Template for conditional rendering
    */
   let content = $state<MockContent | null>(null);
 
@@ -79,8 +79,8 @@
    * @description Stores error message if fetch or parsing fails
    * 
    * @default null - Indicates no error has occurred
-   * @mutates Set if fetch fails or data structure is invalid
-   * @accessed_by Template for error display
+   * @description Mutates: Set if fetch fails or data structure is invalid
+   * @description Accessed By: Template for error display
    */
   let error = $state<string | null>(null);
 
@@ -108,7 +108,7 @@
   // ============================================================================
 
   /**
-   * @lifecycle onMount
+   * @description Lifecycle: onMount
    * @description Executes client-side data fetch after component hydration
    * 
    * @async
@@ -135,12 +135,11 @@
       console.log("🧪 MockTester: Initiating test data fetch...");
       
       /**
-       * @api_contract
-       * @endpoint /_testing/api/story
-       * @method GET
+       * @description API Contract: * @description Endpoint: /_testing/api/story
+       * @function GET
        * @description Reserved testing endpoint intercepted by Playwright
        * 
-       * @intercepted_by tests/e2e/home-mock.spec.ts
+       * @description Intercepted By: tests/e2e/home-mock.spec.ts
        * @returns {Object} Storyblok story structure with nested components
        * 
        * @response_structure

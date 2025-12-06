@@ -5,7 +5,7 @@
  * preventing 404 API errors.
  *
  * @module config/default-settings
- * @remark Updated to strictly match the 'StoryblokLink' type (removed 'fieldtype').
+ * @description Updated to strictly match the 'StoryblokLink' type (removed 'fieldtype').
  */
 
 import type { GlobalSettings } from "@/types/storyblok";

@@ -1,10 +1,31 @@
 /**
- * @fileoverview Contact Form API Endpoint
- * Handles POST requests from the ContactForm Svelte component
+ * @file Contact Form API Endpoint
+ * @description Route: POST /api/submit-contact
+ * @description Handles contact form submissions from the frontend contact form.
+ * Validates input data and logs submissions (in production, would email/CRM).
  */
 
 import type { APIRoute } from "astro";
 
+/**
+ * POST handler for contact form submissions.
+ *
+ * Accepts JSON payload with contact information, validates required fields,
+ * and processes the submission. Returns success/error response.
+ *
+ * @param request - Astro request object containing form data
+ * @returns JSON response with success status and message
+ *
+ * @example
+ * ```typescript
+ * // Request payload
+ * {
+ *   "name": "John Doe",
+ *   "email": "john@example.com",
+ *   "message": "Hello, I have a question..."
+ * }
+ * ```
+ */
 export const POST: APIRoute = async ({ request }) => {
   try {
     const data = await request.json();
